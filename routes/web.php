@@ -14,3 +14,18 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/index',function(){
+    return view("admin.index.index");
+});
+
+
+// 显示友情链接列表
+Route::get('/admin/systems/links','Admin\SystemsController@links');
+
+// 添加友情链接
+Route::get('/admin/systems/links_create','Admin\SystemsController@links_create');
+
+// 执行友情链接添加操作
+Route::post('/admin/systems/links_store','Admin\SystemsController@links_store');
+
