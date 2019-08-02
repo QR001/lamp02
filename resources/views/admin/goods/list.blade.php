@@ -64,7 +64,7 @@
       </div> -->
 
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量回收</button>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加商品','/admin/goods/goods_create')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：{{ $count }} 条</span>
       </xblock>
@@ -101,7 +101,7 @@
             <td>{{ $good->bid == 0 ? '未参与活动' : '活动中' }}</td>
             <td class="td-manage">
               <a title="查看"  onclick="x_admin_show('查看商品图片','/admin/goods/goods_img/{{ $good->id }}')" href="javascript:;">
-                <i class="layui-icon">&#xe6a8;</i>
+                <i class="icon iconfont"></i>
               </a>
               <a title="编辑"  onclick="x_admin_show('编辑商品信息','/admin/goods/goods_edit/{{ $good->id }}')" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>

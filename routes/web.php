@@ -20,6 +20,15 @@ Route::get('/admin/index',function(){
 });
 
 
+// 后台 添加分类
+Route::get('/admin/Sorts/delete/{id}','Admin\SortsController@delete');
+Route::GET('/admin/Sorts/pdelete/{id}','Admin\SortsController@pdelete');
+// Route::get('/admin/Sorts','Admin\SortsController@index');
+
+Route::resource('/admin/Sorts','Admin\SortsController');
+
+
+
 // 显示友情链接列表
 Route::get('/admin/systems/links','Admin\SystemsController@links');
 // 添加友情链接

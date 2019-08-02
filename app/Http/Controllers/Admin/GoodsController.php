@@ -50,6 +50,11 @@ class GoodsController extends Controller
     //显示商品图片页面
     public function goods_img($id)
     {
+        $g_img = Good::find($id,['g_img']);
+        // return $g_img;
+        $imgs = explode(',',$g_img['g_img']);
+        
+        return $imgs;
         return view('admin.goods.goods_img');
     }
 
@@ -189,7 +194,7 @@ class GoodsController extends Controller
 
         if($type == 'create'){
             $good['g_sales'] = 0;
-            $good['g_img'] = 'default.jpg';
+            $good['g_img'] = '/uploads/goods/default.jpg,';
             $good['created_at'] = date('Y-m-d H:i:s');
         }
 
