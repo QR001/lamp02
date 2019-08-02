@@ -107,7 +107,23 @@
                     <li><a _href="html/welcome2.html"><i class="iconfont">&#xe6a7;</i><cite>排版</cite></a></li>
                 </ul>
             </li>
-                   
+
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe69e;</i>
+                    <cite>商品管理</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/admin/goods/list">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>商品列表</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>  
+
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe69e;</i>
@@ -123,6 +139,7 @@
                     </li >
                 </ul>
             </li>
+
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
@@ -264,22 +281,16 @@
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ae;</i>
-                    <cite>友情链接</cite>
+                    <cite>系统设置</cite>
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
                         <a _href="/admin/systems/links">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>链接列表</cite>
+                            <cite>友情链接</cite>
                         </a>
                     </li >
-                    <li>
-                        <a _href="html/echarts2.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>柱状图</cite>
-                        </a>
-                    </li>
                     
                 </ul>
             </li>
