@@ -123,29 +123,29 @@
                     </li >
                 </ul>
             </li>
-            <li>
+
+<li>
                 <a href="javascript:;">
-                    <i class="iconfont">&#xe6c5;</i>
+                    <i class="iconfont">&#xe69e;</i>
                     <cite>分类管理</cite>
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="html/order-list.html">
+                        <a _href="/admin/Sorts">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>分类列表</cite>
                         </a>
                     </li >
-                </ul>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="html/order-list.html">
+ <li>
+                        <a _href="/admin/Sorts/create">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>添加分类</cite>
+                            <cite>分类添加</cite>
                         </a>
                     </li >
                 </ul>
             </li>
+            
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
