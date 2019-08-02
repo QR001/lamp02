@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', '15731138341@163.com'),
+        'name' => env('MAIL_FROM_NAME', 'lamp软件学院'), // 当前来源的名称
     ],
 
     /*
