@@ -164,13 +164,13 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="html/member-list.html">
+                        <a _href="/admin/user/userlist">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员列表</cite>
                             
                         </a>
                     </li >
-                    <li>
+                    {{-- <li>
                         <a _href="html/member-del.html">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员删除</cite>
@@ -200,7 +200,7 @@
                             </li>
                             
                         </ul>
-                    </li>
+                    </li> --}}
                     
                 </ul>
             </li>             
@@ -280,6 +280,22 @@
                             <cite>柱状图</cite>
                         </a>
                     </li>
+                    
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6ae;</i>
+                    <cite>网站配置</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/admin/webs/webs">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>网站配置</cite>
+                        </a>
+                    </li >
                     
                 </ul>
             </li>
