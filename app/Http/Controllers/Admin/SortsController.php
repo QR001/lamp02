@@ -11,13 +11,18 @@ class SortsController extends Controller
 {
 
     //排版字符的方法
-    public static function getCreate($username='')
+    public static function getCreate($type,$username='')
     {
         
         // $create = Sorts::select(" *,concat(s_path,',',id) as paths from sorts order by paths asc")->orderBy('paths','asc')->paginate(3);;
-        
-        $create = Sorts::select('id','s_name','s_pid','s_path',DB::raw("concat(s_path,',',id) as paths"))
-                    ->orderBy('paths','asc')->where('s_name','like','%'.$username.'%')->paginate(3);
+        if($type == 'index'){
+            $create = Sorts::select('id','s_name','s_pid','s_path','created_at',DB::raw("concat(s_path,',',id) as paths"))
+            ->orderBy('paths','asc')->where('s_name','like','%'.$username.'%')->paginate(3);
+
+        }else{
+            $create = Sorts::select('id','s_name','s_pid','s_path','created_at',DB::raw("concat(s_path,',',id) as paths"))
+            ->orderBy('paths','asc')->where('s_name','like','%'.$username.'%')->get();
+        }
         // dd($create);
         // return $create;
         foreach ($create as $key => $value){
@@ -36,12 +41,10 @@ class SortsController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->all());
-        // dump($request->);
-
+        
         $username = $request->input('username');
 
-        // dump($username);
+        // dd($username);
         if($username==null){
             $username = '';
         }
@@ -54,7 +57,7 @@ class SortsController extends Controller
         // dump($serch);
         // dump($username);
    
-        return view('admin.Sorts.index',['username'=>$username,'create'=>self::getcreate($username) ]);
+        return view('admin.Sorts.index',['username'=>$username,'create'=>self::getcreate('index',$username) ]);
     }
 
     /** 
@@ -62,27 +65,51 @@ class SortsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        //
-
-        $id = $request->input('id',0);
-
-        return view('admin.Sorts.sorts',['id'=>$id,'create'=>self::getcreate()]);
+        $create = self::getcreate('create');
+        // return $create;
+        return view('admin.Sorts.sorts',['create'=>$create]);
     }
 
+    public function list($id)
+    {
+        $list = Sorts::find($id); 
+ 
+        return view('admin.Sorts.list',['list'=>$list]);
+    }
 
+    // 在某一个分类下面添加子分类
+    public function list_add(Request $request)
+    {
+        $s_pid = $request->input('s_pid');
+       
+        //获取父级id
+        $parent_data = Sorts::find($s_pid);
+        // dd($parent_data);
+        $s_path= $parent_data->s_path.','.$parent_data->id;
+        
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+        //添加
+        $cate = new Sorts;
+   
+        $cate->s_name = $request->input('s_name','');
+        $cate->s_pid = $s_pid;
+        $cate->s_path = $s_path;
+        if($cate->save()){
+            return redirect('admin/Sorts')->with('success','添加成功');
+        }else{
+            return redirec()->with('error','添加失败');
+        }
+
+    }
+
+    //添加分类
     public function store(Request $request)
     {
-        //
-        // dd($request->all());
+        // dd(1111);
+        //    
+        // return $request->all();
         $s_pid = $request->input('s_pid');
         if ($s_pid == 0) {
             $s_path = 0;
@@ -102,9 +129,12 @@ class SortsController extends Controller
         if ($cate->save()) {
             // return redirect('admin\Sorts')->with('success','添加成功');
             return back()->with('success','添加成功');
+           
         }else{
             return back()->with('error','添加失败');
+           
         }
+
 
     }
 
@@ -128,19 +158,25 @@ class SortsController extends Controller
 
     public function edit($id)
     {
-        return view('admin.Sorts.edit');
+        return view('admin.Sorts.edit',['id'=>$id]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function edit_update(Request $request)
     {
-        //
+        // dd($request->all());
+
+
+        $s_name =  $request->input("s_name");
+        $id = $request->input('id');
+
+        $array = array('id'=>$id,'s_name'=>$s_name);
+
+        $create = DB::table('sorts')->where('id','=',$id)->update($array);
+
+        if($create){
+            return back()->with('success','添加成功');
+        }
+
     }
 
     /**

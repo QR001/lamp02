@@ -68,14 +68,15 @@
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id={{ $v->id }}><i class="layui-icon">&#xe605;</i></div>
             </td> --}}
             <td>{{ $v->id }}</td>
-            <td>{{ $v->s_name }}</td>
+           
             <td>{{ $v->s_pid }}</td>
+            <td>{{ $v->s_name }}</td>
             <td>{{ $v->s_path }}</td>
             <td>{{ $v->created_at }}</td>
             
             <td class="td-manage">
               @if(substr_count($v->s_path,',') <2)
-                <a title="添加子分类" href="/admin/Sorts/create?id={{ $v->id }}">
+                <a title="添加子分类" href="/admin/Sorts/list/{{ $v->id }}">
                   <i class="layui-icon"></i>
                   </a>
               @endif
@@ -85,7 +86,7 @@
               <a title="编辑"  onclick="x_admin_show('编辑','/admin/Sorts/{{ $v->id }}/edit')" href="javascript:;" >
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              @if(substr_count($v->s_path,',') <1)
+              @if(substr_count($v->s_path,',') >0)
                 <a title="删除" onclick="member_del(this,{{ $v->id }})" >
                   <i class="layui-icon">&#xe640;</i>
                 </a>
@@ -167,13 +168,15 @@
               
             });
         }
+
+        
   
   
   
         function delAll (argument,id) {
   
           var data = tableCheck.getData().toString();
-          console.log(data);
+          // console.log(data);
     
           layer.confirm('确认要删除吗？',function(index){
 

@@ -20,7 +20,7 @@
 <body class="form-wrap">
 
     <div class="layui-col-md10">
-        <form action="/admin/Sorts" method="POST">
+        <form action="/admin/Sorts/list_add" method="POST">
             {{ csrf_field() }}
             <div class="layui-card">
                 <div class="layui-card-header">添加分类</div>
@@ -31,46 +31,29 @@
 
                 <div class="layui-col-md12">
                         <select name="s_pid" lay-verify="">
-                                <option value="0">--请选择--</option>
-                                @foreach($create as $v )
-                                
-                                <option value="{{ $v->id }}" {{ substr_count($v->s_path,',') >= 2 ? 'disabled' : '' }}>{{ $v->s_name }}</option>
-                                @endforeach
+                            <option value="{{ $list->id }}">{{ $list->s_name }}</option>
                         </select>
                 </div>
-                
+                <input type="hidden" value="{{ $list->id }}" name='id'>
                 </div> 
    
             </div>
           
             <div class="row cl">
                 <div class="col-9 col-offset-2">
-                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                    <input class="btn btn-primary radius" lay-submit="" lay-verify="add" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
                 </div>
             </div>
         </form>
     </div>
-
-    @if(session('success'))
-            
-    <div id='update' class="layui-layer layui-layer-dialog" id="layui-layer1" type="dialog" times="1" showtime="0" contype="string" style="z-index: 19891015; top: 24.4px; left: 519px;">
-        <div class="layui-layer-title" style="cursor: move;">信息</div>
-        <div  class="layui-layer-content">{{ session('success') }}</div>
-        <div class="layui-layer-btn layui-layer-btn-">
-            <a class="layui-layer-btn0" id='close'>关闭</a>
-        </div>
-        <span class="layui-layer-resize"></span>
-    </div>
-@endif
 </body>
 
 <script>
 
-        let close=document.getElementById('close');
-        let update=document.getElementById('update');
-        close.onclick=function(){
-            
-            update.style.display ='none';
-        }
-     
+   
+
+         
+          
+          
+
 </script>

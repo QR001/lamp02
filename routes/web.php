@@ -20,9 +20,30 @@ Route::get('/admin/index',function(){
 });
 
 
+Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
+//后台 订单模块
+Route::resource('/admin/Orders','Admin\OrdersController');
+
+//后台 订单管理的添加页面
+// Route::get('/admin/Orders/order_add','Admin\OrdersController@order_add');
+//后他 订单管理的产看订单详情
+Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
+
+
 // 后台 添加分类
+// 后台 分类板块执行删除单个
 Route::get('/admin/Sorts/delete/{id}','Admin\SortsController@delete');
+// 后台 分类板块的批量删除
 Route::GET('/admin/Sorts/pdelete/{id}','Admin\SortsController@pdelete');
+// 后台 分类板块的添加
+Route::GET('/admin/Sorts/create/','Admin\SortsController@create');
+// 后台 分类版板块的添加子分类显示
+Route::GET('/admin/Sorts/list/{id}','Admin\SortsController@list');
+// 后台 分类板块的添加子分类
+Route::POST('/admin/Sorts/list_add','Admin\SortsController@list_add');
+// 后台 分类板块的分类名称的修改
+Route::POST('/admin/Sorts/edit_update','Admin\SortsController@edit_update');
+// 后台 分类板块的资源路由
 Route::resource('/admin/Sorts','Admin\SortsController');
 
 
@@ -46,7 +67,6 @@ Route::post('/admin/systems/links_delAll','Admin\SystemsController@links_delAll'
 
 
 // 显示商品列表
-
 Route::get('/admin/goods/list','Admin\GoodsController@list');
 // 显示添加商品页面
 Route::get('/admin/goods/goods_create','Admin\GoodsController@goods_create');

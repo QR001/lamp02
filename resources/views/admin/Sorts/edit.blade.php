@@ -21,17 +21,17 @@
 <div class="layui-card">
         <div class="layui-card-header">更改分类</div>
         <div class="layui-card-body">
-          <form class="layui-form" action="" lay-filter="component-form-element">
+          <form class="layui-form" action="/admin/Sorts/edit_update" method="POST" lay-filter="component-form-element">
+            {{ csrf_field() }}
             <div class="layui-row layui-col-space10 layui-form-item">
               <div class="layui-col-lg6">
                 <label class="layui-form-label">分类名称：</label>
                 <div class="layui-input-block">
-                  <input type="text" name="fullname" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                  <input type="text" name="s_name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                 </div>
               </div>
-              
+              <input type="hidden" name="id" value="{{ $id }}">
             </div>
-
 
             <div class="layui-form-item">
               <div class="layui-input-block">
@@ -42,4 +42,29 @@
           </form>
         </div>
       </div>
+
+      {{-- 提示信息 --}}
+      @if(session('success'))
+            
+      <div id='update' class="layui-layer layui-layer-dialog" id="layui-layer1" type="dialog" times="1" showtime="0" contype="string" style="z-index: 19891015; top: 24.4px; left: 519px;">
+          <div class="layui-layer-title" style="cursor: move;">信息</div>
+          <div  class="layui-layer-content">{{ session('success') }}</div>
+          <div class="layui-layer-btn layui-layer-btn-">
+              <a class="layui-layer-btn0" id='close'>关闭</a>
+          </div>
+          <span class="layui-layer-resize"></span>
+      </div>
+  @endif
 </body>
+
+<script>
+
+    let close=document.getElementById('close');
+    let update=document.getElementById('update');
+    close.onclick=function(){
+        
+        update.style.display ='none';
+    }
+ 
+  </script>
+
