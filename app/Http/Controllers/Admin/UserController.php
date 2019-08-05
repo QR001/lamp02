@@ -53,7 +53,7 @@ class UserController extends Controller
             $userinfo -> uid=$users -> id;
             $userinfo -> phone = $request -> phone;
             $userinfo -> sex = $request -> sex;
-            $userinfo -> pic = 'photo';
+            $userinfo -> pic = 'photo.jpg';
 
             if($userinfo->save()){
                 // 事务提交

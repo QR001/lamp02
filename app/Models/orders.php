@@ -22,5 +22,8 @@ class orders extends Model
     public function orderdetails(){
         return $this->hasOne('App\Models\orderdetails','oid','id');
     }
-   
+    
+    public function refunds(){
+        return $this->belongsTo('App\Models\refunds','uid');
+    }
 }

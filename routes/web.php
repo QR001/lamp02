@@ -19,8 +19,14 @@ Route::get('/admin/index',function(){
     return view("admin.index.index");
 });
 
-
+//后台  订单模块的 订单详情的退款
+Route::get('/admin/Orders/status','Admin\OrdersController@status');
+//后台  订单模块的单个删除
 Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
+//后台  订单模块的批量删除
+Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
+
+
 //后台 订单模块
 Route::resource('/admin/Orders','Admin\OrdersController');
 

@@ -15,7 +15,7 @@
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-      <link id="layuicss-laydate" rel="stylesheet" href="http://www.lamp02.com/admin/lib/layui/css/modules/laydate/default/laydate.css?v=5.0.9" media="all"><link id="layuicss-layer" rel="stylesheet" href="http://www.lamp02.com/admin/lib/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"></head>
+      {{-- <link id="layuicss-laydate" rel="stylesheet" href="http://www.lamp02.com/admin/lib/layui/css/modules/laydate/default/laydate.css?v=5.0.9" media="all"><link id="layuicss-layer" rel="stylesheet" href="http://www.lamp02.com/admin/lib/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"></head> --}}
       
       <body class="layui-anim layui-anim-up">
         <div class="x-nav">

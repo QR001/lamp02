@@ -68,8 +68,8 @@
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','/admin/Orders/order_add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        {{-- <button class="layui-btn" onclick="x_admin_show('添加用户','/admin/Orders/order_add')"><i class="layui-icon"></i>添加</button> --}}
+        <span class="x-right" style="line-height:40px">共有数据：{{ $count }} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -84,7 +84,7 @@
             <th>订单状态</th>
             {{-- <th>支付状态</th> --}}
             {{-- <th>发货状态</th> --}}
-            {{-- <th>支付方式</th> --}}
+            <th>收货地址</th>
             <th>配送方式</th>
             <th>下单时间</th>
             <th >操作</th>
@@ -94,16 +94,16 @@
           @foreach ($list as $k=>$v )
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{ $v->id }}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{ $v->o_no  }}</td>
-            <td>{{$v['user']['name'] }}:18925139194</td>
+            <td>{{$v->o_consignee }}:{{ $v->o_contact }}</td>
             <td>{{ $v->o_amount }}</td>
             <td>{{ $v->o_amount }}</td>
             <td>{{ $v->o_status }}</td>
             {{-- <td>未支付</td> --}}
             {{-- <td>未发货</td> --}}
-            {{-- <td>其他方式</td> --}}
+            <td>{{ $v->o_address }}</td>
             <td>{{ $v['sends']['s_express'] }}</td>
             <td>{{ $v->created_at }}</td>
             <td class="td-manage">
@@ -173,6 +173,7 @@
                   type:'GET',
                   url:'/admin/Orders/delete/'+id,
                   success: function (data) {
+                    //  console.log(data);
                       // $(obj).parents("tr").remove();
                       layer.msg('已删除!', { icon: 1, time: 1000 });
 
@@ -187,16 +188,41 @@
 
 
 
-      function delAll (argument) {
-
-        var data = tableCheck.getData();
+  function delAll (argument,id) {
   
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
+  var data = tableCheck.getData().toString();
+  console.log(data);
+
+  layer.confirm('确认要删除吗？',function(index){
+
+    if(data == 0){
+      layer.msg('请至少选择一项');
+      return;
+    }
+
+    $.ajax({
+          type:'POST',
+          url:'/admin/Orders/pdelete',
+          data:{'data':data,'_token':'{{csrf_token()}}'},
+          success: function (data) {
+            
             layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-      }
+             $(".layui-form-checked").not('.header').parents('tr').remove();
+          
+           },
+          error: function(data){
+            layer.msg('删除失败', {icon: 2});
+          }
+        })
+
+    // $.post('/admin/sorts/destroy/'+id,{'_token':'{{csrf_token()}}',"_method": "delete","data":data},function(data){
+    //     　　console.log(data);
+    //     });
+      //捉到所有被选中的，发异步进行删除
+      // layer.msg('删除成功', {icon: 1});
+      // $(".layui-form-checked").not('.header').parents('tr').remove();
+  });
+}
     </script>
   </body>
 
