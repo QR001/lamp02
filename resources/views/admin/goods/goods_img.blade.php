@@ -25,55 +25,42 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form">
+        
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+          <legend>图片预览</legend>
+        </fieldset> 
+        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+          
+            <div class="layui-upload-list">
+                @foreach($good->g_img as $v)
+                <img src="/uploads/goods/{{ $v }}" style="width:30%;" alt="商品图片...读取中">
+                @endforeach
+            </div>
+        </blockquote>
 
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+          <legend>更换商品图片</legend>
+        </fieldset> 
+        <form class="layui-form" action="/admin/goods/uploads" method="post" enctype="multipart/form-data">
+            {{ csrf_field() }}
           <div class="layui-form-item">
-                <label for="g_img" class="layui-form-label">
-                    <span class="x-red">*</span>商品图片
-                </label>
-                <div class="layui-upload">
-                    <button type="button" class="layui-btn" id="test2">多图片上传</button> 
-                    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-                        预览图：
-                        <div class="layui-upload-list" id="demo2"></div>
-                    </blockquote>
-                </div>
+              
+              <div class="layui-input-inline">
+                  <input type="file" name="img[]" multiple />
               </div>
           </div>
-          
-          
-      </form>
+          <div class="layui-form-item">
+              <input type="hidden" name="id" value="{{ $good->id }}" />
+          </div>
+          <div class="layui-form-item">
+              
+              <div class="layui-input-inline">
+                  <input type="submit" class="layui-btn" value="更换">
+              </div>
+          </div>
+        </form>
     </div>
-    <script>
-       
-        layui.use('upload', function(){
-            var $ = layui.jquery
-            ,upload = layui.upload;
-            
-            //多图片上传
-            upload.render({
-                elem: '#test2'
-                ,url: '/admin/goods/uploads'
-                ,multiple: true
-                ,field:'g_img'
-                ,auto:false
-                ,headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                }
-                ,before: function(obj){
-                    //预读本地文件示例，不支持ie8
-                    obj.preview(function(index, file, result){
-                        $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-                    });
-                }
-                ,done: function(res){
-                    //上传完毕
-                    console.log(res);
-                }
-            });
-            
-        });
-    </script>
+    
   </body>
 
 </html>

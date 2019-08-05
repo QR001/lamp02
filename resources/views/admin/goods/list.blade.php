@@ -98,7 +98,7 @@
             <td>{{ $good->g_sales }}</td>
             <td>{{ $good->g_stock }}</td>
             <td>{{ $good->created_at }}</td>
-            <td>{{ $good->bid == 0 ? '未参与活动' : '活动中' }}</td>
+            <td>{{ $good->bid == 0 ? '未参与活动' : '已参与活动' }}</td>
             <td class="td-manage">
               <a title="查看"  onclick="x_admin_show('查看商品图片','/admin/goods/goods_img/{{ $good->id }}')" href="javascript:;">
                 <i class="icon iconfont"></i>
@@ -178,7 +178,6 @@
                   $(".layui-form-checked").not('.header').parents('tr').remove();
                 }else if(data == 'none'){
                   layer.msg('至少勾选一个选项', {icon: 5});
-                  // $(".layui-form-checked").not('.header').parents('tr').remove();
                 }else if(data == 'false'){
                   layer.msg('请求失败,刷新页面重试一下吧', {icon: 5});
                 }else{

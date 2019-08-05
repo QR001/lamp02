@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Link;
+use App\Models\Turn;
 
 class SystemsController extends Controller
 {
@@ -122,7 +123,7 @@ class SystemsController extends Controller
         return self::$status;
     }
 
-    // 批量删除
+    // 友情链接批量删除
     public function links_delAll(Request $request)
     {
         if($request->idAll){
@@ -145,5 +146,91 @@ class SystemsController extends Controller
         return self::$status;
     }
 
+    //显示轮播图页面
+    public function turns()
+    {
+        $turns = Turn::find(1);
+        // return $turns;
+        if($turns){
 
+            $imgs = explode(',',$turns->t_img);
+            array_pop($imgs);
+        }else{
+            $imgs = ['default/turn1.jpg','default/turn2.jpg','default/turn3.jpg'];
+
+            $t_img = implode(',',$imgs) . ',';
+            //创建一个基本的数据
+            $turn = new Turn;
+            $turn->t_img = $t_img;
+            $turn->save();
+        }
+        
+        return view('admin.Systems.turns',['imgs'=>$imgs]);
+    }
+
+    //更改轮播图图片
+    public function turnsUpdate(Request $request)
+    {
+        
+        //获取商品信息
+        $turn = Turn::findOrFail($request->id);
+        //上传图片
+        $t_img = $this->getImg($request);
+
+        $res = Turn::where('id',$request->id)->update(['t_img'=>$t_img]);
+        //信息修改成功，将原本的图片文件进行删除
+        if($res){
+            $imgs = explode(',',$turn->t_img);
+            array_pop($imgs);
+            //默认图片不可删除
+            $t_imgs = ['default/turn1.jpg','default/turn2.jpg','default/turn3.jpg'];
+
+            foreach($imgs as $v){
+                if(!in_array($v,$t_imgs)){
+                    
+                    $path = public_path('/uploads/turns/'.$v);
+                    if(file_exists($path)){
+                        
+                        unlink($path);  
+
+                    }
+                }
+            }
+        }
+
+        // dump($imgs);
+        return back();
+
+    }
+
+    //上传图片的操作
+    public function getImg($request)
+    {
+        $file = $request->file('img');
+        $filePath = [];  // 定义空数组用来存放图片路径
+        foreach ($file as $key => $value) {
+            // 判断图片上传中是否出错
+            if (!$value->isValid()) {
+                return back();
+            }
+            if(!empty($value)){//此处防止没有多文件上传的情况
+       
+                $fpath = "/turns";
+                $npath =  date('Ymd').'/'.time().rand(0,99999999);
+                $ext = $value->extension();
+                $path = $npath.'.'.$ext;
+                // return $path;
+                
+                if($value->storeAs($fpath,$path)){
+                    $filePath[] = $path;
+                }else{
+
+                }
+            }
+        }
+        // return $filePath;
+        $t_img = implode(',',$filePath) . ',';
+
+        return $t_img;
+    }
 }
