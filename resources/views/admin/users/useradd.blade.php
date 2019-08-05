@@ -19,7 +19,8 @@
       
       <body>
         <div class="x-body layui-anim layui-anim-up">
-            <form class="layui-form">
+            <form class="layui-form" enctype="multipart/form-data">
+                {{ csrf_field() }}
               <div class="layui-form-item">
                   <label for="L_email" class="layui-form-label">
                       <span class="x-red">*</span>邮箱
@@ -39,15 +40,7 @@
                     
               </div>
             
-              <div class="layui-form-item">
-                    <label for="pic" class="layui-form-label">
-                        <span class="x-red">*</span>头像
-                    </label>
-                    <div class="layui-input-inline">
-                        <input type="file" id="pic" name="pic" required=""  ay-verify=”required” autocomplete="off" class="layui-input">
-                    </div>
-                   
-              </div>
+           
               <div class="layui-form-item">
                     <label class="layui-form-label">性别</label>
                     <div class="layui-input-block">
@@ -57,11 +50,24 @@
                     </div>
               </div>
               <div class="layui-form-item">
+                  <label class="layui-form-label">权限</label>
+                  <div class="layui-input-block">
+                    <input type="radio" name="power" value="1" title="普通会员" checked><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>普通会员</div></div>
+                    <input type="radio" name="power" value="2" title="vip会员"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>vip会员</div></div>
+                    <input type="radio" name="power" value="3" title="管理员"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>管理员</div></div>
+                  
+                  
+                  </div>
+                </div>
+              <div class="layui-form-item">
                   <label for="L_username" class="layui-form-label">
                       <span class="x-red">*</span>用户名
                   </label>
                   <div class="layui-input-inline">
-                      <input type="text" id="L_username" name="username" required="" lay-verify="name" autocomplete="off" class="layui-input">
+                      <input type="text" id="L_username" name="name" required="" lay-verify="name" autocomplete="off" class="layui-input">
+                  </div>
+                  <div class="layui-form-mid layui-word-aux">
+                    用户名至少六个字符
                   </div>
               </div>
               <div class="layui-form-item">
@@ -102,7 +108,7 @@
               form.verify({
                 name: function(value){
                   if(value.length < 6){
-                    return '昵称至少得6个字符啊';
+                    return '用户名至少得6个字符啊';
                   }
                 },
                
@@ -119,26 +125,26 @@
             //发异步，把数据提交给php
             $.ajax({
               url:'/admin/user/user_store',
-              data:{data:data.field,'_token':"{{csrf_token()}}"},
+              data:data.field,
               type:'POST',
               success:function(data){
-                  console.log(data);
+                //   console.log(data);
                 //访问成功，返回信息
-                // if(data == 'success'){
-                //   layer.alert("添加成功", {icon: 6},function () {
-                //     // 获得frame索引
-                //     var index = parent.layer.getFrameIndex(window.name);
-                //     //关闭当前frame
-                //     parent.layer.close(index);
-                //   });
-                // }else{
-                //   layer.alert("添加失败，请重新添加", {icon: 6},function () {
-                //     // 获得frame索引
-                //     var index = parent.layer.getFrameIndex(window.name);
-                //     //关闭当前frame
-                //     parent.layer.close(index);
-                //   });
-                // }
+                if(data == 'success'){
+                  layer.alert("添加成功", {icon: 6},function () {
+                    // 获得frame索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                  });
+                }else{
+                  layer.alert("添加失败，请重新添加", {icon: 6},function () {
+                    // 获得frame索引
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //关闭当前frame
+                    parent.layer.close(index);
+                  });
+                }
                 
               },
               error:function(){

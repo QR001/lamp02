@@ -64,8 +64,7 @@ Route::post('/admin/goods/goods_update','Admin\GoodsController@goods_update');
 Route::get('/admin/goods/goods_del/{id}','Admin\GoodsController@goods_del');
 //批量删除商品
 Route::post('/admin/goods/goods_delAll','Admin\GoodsController@goods_delAll');
-// 后台网站配置
-Route::get('/admin/webs/webs','Admin\webController@web');
+
 
 // 后台用户列表
 Route::get('/admin/user/userlist','Admin\UserController@user');
@@ -73,10 +72,22 @@ Route::get('/admin/user/userlist','Admin\UserController@user');
 Route::get('/admin/user/useradd','Admin\UserController@user_create');
 // 执行用户添加
 Route::post('/admin/user/user_store','Admin\UserController@user_store');
+// 修改用户的状态(冻结 解冻)
+Route::post('/admin/user/user_status','Admin\UserController@user_status');
+// 用户修改页面
+Route::get('/admin/user/user_exit/{id}','Admin\UserController@user_exit');
+// 执行后台用户修改
+Route::post('/admin/user/user_update','Admin\UserController@user_update');
+// 后台用户删除
+Route::get('/admmin/user/user_delete/{id}','Admin\UserController@user_delete');
+// 后台用户批量删除
+Route::post('/admin/user/user_deleteAll','Admin\UserController@user_deleteAll');
 
+
+// 后台网站配置
+Route::get('/admin/webs/webs','Admin\webController@web');
 // 修改后台网站配置
 Route::post('/admin/web/doweb','Admin\WebController@doweb');
-
 
 
 
@@ -103,6 +114,39 @@ Route::post('/home/login','Home\LoginController@login');
 
 // 前台首页
 Route::get('home/index','Home\IndexController@index');
+
+// 前台用户个人中心
+Route::get('/home/userinfo','Home\UserController@index');
+// 显示个人中心---个人资料
+Route::get('/home/userinfo_personal','Home\UserController@userinfo_personal');
+// 执行个人资料的修改
+Route::post('/home/userinfo_personal_update','Home\UserController@userinfo_personal_update');
+// 修改个人中心的头像
+Route::post('/home/userinfo_updatepic','Home\UserController@userinfo_updatepic');
+
+// 显示个人中心--安全中心
+Route::get('/home/userinfo_safe','Home\UserController@userinfo_safe');
+// 显示个人中心的--收货地址
+Route::get('/home/userinfo_address','Home\UserController@userinfo_address');
+// 显示个人中心的--订单管理
+Route::get('/home/userinfo_order','Home\UserController@userinfo_order');
+// 显示个人中心的--退款售后
+Route::get('/home/userinfo_refund','Home\UserController@userinfo_refund');
+// 显示个人中心--优惠券
+Route::get('/home/userinfo_coupon','Home\UserController@userinfo_coupon');
+// 显示个人中心--红包
+Route::get('/home/userinfo_redenvelopes','Home\UserController@redenvelopes');
+// 显示个人中心--收集
+Route::get('/home/userinfo_collect','Home\UserController@collect');
+// 显示个人中心--足迹
+Route::get('/home/userinfo_foot','Home\UserController@foot');
+// 显示个人中心--评价
+Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
+// 显示个人中心--消息
+Route::get('/home/userinfo_news','Home\UserController@news');
+
+
+
 
 
 
