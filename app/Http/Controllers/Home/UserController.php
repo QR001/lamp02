@@ -14,7 +14,6 @@ class UserController extends Controller
     // 显示个人中心
     public function index()
     {
-        // dump(session('home.name'));
         // 判断是否登录
         if(session('home.name')==null){
            
@@ -75,8 +74,7 @@ class UserController extends Controller
             $res=Userdetail::where('uid',$id)->update(['pic'=>$path]);
         }
       
-        // return $path;
-        // return $res;
+       
         return back();
 
         // dd($request->file);
