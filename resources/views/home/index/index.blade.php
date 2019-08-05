@@ -705,7 +705,7 @@
 						@if(session('home'))
 							<div class="mod-vip">
 								<div class="m-baseinfo">
-									<a href="person/index.html">
+									<a href="/home/userinfo">
 										<img src="/uploads/{{ session('home.pic') }}">
 									</a>
 									<em>

@@ -45,9 +45,11 @@ class LoginController extends Controller
                     }
                     
                     // 查询用户详情表 并且存入session
-                    $userinfo=User::join('userdetails','userdetails.id','=','users.id')->where(['users.id'=>$user->id])->get();
-                    
+                  
+                    $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>$user->id])->get();
+                    // return $userinfo;
                     session(['home'=>[
+                        'id'=>$userinfo[0]->id,
                         'name'=>$userinfo[0]->name,
                         'email'=>$userinfo[0]->email,
                         'phone'=>$userinfo[0]->phone,
@@ -79,7 +81,7 @@ class LoginController extends Controller
                         return back()->withErrors(['activate'=>'邮箱未激活']);
                     }
                     // 查询用户详情表 并且存入session
-                     $userinfo=User::join('userdetails','userdetails.id','=','users.id')->where(['users.id'=>$user->id])->get();
+                     $userinfo=User::join('userdetails','userdetails.uid','=','users.id')->where(['users.id'=>$user->id])->get();
                     
                      session(['home'=>[
                          'name'=>$userinfo[0]->name,

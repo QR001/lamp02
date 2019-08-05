@@ -30,17 +30,17 @@
         </div>
         <div class="x-body">
           <div class="layui-row">
-            <form class="layui-form layui-col-md12 x-so">
-              <input class="layui-input" placeholder="开始日" name="start" id="start" lay-key="1">
-              <input class="layui-input" placeholder="截止日" name="end" id="end" lay-key="2">
-              <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            <form class="layui-form layui-col-md12 x-so" action='/admin/user/userlist'>
+              {{-- <input class="layui-input" value="{{$_GET['start'] ?? ''}}" placeholder="开始日" name="start" id="start" lay-key="1">
+              <input class="layui-input" value="{{$_GET['end'] ?? ''}}" placeholder="截止日" name="end" id="end" lay-key="2"> --}}
+              <input type="text" name="name" value="{{ $_GET['name'] ?? '' }}" autocomplete="off" class="layui-input">
               <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i></button>
             </form>
           </div>
           <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
             <button class="layui-btn" onclick="x_admin_show('添加用户','/admin/user/useradd',600,400)"><i class="layui-icon"></i>添加</button>
-            <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+            <span class="x-right" style="line-height:40px">共有数据：{{ $count }} 条</span>
           </xblock>
           <table class="layui-table">
             <thead>
@@ -53,52 +53,71 @@
                 <th>性别</th>
                 <th>手机</th>
                 <th>邮箱</th>
-                <th>地址</th>
+                <th>权限</th>
                 <th>加入时间</th>
                 <th>状态</th>
                 <th>操作</th></tr>
             </thead>
             <tbody>
-             
-              <tr>
+             @foreach ($users as $user)
+             <tr>
                 <td>
-                  <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="2"><i class="layui-icon"></i></div>
+                  <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="{{ $user->id }}"><i class="layui-icon"></i></div>
                 </td>
-                <td>1</td>
-                <td>小明</td>
-                <td>男</td>
-                <td>13000000000</td>
-                <td>admin@mail.com</td>
-                <td>北京市 海淀区</td>
-                <td>2017-01-01 11:11:42</td>
+                <td>{{$id++}}</td>
+                <td>{{ $user->name }}</td>
+                @if($user->sex)
+                  <td>{{ $user->sex==1 ? '男' : '女' }}</td>
+                @else
+                  <td> 保密 </td>
+                @endif
+                @if($user->phone)
+                  <td>{{ $user->phone }}</td>
+                @else
+                  <td>保密</td>
+                @endif
+                <td>{{ $user->email }}</td>
+                @if($user->power==1)
+                  <td>普通会员</td>
+                @elseif($user->power==2)
+                  <td>vip会员</td>
+                @elseif($user->power==3)
+                  <td>管理员</td>
+                @endif
+              
+                <td>{{ $user->created_at }}</td>
                 <td class="td-status">
-                  <span class="layui-btn layui-btn-normal layui-btn-sm">已启用</span></td>
+                  <span class="layui-btn layui-btn-normal layui-btn-sm">{{ $user->status==1 ? '启用' : '停用' }}</span></td>
                 <td class="td-manage">
-                  <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
-                    <i class="layui-icon"></i>
-                  </a>
-                  <a title="编辑" onclick="x_admin_show('编辑','member-edit.html',600,400)" href="javascript:;">
+                    @if($user->status == 1)
+                    <a onclick="member_stop(this,'{{ $user->id }}')" href="javascript:;"  title="停用">
+                      <i class="layui-icon">&#xe601;</i>
+                    </a>
+                    @else
+                    <a onclick="member_stop(this,'{{ $user->id }}')" href="javascript:;"  title="启用">
+                      <i class="layui-icon">&#xe62f;</i>
+                    </a>
+                    @endif
+                 
+                  <a title="编辑" onclick="x_admin_show('编辑','/admin/user/user_exit/{{ $user->id }}',600,400)" href="javascript:;">
                     <i class="layui-icon"></i>
                   </a>
-                  <a onclick="x_admin_show('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
-                    <i class="layui-icon"></i>
-                  </a>
-                  <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                
+                  <a title="删除" onclick="member_del(this,'{{ $user->id }}')" href="javascript:;">
                     <i class="layui-icon"></i>
                   </a>
                 </td>
               </tr>
+              
+             @endforeach
+              
             </tbody>
           </table>
+          
           <div class="page">
-            <div>
-              <a class="prev" href="">&lt;&lt;</a>
-              <a class="num" href="">1</a>
-              <span class="current">2</span>
-              <a class="num" href="">3</a>
-              <a class="num" href="">489</a>
-              <a class="next" href="">&gt;&gt;</a>
-            </div>
+              <div>
+                {{ $users->appends(['name'=>$_GET['name'] ?? ''])->links() }}
+              </div>
           </div>
     
         </div>
@@ -119,23 +138,56 @@
     
            /*用户-停用*/
           function member_stop(obj,id){
-              layer.confirm('确认要停用吗？',function(index){
+              layer.confirm('确认要修改状态吗？',function(index){
     
                   if($(obj).attr('title')=='启用'){
+                    // 等于启用的时候 发送ajax 修改数据库
+                    $.ajax({
+                      url:'/admin/user/user_status',
+                      data:{'id':id,'status':'1','_token':'{{csrf_token()}}'},
+                      type:'POST',
+                      success:function(data){
+                        if(data == 'success'){
+                          $(obj).attr('title','停用')
+                          $(obj).find('i').html('&#xe601;');
+
+                          $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                          layer.msg('已启用!',{icon: 6,time:1000});
+                        }else{
+                          layer.msg('请求失败!',{icon: 5,time:1000});
+                        }
+                      },
+                      error:function(){
+                        layer.msg('请求失败!',{icon: 5,time:1000});
+                      },
+                      async:true
+                    });
     
-                    //发异步把用户状态进行更改
-                    $(obj).attr('title','停用')
-                    $(obj).find('i').html('&#xe62f;');
-    
-                    $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                    layer.msg('已停用!',{icon: 5,time:1000});
     
                   }else{
-                    $(obj).attr('title','启用')
-                    $(obj).find('i').html('&#xe601;');
-    
-                    $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                    layer.msg('已启用!',{icon: 5,time:1000});
+                    // 等于停用的时候  发送ajax 修改数据库
+                    $.ajax({
+                      url:'/admin/user/user_status',
+                      data:{'id':id,'status':'2','_token':'{{csrf_token()}}'},
+                      type:'POST',
+                      success:function(data){
+                        
+                        if(data == 'success'){
+                          $(obj).attr('title','停用')
+                          $(obj).find('i').html('&#xe601;');
+
+                          $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+                          layer.msg('已启用!',{icon: 6,time:1000});
+                        }else{
+                          layer.msg('请求失败!',{icon: 5,time:1000});
+                        }
+                      },
+                      error:function(){
+                        layer.msg('请求失败!',{icon: 5,time:1000});
+                      },
+                      async:true
+                    });
+                   
                   }
                   
               });
@@ -143,25 +195,62 @@
     
           /*用户-删除*/
           function member_del(obj,id){
+            // console.log(id);
               layer.confirm('确认要删除吗？',function(index){
-                  //发异步删除数据
-                  $(obj).parents("tr").remove();
-                  layer.msg('已删除!',{icon:1,time:1000});
+                $.ajax({
+                  url:'/admmin/user/user_delete/'+id,
+                  // data:{'id':id},
+                  type:'GET',
+                 
+                  success:function(data){
+                    console.log(data);
+                    //发异步删除数据
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                  },
+                  error:function(){
+                    layer.msg('删除失败',{icon:5,time:1000});
+                  }
+                });
+                  
               });
           }
     
     
     
-          function delAll (argument) {
-    
+          function delAll () {
+           
             var data = tableCheck.getData();
+       
+            $.ajax({
+                url:'/admin/user/user_deleteAll',
+                data:{'data':data,'_token':'{{csrf_token()}}'},
+                type:'POST',
+                success:function(data){
+                  // 判断是否有success 在成功里面
+                  if(data.indexOf('success') !=-1 ){
+
+                     layer.confirm('确认要删除吗?',function(index){
+                      //捉到所有被选中的，发异步进行删除
+                      layer.msg('删除成功', {icon: 1});
+                        $(".layui-form-checked").not('.header').parents('tr').remove();
+                      });
+                  }else{
+                      layer.msg('删除失败', {icon: 5});
+                  }
+                  
+                 
+                },
+                error:function(){
+                  layer.msg('请求失败!',{icon: 5,time:1000});
+                },
+                async:true
+              });
       
-            layer.confirm('确认要删除吗？'+data,function(index){
-                //捉到所有被选中的，发异步进行删除
-                layer.msg('删除成功', {icon: 1});
-                $(".layui-form-checked").not('.header').parents('tr').remove();
-            });
+          
           }
+
+          
         </script>
       
     
