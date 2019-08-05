@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/admin/index',function(){
     return view("admin.index.index");
@@ -65,6 +65,30 @@ Route::get('/admin/systems/links_del/{id}','Admin\SystemsController@links_del');
 //批量删除友情链接
 Route::post('/admin/systems/links_delAll','Admin\SystemsController@links_delAll');
 
+//显示轮播图
+Route::get('/admin/systems/turns','Admin\SystemsController@turns');
+//修改轮播图
+Route::post('/admin/systems/turnsUpdate','Admin\SystemsController@turnsUpdate');
+
+//显示活动列表
+Route::get('/admin/blogs/list','Admin\BlogsController@list');
+//显示添加活动页面
+Route::get('/admin/blogs/blogs_create','Admin\BlogsController@blogs_create');
+//执行活动添加操作
+Route::post('/admin/blogs/blogs_store','Admin\BlogsController@blogs_store');
+//修改活动状态
+Route::post('/admin/blogs/blogs_status','Admin\BlogsController@blogs_status');
+//显示活动编辑页面
+Route::get('/admin/blogs/blogs_edit/{id}','Admin\BlogsController@blogs_edit');
+//执行活动修改
+Route::post('/admin/blogs/blogs_update','Admin\BlogsController@blogs_update');
+//删除活动
+Route::get('/admin/blogs/blogs_del/{id}','Admin\BlogsController@blogs_del');
+//显示活动封面
+Route::get('/admin/blogs/blogs_img/{id}','Admin\BlogsController@blogs_img');
+//修改活动封面
+Route::post('/admin/blogs/uploads','Admin\BlogsController@uploads');
+
 
 // 显示商品列表
 Route::get('/admin/goods/list','Admin\GoodsController@list');
@@ -84,6 +108,7 @@ Route::post('/admin/goods/goods_update','Admin\GoodsController@goods_update');
 Route::get('/admin/goods/goods_del/{id}','Admin\GoodsController@goods_del');
 //批量删除商品
 Route::post('/admin/goods/goods_delAll','Admin\GoodsController@goods_delAll');
+
 // 后台网站配置
 Route::get('/admin/webs/webs','Admin\webController@web');
 
@@ -122,8 +147,5 @@ Route::post('/home/login','Home\LoginController@login');
 
 
 // 前台首页
-Route::get('home/index','Home\IndexController@index');
-
-
-
+Route::get('/','Home\IndexController@index');
 

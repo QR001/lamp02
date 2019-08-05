@@ -115,8 +115,14 @@
               <div class="layui-input-inline">
                   <select id="bid" name="bid" class="valid">
                     <option value="0">暂不参加</option>
-                    <option value="1">活动1</option>
-                    <option value="2">活动2</option>
+                    @foreach($blog as $v)
+                      @if($v->id == $goods->bid)
+                        <option value="{{ $v->id }}" selected>{{ $v->b_title }}</option>
+                      @else
+                        <option value="{{ $v->id }}">{{ $v->b_title }}</option>
+
+                      @endif
+                    @endforeach
                   </select>
               </div>
           </div>
@@ -265,10 +271,14 @@
         function addColor(obj){
             
             var res = layer.prompt('请输入要添加的颜色',function(data){
-                var ele = $('<div class="layui-input-inline" style="width: 100px;"><input type="checkbox" name="g_color[]" title="'+data+'" value="'+data+'" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin=""><span>'+data+'</span><i class="layui-icon"></i></div>   </div>');
-                if(data){
+                if(data.length > 1 && data.length <5){
+                    var ele = $('<div class="layui-input-inline" style="width: 100px;"><input type="checkbox" name="g_color[]" title="'+data+'" value="'+data+'" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin=""><span>'+data+'</span><i class="layui-icon"></i></div>   </div>');
+                
                     $(obj).before(ele);
                     layer.msg('已添加!',{icon: 6,time:1000});
+                }else{
+                  layer.msg('请保持在 1 - 5 个字符内!',{icon: 5,time:1000});
+
                 }
 
                 $('.layui-layer-prompt').hide();

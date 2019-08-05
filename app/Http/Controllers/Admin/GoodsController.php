@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Good;
 use App\Models\Detail;
+use App\Models\Blog;
 
 class GoodsController extends Controller
 {
@@ -44,20 +45,91 @@ class GoodsController extends Controller
     //显示商品添加页面
     public function goods_create()
     {
-        return view('admin.goods.goods_create');
+        $blog = Blog::get();
+        return view('admin.goods.goods_create',['blog' => $blog]);
     }
 
     //显示商品图片页面
     public function goods_img($id)
     {
-        return view('admin.goods.goods_img');
+        $good = Good::find($id,['g_img','id']);
+        $imgs =  explode(',',$good->g_img);
+        array_pop($imgs);
+        $good->g_img = $imgs;
+        // return $good;
+        return view('admin.goods.goods_img',['good' => $good]);
     }
 
-    //执行商品图片的上传
+    //执行修改商品图片的操作
     public function uploads(Request $request)
     {
-        return $request->all();
+        //获取商品信息
+        $good = Good::findOrFail($request->id);
+        //防止没有图片上传
+        if(!empty($request->file('img'))){
+            //修改商品图片信息
+            $g_img = $this->getImg($request);
+            $res = Good::where('id',$request->id)->update(['g_img'=>$g_img]);
+            //商品信息修改成功，将原本的图片文件进行删除
+            if($res){
+                $this->delimg($good);
+            }
+        }
+        
+        return back();
+
     }
+
+   
+    //上传图片的操作
+    public function getImg($request)
+    {
+        $file = $request->file('img');
+        $filePath = [];  // 定义空数组用来存放图片路径
+        
+        foreach ($file as $key => $value) {
+            // 判断图片上传中是否出错
+            if (!$value->isValid()) {
+                return back();
+            }
+            if(!empty($value)){//此处防止没有多文件上传的情况
+       
+                $fpath = "/goods";
+                $npath =  date('Ymd').'/'.time().rand(0,99999999);
+                $ext = $value->extension();
+                $path = $npath.'.'.$ext;
+                // return $path;
+                
+                if($value->storeAs($fpath,$path)){
+                    $filePath[] = $path;
+                }else{
+
+                }
+            }
+        }
+        // return $filePath;
+        $g_img = implode(',',$filePath) . ',';
+
+        return $g_img;
+    }
+
+    //删除图片操作
+    public function delimg($good)
+    {
+        $imgs = explode(',',$good->g_img);
+        array_pop($imgs);
+        foreach($imgs as $v){
+            if($v != 'default.jpg'){
+                $path = public_path('/uploads/goods/'.$v);
+                if(file_exists($path)){
+                     
+                    unlink($path);  
+ 
+                }
+            }
+        }
+    }
+ 
 
     //执行商品添加操作
     public function goods_store(Request $request)
@@ -118,8 +190,10 @@ class GoodsController extends Controller
         }
         //获取商品的详情信息
         $goods->details = $goods->detail;
+        //查询现有活动
+        $blog = Blog::get();
         // dump($goods);
-        return view('admin.goods.goods_edit',['goods' => $goods]);
+        return view('admin.goods.goods_edit',['goods' => $goods,'blog' => $blog]);
     }
 
     //执行商品修改操作
@@ -189,7 +263,7 @@ class GoodsController extends Controller
 
         if($type == 'create'){
             $good['g_sales'] = 0;
-            $good['g_img'] = 'default.jpg';
+            $good['g_img'] = 'default.jpg,';
             $good['created_at'] = date('Y-m-d H:i:s');
         }
 
@@ -199,7 +273,11 @@ class GoodsController extends Controller
     //删除指定商品
     public function goods_del($id)
     {
+        $good = Good::findOrFail($id);
         $res = Good::destroy($id);
+        if($res){
+            $this->delimg($good);
+        }
         return $res ? 'success' : 'error' ;
     }
 
@@ -220,7 +298,18 @@ class GoodsController extends Controller
             $status = 'none'; 
         }  
 
-        if($status == 'error' && Good::destroy($request->idAll)){
+        // return $status;
+
+        if($status == 'error'){
+            foreach($request->idAll as $v){
+                $good = Good::findOrFail($v);
+                // return $good;
+                $res = Good::destroy($v);
+                // return $res;
+                if($res){
+                    $this->delimg($good);
+                }
+            }
             $status = 'success';
         }
 

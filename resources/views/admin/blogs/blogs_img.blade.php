@@ -27,30 +27,28 @@
     <div class="x-body">
         
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-          <legend>图片预览</legend>
+          <legend>封面预览</legend>
         </fieldset> 
         <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
           
             <div class="layui-upload-list">
-                @foreach($good->g_img as $v)
-                <img src="/uploads/goods/{{ $v }}" style="width:30%;" alt="商品图片...读取中">
-                @endforeach
+                <img src="/uploads/blogs/{{ $blog->b_img }}" style="width:30%;" alt="图片读取中..." />
             </div>
         </blockquote>
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-          <legend>更换商品图片</legend>
+          <legend>更换活动封面</legend>
         </fieldset> 
-        <form class="layui-form" action="/admin/goods/uploads" method="post" enctype="multipart/form-data">
+        <form class="layui-form" action="/admin/blogs/uploads" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
           <div class="layui-form-item">
               
               <div class="layui-input-inline">
-                  <input type="file" name="img[]" multiple />
+                  <input type="file" name="img" />
               </div>
           </div>
           <div class="layui-form-item">
-              <input type="hidden" name="id" value="{{ $good->id }}" />
+              <input type="hidden" name="id" value="{{ $blog->id }}" />
           </div>
           <div class="layui-form-item">
               

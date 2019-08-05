@@ -25,23 +25,21 @@
   
   <body>
     <div class="x-body">
-        
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-          <legend>图片预览</legend>
-        </fieldset> 
-        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-          
-            <div class="layui-upload-list">
-                @foreach($good->g_img as $v)
-                <img src="/uploads/goods/{{ $v }}" style="width:30%;" alt="商品图片...读取中">
-                @endforeach
-            </div>
-        </blockquote>
+          <legend>预览</legend>
+        </fieldset>  
+        <div class="layui-carousel" id="test1" lay-filter="test1">
+          <div carousel-item="">预览
+            @foreach($imgs as $img)
+            <div class=""><img src="/uploads/turns/{{$img}}" style="width:100%;height:100%;" alt="图片读取中..."></div>
+            @endforeach  
+          </div>
+        </div> 
 
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-          <legend>更换商品图片</legend>
+          <legend>更换轮播图片</legend>
         </fieldset> 
-        <form class="layui-form" action="/admin/goods/uploads" method="post" enctype="multipart/form-data">
+        <form class="layui-form" action="/admin/systems/turnsUpdate" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
           <div class="layui-form-item">
               
@@ -50,7 +48,7 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <input type="hidden" name="id" value="{{ $good->id }}" />
+              <input type="hidden" name="id" value="1" />
           </div>
           <div class="layui-form-item">
               
@@ -60,7 +58,20 @@
           </div>
         </form>
     </div>
-    
+    <script type="text/javascript" src="/admin/lib/layui/layui.js" charset="utf-8"></script>
+      <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script>
+      layui.use(['carousel', 'form'], function(){
+        var carousel = layui.carousel
+        ,form = layui.form;
+        
+        //预览轮播图
+        carousel.render({
+          elem: '#test1'
+          ,arrow: 'always'
+        });
+      })
+    </script>
   </body>
 
 </html>

@@ -63,28 +63,6 @@
                     <li><a _href="html/welcome.html"><i class="iconfont">&#xe6a7;</i><cite>控制台</cite></a></li >
                 </ul>
             </li>
-             <li >
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe6e4;</i>
-                    <cite>基本元素</cite>
-                    <i class="iconfont nav_right">&#xe6a7;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a _href="html/unicode.html"><i class="iconfont">&#xe6a7;</i><cite>图标字体</cite></a></li>
-                    <li><a _href="html/form1.html"><i class="iconfont">&#xe6a7;</i><cite>表单元素</cite></a></li>
-                    <li> <a _href="html/form2.html"><i class="iconfont">&#xe6a7;</i><cite>表单组合</cite></a></li>
-                    <li><a _href="html/buttons.html"><i class="iconfont">&#xe6a7;</i><cite>按钮</cite></a></li>
-                    <li><a _href="html/nav.html"><i class="iconfont">&#xe6a7;</i><cite>导航/面包屑</cite></a></li>
-                    <li><a _href="html/tab.html"><i class="iconfont">&#xe6a7;</i><cite>选项卡</cite></a></li>
-                    <li><a _href="html/progress-bar.html"><i class="iconfont">&#xe6a7;</i><cite>进度条</cite></a></li>
-                    <li><a _href="html/panel.html"><i class="iconfont">&#xe6a7;</i><cite>面板</cite></a></li>
-                    <li><a _href="html/badge.html"><i class="iconfont">&#xe6a7;</i><cite>微章</cite></a></li>
-                    <li><a _href="html/timeline.html"><i class="iconfont">&#xe6a7;</i><cite>时间线</cite></a></li>
-                    <li><a _href="html/table-element.html"><i class="iconfont">&#xe6a7;</i><cite>静态表格</cite></a></li>
-                    <li><a _href="html/anim.html"><i class="iconfont">&#xe6a7;</i><cite>动画</cite></a></li>
-                </ul>
-            </li>
-            
             
             <li>
                 <a href="javascript:;"><i class="iconfont">&#xe6f6;</i><cite>组件页面</cite><i class="iconfont nav_right">&#xe6a7;</i></a>
@@ -94,17 +72,6 @@
                     <li><a _href="html/cate.html"><i class="iconfont">&#xe6a7;</i><cite>多级分类</cite></a></li>
                     <li><a _href="html/carousel.html"><i class="iconfont">&#xe6a7;</i><cite>轮播图</cite></a></li>
                     <li><a _href="html/city.html"><i class="iconfont">&#xe6a7;</i><cite>城市三级联动</cite></a></li>
-                </ul>
-            </li>
-             <li >
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe6b4;</i>
-                    <cite>排版布局</cite>
-                    <i class="iconfont nav_right">&#xe6a7;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li><a _href="html/grid.html"><i class="iconfont">&#xe6a7;</i><cite>栅格</cite></a></li>
-                    <li><a _href="html/welcome2.html"><i class="iconfont">&#xe6a7;</i><cite>排版</cite></a></li>
                 </ul>
             </li>
 
@@ -126,6 +93,22 @@
 
             <li>
                 <a href="javascript:;">
+                    <i class="icon iconfont">&#xe6f6;</i>
+                    <cite>活动管理</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/admin/blogs/list">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>活动列表</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>  
+
+            <li>
+                <a href="javascript:;">
                     <i class="iconfont">&#xe69e;</i>
                     <cite>订单管理</cite>
                     <i class="iconfont nav_right">&#xe6a7;</i>
@@ -139,6 +122,8 @@
                     </li >
                 </ul>
             </li>
+
+            <li>
 <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe69e;</i>
@@ -152,7 +137,7 @@
                             <cite>分类列表</cite>
                         </a>
                     </li >
- <li>
+            <li>
                         <a _href="/admin/Sorts/create">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>分类添加</cite>
@@ -254,6 +239,12 @@
                         <a _href="/admin/systems/links">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>友情链接</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/admin/systems/turns">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>轮播图</cite>
                         </a>
                     </li >
                     
