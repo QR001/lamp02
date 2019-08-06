@@ -125,8 +125,7 @@ class LoginController extends Controller
             }else{
                 return back()->withErrors(['nouser'=>'手机号不存在']);
             }
-           
-
+            
         }else{
             // dump('格式不正确');
             return back()->withErrors(['format'=>'格式不正确']);

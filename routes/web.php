@@ -198,6 +198,18 @@ Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
 // 显示个人中心--消息
 Route::get('/home/userinfo_news','Home\UserController@news');
 
+// 前台购物车
+Route::get('/home/carts','Home\CartController@index');
+
+// 前台客服
+// Route::get('/home/customer','Home\CustomerController@index');
+
+//前台 显示聊天室视图
+Route::get('/home/chats','Home\ChatsController@index');
+//前台 用于获取所有用户的消息
+Route::get('/home/chats/fetchChat','Home\ChatsController@fetchChat');
+//前台 用于发送消息
+Route::post('/home/chats/sendChat','Home\ChatsController@sendChat');
 
 
 

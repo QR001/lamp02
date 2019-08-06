@@ -112,28 +112,50 @@ class SortsController extends Controller
         // return $request->all();
         $s_pid = $request->input('s_pid');
         if ($s_pid == 0) {
-            $s_path = 0;
+           $res=DB::table('sorts')->insert(["s_name"=>$request->input('s_name'),"s_pid"=>$request->input('s_pid'),"s_path"=>0]);
+           if($res){
+               $parent=DB::table('sorts')->where('s_pid',$request->input('s_pid'))->first();
+               $s_path='0,'.$parent->id;
+               $child=DB::table('sorts')->insert(["s_name"=>'品牌',"s_pid"=>$parent->id,"s_path"=>$s_path]);
+               if($child){
+                   echo "添加成功";
+               }
+            }
         }else{
             //获取父级id
             $parent_data = Sorts::find($s_pid);
             $s_path= $parent_data->s_path.','.$parent_data->id;
+            $cate = new Sorts;
+            $cate->s_name = $request->input('s_name');
+            $cate->s_pid = $s_pid;
+            $cate->s_path = $s_path;
+
+            if ($cate->save()) {
+                // return redirect('admin\Sorts')->with('success','添加成功');
+                return back()->with('success','添加成功');
+            
+            }else{
+                return back()->with('error','添加失败');
+            
+            }
+          
         }
 
         //添加
-        $cate = new Sorts;
+        // $cate = new Sorts;
    
-        $cate->s_name = $request->input('s_name','');
-        $cate->s_pid = $s_pid;
-        $cate->s_path = $s_path;
+        // $cate->s_name = $request->input('s_name','');
+        // $cate->s_pid = $s_pid;
+        // $cate->s_path = $s_path;
 
-        if ($cate->save()) {
-            // return redirect('admin\Sorts')->with('success','添加成功');
-            return back()->with('success','添加成功');
+        // if ($cate->save()) {
+        //     // return redirect('admin\Sorts')->with('success','添加成功');
+        //     return back()->with('success','添加成功');
            
-        }else{
-            return back()->with('error','添加失败');
+        // }else{
+        //     return back()->with('error','添加失败');
            
-        }
+        // }
 
 
     }
@@ -156,11 +178,12 @@ class SortsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    //编辑页面
     public function edit($id)
     {
         return view('admin.Sorts.edit',['id'=>$id]);
     }
-
+    //编辑 执行更改
     public function edit_update(Request $request)
     {
         // dd($request->all());

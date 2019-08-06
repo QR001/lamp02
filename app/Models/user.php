@@ -15,4 +15,8 @@ class user extends Model
         return $this->hasMany('App\Models\orders');
     
     }
+
+    public function chats(){
+        $this->hasMany(Chats::class);
+    }
 }

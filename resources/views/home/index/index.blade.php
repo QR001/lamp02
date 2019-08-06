@@ -2283,7 +2283,7 @@
 
 					<div class="quick_toggle ">
 						<li class="qtitem ">
-							<a href="# "><span class="kfzx "></span></a>
+							<a href="/home/customer"><span class="kfzx "></span></a>
 							<div class="mp_tooltip ">客服中心<i class="icon_arrow_right_black "></i></div>
 						</li>
 						<!--二维码 -->

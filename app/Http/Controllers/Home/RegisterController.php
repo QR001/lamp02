@@ -42,7 +42,13 @@ class RegisterController extends Controller
             // 在用户详情表中添加用户的头像
             $userDetail=new Userdetail();
             $userDetail->pic='photo.jpg'; // 默认的头像
-            
+
+            $userDetail->realname='';
+            $userDetail->description='';
+            $userDetail->sex='';
+            $userDetail->integral=0;
+            $userDetail->phone='';
+
             $userDetail->uid=$users->id;
             
             if( $userDetail->save() ){
