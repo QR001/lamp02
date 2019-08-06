@@ -15,8 +15,7 @@
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-      <link id="layuicss-layer" rel="stylesheet" href="/admin/lib/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"></head>
-      
+     
       <body>
         <div class="x-body layui-anim layui-anim-up">
             <form class="layui-form" enctype="multipart/form-data">

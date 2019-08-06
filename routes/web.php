@@ -15,13 +15,18 @@
 //     return view('welcome');
 // });
 
-Route::get('/admin/index',function(){
-    return view("admin.index.index");
-});
+//后台首页
+Route::get('/admin/index','Admin\LoginController@index');
+Route::get('/admin/index/index2','Admin\LoginController@indexShow');
+//退出
+Route::get('/admin/login/logout','Admin\LoginController@logout');
 
 //后台  订单模块的 订单详情的退款
 Route::get('/admin/Orders/status','Admin\OrdersController@status');
 //后台  订单模块的单个删除
+//执行后台登录操作
+Route::post('/admin/login/dologin','Admin\LoginController@dologin');
+
 Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
 //后台  订单模块的批量删除
 Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
@@ -35,8 +40,6 @@ Route::resource('/admin/Orders','Admin\OrdersController');
 //后他 订单管理的产看订单详情
 Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 
-
-// 后台 添加分类
 // 后台 分类板块执行删除单个
 Route::get('/admin/Sorts/delete/{id}','Admin\SortsController@delete');
 // 后台 分类板块的批量删除
@@ -114,6 +117,10 @@ Route::post('/admin/goods/goods_update','Admin\GoodsController@goods_update');
 Route::get('/admin/goods/goods_del/{id}','Admin\GoodsController@goods_del');
 //批量删除商品
 Route::post('/admin/goods/goods_delAll','Admin\GoodsController@goods_delAll');
+//显示商品评论
+Route::get('/admin/goods/comments/{id}','Admin\GoodsController@comments');
+//查看商品评论
+Route::get('/admin/goods/comments_img/{id}','Admin\GoodsController@comments_img');
 
 // 后台网站配置
 Route::get('/admin/webs/webs','Admin\webController@web');
@@ -211,7 +218,25 @@ Route::get('/home/chats/fetchChat','Home\ChatsController@fetchChat');
 //前台 用于发送消息
 Route::post('/home/chats/sendChat','Home\ChatsController@sendChat');
 
+//商品信息
+Route::get('/home/goods/goodInfo/{id}',function($id){
+    return view('home.goods.goodInfo');
+});
 
+//全部活动
+Route::get('/home/blogs/blogAll',function(){
+    return view('home.blogs.blogAll');
+});
+
+//活动详情
+Route::get('/home/blogs/bloglist/{id}',function($id){
+    return view('home.blogs.bloglist');
+});
+
+//商品列表
+Route::get('/home/goods/goodlist',function(){
+    return view('home/goods/goodlist');
+});
 
 
 

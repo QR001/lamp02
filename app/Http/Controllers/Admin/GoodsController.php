@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Good;
 use App\Models\Detail;
 use App\Models\Blog;
+use App\Models\Comment;
+use App\Models\user;
 
 class GoodsController extends Controller
 {
@@ -314,5 +316,37 @@ class GoodsController extends Controller
         }
 
         return $status;
+    }
+
+    public function comments($id)
+    {
+        $c_score = $_GET['c_score'] ?? '';
+        if($c_score){
+            $res = User::join('comments','users.id','=','comments.uid')
+                        ->where(['comments.gid' => $id,'comments.c_score' => $c_score])
+                        ->paginate(3);
+            $count = User::join('comments','users.id','=','comments.uid')
+                            ->where(['comments.gid' => $id,'comments.c_score' => $c_score])
+                            ->count();
+        }else{
+            $res = User::join('comments','users.id','=','comments.uid')
+                    ->where(['comments.gid' => $id])
+                    ->paginate(3);
+            $count = User::join('comments','users.id','=','comments.uid')
+                    ->where(['comments.gid' => $id])
+                    ->count();
+        }
+        
+
+        return view('admin.goods.comments',['comments' => $res,'count' => $count,'goodId' => $id]);
+    }
+
+    //查看评论的详细内容
+    public function comments_img($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $imgs = explode(',',$comment->c_img);
+        array_pop($imgs);
+        return view('admin.goods.comments_img',['imgs' => $imgs]);
     }
 }

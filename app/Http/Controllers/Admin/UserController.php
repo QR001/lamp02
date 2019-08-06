@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\User;
+// use Illuminate\Foundation\Auth\User;
 use App\Models\Userdetail;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -37,23 +38,32 @@ class UserController extends Controller
 
     // 执行用户添加
     public function user_store(Request $request){
+        // return $request->all();
         
         // 开启事务
         DB::beginTransaction();
-        $users = new User;
-        $users -> name = $request -> input('name');
-        $users -> email = $request -> input('email');
-        $users -> power = $request -> input('power');
-        $users -> password = Hash::make($request -> pwd);
-        $users -> token =str_random(30);
+        $users = [];
+        $users['name'] = $request -> input('name');
+        $users['email'] = $request -> input('email');
+        $users['power'] = $request -> input('power');
+        $users['password'] = Hash::make($request -> pwd);
+        $users['token'] =str_random(30);
+        $users['status'] = '1';
+        $users['created_at'] = date('Y-m-d H:i:s');
+        $users['updated_at'] = date('Y-m-d H:i:s');
 
-        if($users->save()){
+        $res = User::insertGetId($users);
+
+        if($res){
             // 添加数据到用户详情表
             $userinfo=new Userdetail;
-            $userinfo -> uid=$users -> id;
+            $userinfo -> uid=$res;
             $userinfo -> phone = $request -> phone;
             $userinfo -> sex = $request -> sex;
             $userinfo -> pic = 'photo.jpg';
+            $userinfo -> realname = '';
+            $userinfo -> integral = 0;
+            $userinfo ->description = '' ;
 
             if($userinfo->save()){
                 // 事务提交
