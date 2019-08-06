@@ -71,6 +71,13 @@
           </div>
 
           @endif
+          {{-- 登录过期请重新登录 --}}
+          @if($errors->has('loginExpire'))
+          <div class="user-name">
+              <input type="text" disabled  style='background-color:#E81010;' value='登录过期请重新登录'> 
+          </div>
+
+          @endif
 				<div class="am-cf">
 					
 					<input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">

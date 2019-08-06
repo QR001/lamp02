@@ -16,6 +16,7 @@ class orders extends Model
 
     public function sends()
     {
+        
         return $this->belongsTo('App\Models\sends','sid','id');
     }
 
@@ -26,4 +27,7 @@ class orders extends Model
     public function refunds(){
         return $this->belongsTo('App\Models\refunds','uid');
     }
+   
+
+   
 }

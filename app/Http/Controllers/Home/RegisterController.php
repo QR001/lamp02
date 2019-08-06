@@ -102,7 +102,7 @@ class RegisterController extends Controller
     public function sendPhone(Request $request)
     {
         
-      
+    //    return $request->all();
         // 接收手机号
         $phone=$request->input('phone');
       

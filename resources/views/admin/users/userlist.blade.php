@@ -150,8 +150,8 @@
                           $(obj).attr('title','停用')
                           $(obj).find('i').html('&#xe601;');
 
-                          $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                          layer.msg('已启用!',{icon: 6,time:1000});
+                          $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('启用');
+                          layer.msg('启用!',{icon: 6,time:1000});
                         }else{
                           layer.msg('请求失败!',{icon: 5,time:1000});
                         }
@@ -220,7 +220,7 @@
           function delAll () {
            
             var data = tableCheck.getData();
-       
+            
             $.ajax({
                 url:'/admin/user/user_deleteAll',
                 data:{'data':data,'_token':'{{csrf_token()}}'},
