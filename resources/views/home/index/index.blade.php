@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -31,8 +30,8 @@
 							@if(session('home'))
 								<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
 							@else
-								<a href="#" target="_top" class="h">亲，请登录</a>
-								<a href="#" target="_top">免费注册</a>
+								<a href="/home/login" target="_top" class="h">亲，请登录</a>
+								<a href="/home/register" target="_top">免费注册</a>
 							@endif
 						</div>
 					</div>
@@ -75,11 +74,9 @@
                       <!--轮播 -->
 						<div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
 							<ul class="am-slides">
-								<li class="banner1"><a href="introduction.html"><img src="/home/images/ad1.jpg" /></a></li>
-								<li class="banner2"><a><img src="/home/images/ad2.jpg" /></a></li>
-								<li class="banner3"><a><img src="/home/images/ad3.jpg" /></a></li>
-								<li class="banner4"><a><img src="/home/images/ad4.jpg" /></a></li>
-
+								@foreach($turns as $v)
+								<li class="banner4"><a><img src="/uploads/turns/{{ $v }}" style="width:100%;height:100%;left:0;margin-left:0;" /></a></li>
+								@endforeach
 							</ul>
 						</div>
 						<div class="clear"></div>	
@@ -96,10 +93,7 @@
                                 <li class="qc"><a href="#">团购</a></li>
                                 <li class="qc last"><a href="#">大包装</a></li>
 							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
+						    
 						</div>					
 		        				
 						<!--侧边导航 -->
@@ -107,11 +101,11 @@
 							<div class="area clearfix">
 								<div class="category-content" id="guide_2">
 									
-									<div class="category">
+									<div class="category" style="height: 430px;">
 										<ul class="category-list" id="js_climit_li">
-											<li class="appliance js_toggle relative first">
+										<li class="appliance js_toggle relative first">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/cake.png"></i><a class="ml-22" title="点心">点心/蛋糕</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/cake.png"></i><a class="ml-22" title="点心">点心/蛋糕</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -162,7 +156,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/cookies.png"></i><a class="ml-22" title="饼干、膨化">饼干/膨化</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/cookies.png"></i><a class="ml-22" title="饼干、膨化">饼干/膨化</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -222,7 +216,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/meat.png"></i><a class="ml-22" title="熟食、肉类">熟食/肉类</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/meat.png"></i><a class="ml-22" title="熟食、肉类">熟食/肉类</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -275,7 +269,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/bamboo.png"></i><a class="ml-22" title="素食、卤味">素食/卤味</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/bamboo.png"></i><a class="ml-22" title="素食、卤味">素食/卤味</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -325,7 +319,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/nut.png"></i><a class="ml-22" title="坚果、炒货">坚果/炒货</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/nut.png"></i><a class="ml-22" title="坚果、炒货">坚果/炒货</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -377,7 +371,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/candy.png"></i><a class="ml-22" title="糖果、蜜饯">糖果/蜜饯</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/candy.png"></i><a class="ml-22" title="糖果、蜜饯">糖果/蜜饯</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -427,7 +421,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/chocolate.png"></i><a class="ml-22" title="巧克力">巧克力</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/chocolate.png"></i><a class="ml-22" title="巧克力">巧克力</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -479,7 +473,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/fish.png"></i><a class="ml-22" title="海味、河鲜">海味/河鲜</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/fish.png"></i><a class="ml-22" title="海味、河鲜">海味/河鲜</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -537,7 +531,7 @@
 											</li>
 											<li class="appliance js_toggle relative">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/tea.png"></i><a class="ml-22" title="花茶、果茶">花茶/果茶</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/tea.png"></i><a class="ml-22" title="花茶、果茶">花茶/果茶</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -586,7 +580,7 @@
 											</li>
 											<li class="appliance js_toggle relative last">
 												<div class="category-info">
-													<h3 class="category-name b-category-name"><i><img src="/home/images/package.png"></i><a class="ml-22" title="品牌、礼包">品牌/礼包</a></h3>
+													<h3 class="category-name b-category-name"><i><img src="images/package.png"></i><a class="ml-22" title="品牌、礼包">品牌/礼包</a></h3>
 													<em>&gt;</em></div>
 												<div class="menu-item menu-in top">
 													<div class="area-in">
@@ -632,6 +626,7 @@
 												</div>
 
 											</li>
+											
 										</ul>
 									</div>
 								</div>
@@ -692,15 +687,7 @@
 						<div class="demo">
 
 							<ul>
-								<li class="title-first"><a target="_blank" href="#">
-									<img src="/home/images/TJ2.jpg"></img>
-									<span>[特惠]</span>商城爆品1分秒								
-								</a></li>
-								<li class="title-first"><a target="_blank" href="#">
-									<span>[公告]</span>商城与广州市签署战略合作协议
-								     <img src="/home/images/TJ.jpg"></img>
-								     <p>XXXXXXXXXXXXXXXXXX</p>
-								</a></li>
+							
 						{{-- 判断是否登录 --}}
 						@if(session('home'))
 							<div class="mod-vip">
@@ -712,14 +699,15 @@
 										Hi,<span class="s-name">{{ session('home.name') }}</span>
 										<a href="#"><p>点击更多优惠活动</p></a>									
 									</em>
-								</div>
-								<div class="member-logout" >
-										<a href="#" style='font-size:15px'><strong>0</strong>待收货</a>
+									<div class="member-login">
+										<a href="#"><strong>0</strong>待收货</a>
 										<a href="#"><strong>0</strong>待发货</a>
 										<a href="#"><strong>0</strong>待付款</a>
 										<a href="#"><strong>0</strong>待评价</a>
+									</div>
 								</div>
-							
+								
+								
 								<div class="clear"></div>	
 							</div>
 						@else	    
@@ -737,20 +725,13 @@
 									<a class="am-btn-warning btn" href="/home/login">登录</a>
 									<a class="am-btn-warning btn" href="/home/register">注册</a>
 								</div>
-								<div class="member-login">
-									<a href="#"><strong>0</strong>待收货</a>
-									<a href="#"><strong>0</strong>待发货</a>
-									<a href="#"><strong>0</strong>待付款</a>
-									<a href="#"><strong>0</strong>待评价</a>
-								</div>
+								
 								<div class="clear"></div>	
 							</div>
 						@endif																	    
-							    
-								<li><a target="_blank" href="#"><span>[特惠]</span>洋河年末大促，低至两件五折</a></li>
-								<li><a target="_blank" href="#"><span>[公告]</span>华北、华中部分地区配送延迟</a></li>
-								<li><a target="_blank" href="#"><span>[特惠]</span>家电狂欢千亿礼券 买1送1！</a></li>
-								
+							@foreach($blogs as $v)  
+								<li><a target="_blank" href="/home/blogs/bloglist/{{ $v->id }}"><span>[特惠]</span>{{ $v->b_title }}</a></li>
+							@endforeach
 							</ul>
                         <div class="advTip"><img src="/home/images/advTip.jpg"/></div>
 						</div>
@@ -780,38 +761,20 @@
 					<!--今日推荐 -->
 
 					<div class="am-g am-g-fixed recommendation">
-						<div class="clock am-u-sm-3" ">
-							<img src="/home/images/2016.png "></img>
+						<div class="clock am-u-sm-3" >
+							<img src="/home/images/2019.png ">
 							<p>今日<br>推荐</p>
 						</div>
+						@foreach($sale as $v)
 						<div class="am-u-sm-4 am-u-lg-3 ">
-							<div class="info ">
-								<h3>真的有鱼</h3>
-								<h4>开年福利篇</h4>
+							<div class="info " style="width:50%;">
+								<h3 style="overflow:hidden;width:80%;">{{ $v->g_name }}</h3>
 							</div>
 							<div class="recommendationMain one">
-								<a href="introduction.html"><img src="/home/images/tj.png "></img></a>
+								<a href="/home/goods/goodInfo/{{ $v->id }}"><img src="/uploads/goods/{{ $v->g_img }} "></a>
 							</div>
 						</div>						
-						<div class="am-u-sm-4 am-u-lg-3 ">
-							<div class="info ">
-								<h3>囤货过冬</h3>
-								<h4>让爱早回家</h4>
-							</div>
-							<div class="recommendationMain two">
-								<img src="/home/images/tj1.png "></img>
-							</div>
-						</div>
-						<div class="am-u-sm-4 am-u-lg-3 ">
-							<div class="info ">
-								<h3>浪漫情人节</h3>
-								<h4>甜甜蜜蜜</h4>
-							</div>
-							<div class="recommendationMain three">
-								<img src="/home/images/tj2.png "></img>
-							</div>
-						</div>
-
+						@endforeach
 					</div>
 					<div class="clear "></div>
 					<!--热门活动 -->
@@ -821,53 +784,23 @@
 							<h4>活动</h4>
 							<h3>每期活动 优惠享不停 </h3>
 							<span class="more ">
-                              <a href="# ">全部活动<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
+                              <a href="/home/blogs/blogAll">全部活动<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
                         </span>
 						</div>
 					  <div class="am-g am-g-fixed ">
-						<div class="am-u-sm-3 ">
-							<div class="icon-sale one "></div>	
-								<h4>秒杀</h4>							
-							<div class="activityMain ">
-								<img src="/home/images/activity1.jpg "></img>
+						  @foreach($blogs as $v)
+							<div class="am-u-sm-3 " >
+								<div class="icon-sale"></div>	
+									<h4>特惠</h4>							
+								<div class="activityMain ">
+									<a href="/home/goods/bloglist/{{ $v->id }}"><img src="/uploads/blogs/{{ $v->b_img }}" width="100%" height="250px"></a>
+								</div>
+								<div class="info ">
+									<h3>{{ $v->b_title }}</h3>
+								</div>														
 							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>
-							</div>														
-						</div>
 						
-						<div class="am-u-sm-3 ">
-						  <div class="icon-sale two "></div>	
-							<h4>特惠</h4>
-							<div class="activityMain ">
-								<img src="/home/images/activity2.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>								
-							</div>							
-						</div>						
-						
-						<div class="am-u-sm-3 ">
-							<div class="icon-sale three "></div>
-							<h4>团购</h4>
-							<div class="activityMain ">
-								<img src="/home/images/activity3.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>
-							</div>							
-						</div>						
-
-						<div class="am-u-sm-3 last ">
-							<div class="icon-sale "></div>
-							<h4>超值</h4>
-							<div class="activityMain ">
-								<img src="/home/images/activity.jpg "></img>
-							</div>
-							<div class="info ">
-								<h3>春节送礼优选</h3>
-							</div>													
-						</div>
+						  @endforeach
 
 					  </div>
                    </div>

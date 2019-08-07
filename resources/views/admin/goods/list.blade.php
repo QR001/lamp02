@@ -106,6 +106,7 @@
               <a title="编辑"  onclick="x_admin_show('编辑商品信息','/admin/goods/goods_edit/{{ $good->id }}')" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>
               </a>
+              <a title="查看评论" href="/admin/goods/comments/{{ $good->id }}"><i class="icon iconfont">&#xe842;</i></a>
               <a title="删除" onclick="member_del(this,'{{ $good->id }}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>

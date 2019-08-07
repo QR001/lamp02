@@ -15,7 +15,6 @@
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-      <link id="layuicss-laydate" rel="stylesheet" href="http://www.lamp02.com/admin/lib/layui/css/modules/laydate/default/laydate.css?v=5.0.9" media="all"><link id="layuicss-layer" rel="stylesheet" href="http://www.lamp02.com/admin/lib/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"></head>
       
       <body class="layui-anim layui-anim-up">
         <div class="x-nav">
@@ -39,7 +38,7 @@
           </div>
           <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-            <button class="layui-btn" onclick="x_admin_show('添加用户','/admin/user/useradd',600,400)"><i class="layui-icon"></i>添加</button>
+            <button class="layui-btn" onclick="x_admin_show('添加用户','/admin/user/useradd')"><i class="layui-icon"></i>添加</button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $count }} 条</span>
           </xblock>
           <table class="layui-table">
@@ -173,11 +172,11 @@
                       success:function(data){
                         
                         if(data == 'success'){
-                          $(obj).attr('title','停用')
-                          $(obj).find('i').html('&#xe601;');
+                          $(obj).attr('title','启用')
+                          $(obj).find('i').html('&#xe62f;');
 
-                          $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                          layer.msg('已启用!',{icon: 6,time:1000});
+                          $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已停用');
+                          layer.msg('已停用!',{icon: 6,time:1000});
                         }else{
                           layer.msg('请求失败!',{icon: 5,time:1000});
                         }
