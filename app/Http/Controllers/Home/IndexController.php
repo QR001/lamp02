@@ -51,4 +51,13 @@ class IndexController extends Controller
         }
         return $sale;
     }
+
+    //分类
+
+
+    //商品主题
+    public function goodmotif()
+    {
+        
+    }
 }
