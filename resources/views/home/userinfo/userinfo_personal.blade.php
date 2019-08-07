@@ -17,26 +17,28 @@
 					<div class="filePic">
 						<input type="hidden" name='id' value='{{ $userinfo->id }}'>
 						<input type="file" name='pic' class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
-						<img class="am-circle am-img-thumbnail" src="/uploads/{{ $userinfo->pic }}" alt="" />
+						<img  class="am-circle am-img-thumbnail" src="/uploads/{{ $userinfo->pic }}" alt="" />
 					</div>
 					
+					{{-- <button class="am-btn am-btn-danger">保存修改</button> --}}
+				
+
+					<div class="info-m">
+						<div><b>用户名：<i>{{ $userinfo->name }}</i></b></div>
+						<div class="u-level">
+							<span class="rank r2">
+								<s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
+							</span>
+						</div>
+						<div class="u-safety">
+							<a href="safety.html">
+							账户安全
+							<span class="u-profile"><i class="bc_ee0000" style="width: 60px;" width="0">60分</i></span>
+							</a>
+						</div>
 					<button class="am-btn am-btn-danger">保存修改</button>
 				</form>
-
-				<div class="info-m">
-					<div><b>用户名：<i>{{ $userinfo->name }}</i></b></div>
-					<div class="u-level">
-						<span class="rank r2">
-							 <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
-						</span>
 					</div>
-					<div class="u-safety">
-						<a href="safety.html">
-						 账户安全
-						<span class="u-profile"><i class="bc_ee0000" style="width: 60px;" width="0">60分</i></span>
-						</a>
-					</div>
-				</div>
 			</div>
 
 			<!--个人信息 -->
@@ -48,7 +50,6 @@
 						<div class="am-form-content">
 							<input type="hidden" name='id'  value="{{$userinfo->id}}">
 							<input type="text" name='name' id="name" value="{{ $userinfo->name ?? '' }}">
-							
 						</div>
 					</div>
 					{{-- 错误提示 --}}

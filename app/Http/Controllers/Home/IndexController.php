@@ -9,6 +9,7 @@ class IndexController extends Controller
 {
     //
     public  function index(){
+        // return session('home');
         return view('home.index.index');
     }
 }

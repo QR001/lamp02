@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\User;
+// use Illuminate\Foundation\Auth\User;
 use App\Models\Userdetail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 class UserController extends Controller
 {
@@ -26,7 +27,6 @@ class UserController extends Controller
         $id=($currentPage-1)*$page+1;
         // 总条数
         $count=Userdetail::join('users','users.id','=','userdetails.uid')->count();
-     
        
         return view('admin.users.userlist',['users'=>$users,'count'=>$count,'id'=>$id]);
     }
@@ -37,23 +37,32 @@ class UserController extends Controller
 
     // 执行用户添加
     public function user_store(Request $request){
+     
         
         // 开启事务
         DB::beginTransaction();
-        $users = new User;
-        $users -> name = $request -> input('name');
-        $users -> email = $request -> input('email');
-        $users -> power = $request -> input('power');
-        $users -> password = Hash::make($request -> pwd);
-        $users -> token =str_random(30);
+        $users = [];
+        $users['name'] = $request -> input('name');
+        $users['email'] = $request -> input('email');
+        $users['power'] = $request -> input('power');
+        $users['password'] = Hash::make($request -> pwd);
+        $users['token'] =str_random(30);
+        $users['status'] = '1';
+        $users['created_at'] = date('Y-m-d H:i:s');
+        $users['updated_at'] = date('Y-m-d H:i:s');
 
-        if($users->save()){
+        $res = User::insertGetId($users);
+
+        if($res){
             // 添加数据到用户详情表
             $userinfo=new Userdetail;
-            $userinfo -> uid=$users -> id;
+            $userinfo -> uid=$res;
             $userinfo -> phone = $request -> phone;
             $userinfo -> sex = $request -> sex;
-            $userinfo -> pic = 'photo';
+            $userinfo -> pic = 'photo.jpg';
+            $userinfo -> realname = '';
+            $userinfo -> integral = 0;
+            $userinfo ->description = '' ;
 
             if($userinfo->save()){
                 // 事务提交
@@ -70,6 +79,7 @@ class UserController extends Controller
             DB::rollback();
             $status='error';
         }
+
 
         return $status;
       
@@ -133,11 +143,9 @@ class UserController extends Controller
     // 后台批量 删除用户
     public function user_deleteAll(Request $request){
       
-        //先查询数据是否存在
-        
+        //先查询数据是否存在        
         foreach($request->data  as $k=>$v){
 
-         
             $res=User::find($v);
             
             if($res){

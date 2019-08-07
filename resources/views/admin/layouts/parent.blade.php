@@ -193,38 +193,7 @@
                             
                         </a>
                     </li >
-                    {{-- <li>
-                        <a _href="html/member-del.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员删除</cite>
-                            
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe6a7;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="html/member-del.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表</cite>
-                                    
-                                </a>
-                            </li >
-                            <li>
-                                <a _href="html/member-del.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员删除</cite>
-                                    
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </li> --}}
-                    
+                  
                 </ul>
             </li>             
              
@@ -245,6 +214,12 @@
                         <a _href="/admin/systems/turns">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>轮播图</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/admin/coupons/couponslist">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>优惠券</cite>
                         </a>
                     </li >
                     

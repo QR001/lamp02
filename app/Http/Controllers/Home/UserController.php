@@ -8,9 +8,21 @@ use App\Models\Userdetail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use App\Models\locations;
+use App\Models\orders;
+use App\Models\orderdetails;
+use App\Models\Good;
+use App\Models\refunds;
 
 class UserController extends Controller
 {
+    // 查询个人中心的信息
+    public static function catinfo(){
+        $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>session('home.id')])->first();
+        return $userinfo;
+    }
     // 显示个人中心
     public function index()
     {
@@ -25,7 +37,8 @@ class UserController extends Controller
     // 显示个人中心的---个人资料
     public function userinfo_personal()
     {
-        $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>session('home.id')])->first();
+        $userinfo=self::catinfo();
+        
         return view('home.userinfo.userinfo_personal',['userinfo'=>$userinfo]);
     }
 
@@ -66,42 +79,343 @@ class UserController extends Controller
     // 执行个人中心的--头像修改
     public function userinfo_updatepic(Request $request)
     {
+      
         // 判断用户是否上传
+
         if($request->hasfile('pic')){
             $path = $request->file('pic')->store(date('Ymd').'user');
-            // echo $path;
             $id=$request->id;
-            $res=Userdetail::where('uid',$id)->update(['pic'=>$path]);
+            //判断用户原来的头像是否是默认头像
+            $photo=Userdetail::where('uid',$request->id)->first();
+            
+            if($photo->pic !== 'photo.jpg'){
+              
+                //删除原来的头像
+                $ypath=public_path('/uploads/'.$photo->pic);
+                
+                unlink($ypath);  
+              
+            }
+            Userdetail::where('uid',$id)->update(['pic'=>$path]);
         }
       
        
         return back();
-
-        // dd($request->file);
+        
     }
 
     // 显示个人中心--安全设置
     public function userinfo_safe()
     {
-       return view('home.userinfo.userinfo_safe');
+       $userinfo=self::catinfo();
+       return view('home.userinfo.userinfo_safe',['userinfo'=>$userinfo]);
+    }
+
+    // 显示个人中心的---修改密码页面
+    public function userinfo_safe_updatepwd(){
+        return view('home.userinfo.userinfo_safe_updatepwd');
+    }
+
+    //执行个人中心的--修改密码
+    public function  userinfo_safe_exupdatepwd(Request $request){
+       
+        //验证规则
+        $validator = Validator::make($request->all(), [
+            'ypwd'=>'required |regex:/^[\w]{6,18}$/',
+            'npwd'=>'required|regex:/^[\w]{6,18}$/',
+            'renpwd'=>'required|same:npwd',
+        ]);
+           
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+       
+        $id=session('home.id');
+       
+        $user=User::find($id);
+        // 判断原密码是否正确
+        if (Hash::check($request->ypwd, $user->password)) {
+
+            $res=DB::table('users')->where('id',$id)->update(['password'=>Hash::make($request->npwd)]);
+            
+            if($res){
+                // return  "修改正确";
+                return redirect('/home/login')->withErrors(['loginExpire'=>'登录过期请重新登录']); 
+            }else{
+                // return '修改失败';
+                return back()->withErrors(['nomodify'=>'修改失败']); 
+            }
+        }else{
+            return back()->withErrors(['noypwd'=>'原密码不正确']); 
+        }
+
+    }
+
+    // 修改支付密码--页面
+    public function userinfo_safe_updatepaypwd()
+    {
+        $userinfo=self::catinfo();
+       
+        return view('home.userinfo.userinfo_safe_updatepaypwd',['userinfo'=>$userinfo]);
+    }
+
+    
+
+    // 发送手机号验证码
+    public function sendPhone($phone)
+    {
+        
+        // return $phone;
+        // 接收手机号
+      
+        $code=rand(1234,4321);
+
+        // 如果存到redis中 注意建名覆盖
+        $k=$phone.'_code';
+        session([$k=>$code]);
+        
+        $url = "http://v.juhe.cn/sms/send";
+        $params = array(
+            'key'   => 'ec23ab5562872ad112176e409b99bf26', //您申请的APPKEY
+            'mobile'    => $phone, //接受短信的用户手机号码
+            'tpl_id'    => '176433', //您申请的短信模板ID，根据实际情况修改
+            'tpl_value' =>'#code#='.$code, //您设置的模板变量，根据实际情况修改
+            'dtype'    =>'json'
+        );
+
+        $paramstring = http_build_query($params);
+        $content = self::juheCurl($url, $paramstring);
+        echo $content;
+
+    }
+
+
+    /**
+     * 请求接口返回内容
+     * @param  string $url [请求的URL地址]
+     * @param  string $params [请求的参数]
+     * @param  int $ipost [是否采用POST形式]
+     * @return  string
+     */
+    public static function juheCurl($url, $params = false, $ispost = 0)
+    {
+        $httpInfo = array();
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'JuheData');
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        if ($ispost) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_URL, $url);
+        } else {
+            if ($params) {
+                curl_setopt($ch, CURLOPT_URL, $url.'?'.$params);
+            } else {
+                curl_setopt($ch, CURLOPT_URL, $url);
+            }
+        }
+        $response = curl_exec($ch);
+        if ($response === FALSE) {
+           
+            return false;
+        }
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpInfo = array_merge($httpInfo, curl_getinfo($ch));
+        curl_close($ch);
+        return $response;
+    }
+
+    // 执行支付密码的修改
+    public function userinfo_safe_exupdatepaypwd(Request $request){
+        // 验证所有的input是否为空
+        foreach($request->all() as $k=>$v){
+            if($v==''){
+                return back()->withErrors(['kong'=>'信息不能为空']);
+            }
+        }
+      
+        //验证用户填写的验证码和手机发送的验证码是否是一样的
+       
+        // 用户填写的手机号
+        $code_user=$request->code;
+        // 手机上的验证码
+        $code_phone=session("$request->phone".'_code');
+        if($code_user != $code_phone){
+            return back()->withErrors(['nocode'=>'手机验证码错误']);
+        }
+
+     
+
+         //验证规则
+         $validator = Validator::make($request->all(), [
+            'code'=>'required | numeric',
+            'paypwd'=>'required| numeric |regex:/^[0-9]{6}$/',
+            'repaypwd'=>'required| numeric |same:paypwd',
+        ]);
+           
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        // 拼装数据
+        $paypwd=md5($request->input('paypwd'));
+        
+        $id = session('home.id');
+        
+        $array = array('id'=>$id,'paypwd'=> $paypwd);
+
+        $update = DB::table('userdetails')->where('uid','=',$id)->update($array);
+        
+       
+        
+        if($update){
+            return back()->withErrors(['success'=>'修改成功']);
+        }else{
+            return back()->withErrors(['error'=>'修改失败']);
+        }
+        
     }
 
     // 显示个人中心--收货地址
     public function userinfo_address()
     {
-        return  view('home.userinfo.userinfo_address');
+        // 查询收货地址
+        $location=locations::where('uid',session('home.id'))->get();
+        
+        return  view('home.userinfo.userinfo_address',['locations'=>$location]);
+    }
+
+    // 执行个人中心--添加用户地址
+    public function userinfo_address_add(Request $request)
+    {
+        $count = locations::where('uid',session('home.id'))->count();
+        $status = $count > 0 ? '2' : '1';
+        //验证规则
+        $validator = Validator::make($request->all(), [
+            'l_name'=>'required |min:1',
+            'l_phone'=>'required|regex:/^1{1}[3-9]{1}[\d]{9}$/',
+            'l_address'=>'required',  
+        ]);
+           
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        // 执行添加
+        $location=new locations;
+        $location->uid=session('home.id');
+        $location->l_name=$request->l_name;
+        $location->l_phone=$request->l_phone;
+        $location->l_address=$request->l_address;
+        $location->l_status=$status;// 1 是默认 2是未启用
+        $res=$location->save();
+
+        return back();
+        
+    }
+
+    // 收货地址的删除
+    public function userinfo_address_delete($id)
+    {
+       
+        $res=locations::find($id);
+
+        if($res){
+            //删除
+            locations::destroy($id);
+            return back();
+        }else{
+            return back();
+        }
+    }
+
+    // 个人中心--收货地址设为默认
+    public function userinfo_defaultAddr($id)
+    {
+        // return  $id;
+        //先查询是否有这条数据
+        $res=locations::where(['uid'=>session('home.id')])->get();
+      
+        if($res[0]){
+            // 把传过来的id 的地址状态改为 1
+            $res2=locations::where(['id'=>$id])->update(['l_status'=>'1']);
+            // 把其他的状态改为 2
+            foreach($res as $k=>$v){
+                if($v->id != $id){
+                    locations::where(['id'=>$v->id])->update(['l_status'=>'2']);
+                } 
+            }
+            return 'success';
+        }else{
+            return 'error';
+        }
+
     }
 
     // 显示个人中心的--订单管理
     public function userinfo_order()
     {
-        return  view('home.userinfo.userinfo_order');
+        $order= orders::with('orderdetails')->first();
+
+        // dd($order);
+       $data = orderdetails::with(['good','refunds'])->get();
+       
+        
+    //    var $arr=[];
+    //    foreach($order as $k=>$v){
+        // $arr[$k]['order']=$v
+    //    }
+    //    dd($data);
+        // // 所有订单
+        // $res=orders::join('orderdetails','orderdetails.oid','orders.id')->where('orders.uid',session('home.id'))->get();
+       
+        // foreach($res as $k=>$v){
+        //     $goods=Good::find($v->gid);
+        //     // 只获得第一个图片
+        //     $imgs=explode(',',$goods->g_img);
+            
+        //     $res[$k]['goods']=$goods;
+        //     $res[$k]['goods']['g_img']=$imgs[0];
+        // }
+       
+
+        // return  view('home.userinfo.userinfo_order',['orders'=>$res]);
     }
 
+    public function confirm($id)
+    {
+        $res=orders::find($id);
+        if($res){
+            orders::where(['id'=>$id])->update(['o_status'=>'4']);
+        }
+        return back();
+    }
     // 显示个人中心的--退款售后
     public function userinfo_refund()
     {
-        return  view('home.userinfo.userinfo_refund');
+        // 所有订单
+        $res=orders::join('orderdetails','orderdetails.oid','orders.id')
+            ->where('orders.uid',session('home.id'))
+            ->get();
+    
+       
+        foreach($res as $k=>$v){
+            $goods=Good::find($v->gid);
+            // 只获得第一个图片
+            $imgs=explode(',',$goods->g_img);
+            
+            $res[$k]['goods']=$goods;
+            $res[$k]['goods']['g_img']=$imgs[0];
+        }
+        // dd($res);
+     
+        return  view('home.userinfo.userinfo_refund',['datas'=>$res]);
     }
 
     // 显示个人中心的--优惠券

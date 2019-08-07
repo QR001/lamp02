@@ -16,11 +16,14 @@ class orders extends Model
 
     public function sends()
     {
+        
         return $this->belongsTo('App\Models\sends','sid','id');
     }
 
     public function orderdetails(){
         return $this->hasOne('App\Models\orderdetails','oid','id');
     }
+   
+
    
 }

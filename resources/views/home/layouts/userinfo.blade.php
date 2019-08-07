@@ -19,7 +19,8 @@
 
 		<link href="/home/css/systyle.css" rel="stylesheet" type="text/css">
 
-		
+		<link href="/home/css/stepstyle.css" rel="stylesheet" type="text/css">
+
 
 		<link href="/home/css/personal.css" rel="stylesheet" type="text/css">
 		<link href="/home/css/infstyle.css" rel="stylesheet" type="text/css">

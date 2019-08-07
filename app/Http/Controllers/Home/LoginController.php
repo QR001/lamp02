@@ -35,7 +35,6 @@ class LoginController extends Controller
             
             $user=User::where(['name'=>$request->name])->first();
             
-            // dd($user);
             if($user){
                 // 验证密码是否正确
                 if (Hash::check($request->pwd, $user->password)) {
@@ -47,7 +46,7 @@ class LoginController extends Controller
                     // 查询用户详情表 并且存入session
                   
                     $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>$user->id])->get();
-                    // return $userinfo;
+                    
                     session(['home'=>[
                         'id'=>$userinfo[0]->id,
                         'name'=>$userinfo[0]->name,
@@ -97,7 +96,7 @@ class LoginController extends Controller
             }else{
                 return back()->withErrors(['nouser'=>'用户名不存在']);
             }
-            // return $user;
+        
 
         }else if($match3){
             //使用手机号验证
