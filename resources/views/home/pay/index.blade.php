@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/zhangyahan
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -68,9 +72,15 @@
 				<div class="paycont">
 					<div class="address">
 						<h3>确认收货地址 </h3>
+<<<<<<< HEAD
 						<div class="control">
 							<div class="tc-btn createAddr theme-login am-btn am-btn-danger">使用新地址</div>
 						</div>
+=======
+						{{-- <div class="control">
+							<div class="tc-btn createAddr theme-login am-btn am-btn-danger">使用新地址</div>
+						</div> --}}
+>>>>>>> origin/zhangyahan
 						<div class="clear"></div>
 						<ul>
 							<div class="per-border"></div>
@@ -95,7 +105,11 @@
 
 										</span>
 									</div>
+<<<<<<< HEAD
 									<ins class="deftip">默认地址</ins>
+=======
+								
+>>>>>>> origin/zhangyahan
 								</div>
 								<div class="address-right">
 									<a href="person/address.html">
@@ -103,6 +117,7 @@
 								</div>
 								<div class="clear"></div>
 
+<<<<<<< HEAD
 								<div class="new-addr-btn">
 									<a href="#" class="hidden">设为默认</a>
 									<span class="new-addr-bar hidden">|</span>
@@ -110,6 +125,13 @@
 									<span class="new-addr-bar">|</span>
 									<a href="javascript:void(0);" onclick="delClick(this);">删除</a>
 								</div>
+=======
+								{{-- <div class="new-addr-btn">
+									<a href="#" class="hidden">设为默认</a>
+									<span class="new-addr-bar hidden">|</span>
+									
+								</div> --}}
+>>>>>>> origin/zhangyahan
 
 							</li>
 							<div class="per-border"></div>
@@ -133,13 +155,18 @@
 
 										</span>
 									</div>
+<<<<<<< HEAD
 									<ins class="deftip hidden">默认地址</ins>
+=======
+								
+>>>>>>> origin/zhangyahan
 								</div>
 								<div class="address-right">
 									<span class="am-icon-angle-right am-icon-lg"></span>
 								</div>
 								<div class="clear"></div>
 
+<<<<<<< HEAD
 								<div class="new-addr-btn">
 									<a href="#">设为默认</a>
 									<span class="new-addr-bar">|</span>
@@ -147,6 +174,9 @@
 									<span class="new-addr-bar">|</span>
 									<a href="javascript:void(0);"  onclick="delClick(this);">删除</a>
 								</div>
+=======
+								
+>>>>>>> origin/zhangyahan
 
 							</li>
 
@@ -158,11 +188,20 @@
 					<div class="logistics">
 						<h3>选择物流方式</h3>
 						<ul class="op_express_delivery_hot">
+<<<<<<< HEAD
 							<li data-value="yuantong" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -468px"></i>圆通<span></span></li>
 							<li data-value="shentong" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -1008px"></i>申通<span></span></li>
 							<li data-value="yunda" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -576px"></i>韵达<span></span></li>
 							<li data-value="zhongtong" class="OP_LOG_BTN op_express_delivery_hot_last "><i class="c-gap-right" style="background-position:0px -324px"></i>中通<span></span></li>
 							<li data-value="shunfeng" class="OP_LOG_BTN  op_express_delivery_hot_bottom"><i class="c-gap-right" style="background-position:0px -180px"></i>顺丰<span></span></li>
+=======
+							<li data-value="yuantong" class="OP_LOG_BTN  "><img style="background-position:0px -468px" src='/uploads/express/yuantong.png'/>圆通<span></span></li>
+							<li data-value="shentong" class="OP_LOG_BTN  "><img style="background-position:0px -1008px" src='/uploads/express/shentong.png'/>申通<span></span></li>
+							<li data-value="yunda" class="OP_LOG_BTN  "><img style="background-position:0px -576px" src='/uploads/express/yunda.png'/>韵达<span></span></li>
+							<li data-value="zhongtong" class="OP_LOG_BTN op_express_delivery_hot_last "><img style="background-position:0px -324px overflow:hidden;" src='/uploads/express/zhongtong.png'/>中通<span></span></li>
+							<li data-value="shunfeng" class="OP_LOG_BTN  op_express_delivery_hot_bottom"><img style="background-position:0px -180px overflow:hidden;" src='/uploads/express/shunfeng.png'/>顺丰<span></span></li>
+						
+>>>>>>> origin/zhangyahan
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -182,6 +221,7 @@
 					<div class="concent">
 						<div id="payTable">
 							<h3>确认订单信息</h3>
+<<<<<<< HEAD
 							<div class="cart-table-th">
 								<div class="wp">
 
@@ -403,6 +443,17 @@
 							<!--含运费小计 -->
 							<div class="buy-point-discharge ">
 								<p class="price g_price ">
+=======
+							
+							<div class="buy-point-discharge ">
+								<p class="price g_price ">
+									使用优惠券 <span>¥</span><em class="pay-sum">30</em>
+								</p>
+								<p class="price g_price ">
+									使用红包<span>¥</span><em class="pay-sum">10</em>
+								</p>
+								<p class="price g_price ">
+>>>>>>> origin/zhangyahan
 									合计（含运费） <span>¥</span><em class="pay-sum">244.00</em>
 								</p>
 							</div>

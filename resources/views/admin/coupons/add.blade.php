@@ -20,6 +20,7 @@
       <body>
         <div class="x-body">
             <form class="layui-form">
+              {{ csrf_field() }}
               <input type="hidden" name="_token" value="8sfc4BEeyPWdumD0AsnFJPISpBM3AIIVAmTsuWGS">
               <div class="layui-form-item">
                   <label for="username" class="layui-form-label">
@@ -29,7 +30,7 @@
                       <input type="number" style=" -webkit-appearance: none;appearance: none;margin: 0; " min='1' max='100' id="l_name" name="c_money" placeholder="优惠的金额" required="" lay-verify="c_money" autocomplete="off" class="layui-input">
                   </div>
                   <div class="layui-form-mid layui-word-aux">
-                      <span class="x-red">*</span>优惠券金额在 1-100之间
+                      <span class="x-red">*</span>优惠券金额在必须大于0
                   </div>
               </div>
               <div class="layui-form-item">
@@ -93,8 +94,8 @@
                     if(value==''){
                         return '请填写优惠金额';
                     }
-                    if(value < 0 || value > 100){
-                        return '优惠的金额在1-100之间';
+                    if(value < 0){
+                        return '优惠的金额必须大于0';
                     }
 
                     if($('#start')[0].value >= $('#end')[0].value){
@@ -115,11 +116,10 @@
                 //发异步，把数据提交给php
                 $.ajax({
                   url:'/admin/coupons/doaddcoupon',
-                  data:data.field,
+                  // data:data.field,
+                  data:{'data':data.field,'_token':'{{csrf_token()}}'},
                   type:'POST',
                   success:function(data){
-                    
-          
                     // 访问成功，返回信息
                     if(data == 'success'){
                       layer.alert("添加成功", {icon: 6},function () {

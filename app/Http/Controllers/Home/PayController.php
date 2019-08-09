@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 class PayController extends Controller
 {
+<<<<<<< HEAD
     //
     public function index()
     {
@@ -17,4 +18,10 @@ class PayController extends Controller
     {
         return $request;
     }
+=======
+    // 支付页面
+    public  function index(){
+        return view('home.pay.index');
+    }
+>>>>>>> origin/zhangyahan
 }

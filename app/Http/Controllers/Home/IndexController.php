@@ -58,6 +58,8 @@ class IndexController extends Controller
         }
   
         return $sort1;
+    
+        return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale]);
     }
 
     //获取轮播图图片

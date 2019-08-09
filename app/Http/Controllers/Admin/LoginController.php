@@ -16,7 +16,7 @@ class LoginController extends Controller
     public function index()
     {
         $admin = session('admin');
-        // return $admin;
+        
         return $admin ? view('admin.index.index') : view('admin.login.login') ;
     }
 
@@ -46,28 +46,28 @@ class LoginController extends Controller
         if($user->power != '3'){
             return view('admin.login.login')->with('error','该账户还不是管理员！！！'); 
         }
-
-        // //获取完整信息
-        // $userInfo = Userdetail::join('users','users.id','=','userdetails.uid')
-        //                 ->where('users.id',$user->id)
-        //                 ->get();
         
         //存入session
         $request->session()->put('admin',$user);
 
         //需对当前账户做登陆记录
         $recard = Recard::where('uid',$user->id)->first();
-        if($recard){
+       
+        if(isset($recard[0])){
+           
             $recard->ip = $_SERVER["REMOTE_ADDR"];
             $recard->r_num = $recard->r_num + 1;
-            $recard->save();
+            $res = $recard->save();
         }else{
-            Recard::insertGetId([
+            
+            $res = Recard::insertGetId([
                 'uid' => $user->id,
                 'ip' => $_SERVER["REMOTE_ADDR"],
                 'r_num' => 1
             ]);
         }
+
+      
 
         return redirect('/admin/index');
         
@@ -91,8 +91,7 @@ class LoginController extends Controller
 
         //对登陆记录的提示信息
         $recard = Recard::where('uid',session('admin')->id)->first();
-        // return $recard;
-
+       
         return view('admin/index/index2',['num' => $num,'recard'=>$recard]);
     }
 
