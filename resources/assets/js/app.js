@@ -19,36 +19,36 @@ window.Vue = require('vue');
 Vue.component('chat-message', require('./components/ChatMessages.vue'));
 Vue.component('chat-form', require('./components/ChatForm.vue'));
 
-const app = new Vue({
-    el: '#app',
-    data: {
-        messages: []
-    },
-    created(){
-        this.fetchChat();
-        Echo.private('chat')
-            .listen('MessageSent',(e) => {
-                this.messages.push({
-                    message: e.message.message,
-                    user: e.user
-                });
-            });
-    },
+// const app = new Vue({
+//     el: '#app',
+//     data: {
+//         messages: []
+//     },
+//     created(){
+//         this.fetchChat();
+//         Echo.private('chat')
+//             .listen('MessageSent',(e) => {
+//                 this.messages.push({
+//                     message: e.message.message,
+//                     user: e.user
+//                 });
+//             });
+//     },
 
-    methods:{
-        fetchChat(){
-            axios.get('/messages',message).then(response => {
-              this.messages = response.data;
-            });
-        },
+//     methods:{
+//         fetchChat(){
+//             axios.get('/messages',message).then(response => {
+//               this.messages = response.data;
+//             });
+//         },
 
-        addMessage(message) {
-            this.messages.push(message);
+//         addMessage(message) {
+//             this.messages.push(message);
 
-            axios.post('/messages',message).then(response => {
-                console.log(reponse.data);
-            })
-        }
-    }
+//             axios.post('/messages',message).then(response => {
+//                 console.log(reponse.data);
+//             })
+//         }
+//     }
 
-});
+// });

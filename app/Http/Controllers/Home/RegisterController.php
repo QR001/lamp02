@@ -223,7 +223,15 @@ class RegisterController extends Controller
         ]);
        
         // 写入用户详情表 
-        $res=Userdetail::create(['uid'=>$user->id,'pic'=>'photo.jpg','phone'=>$request->phone]);
+        $res=Userdetail::create([
+            'uid'=>$user->id,
+            'pic'=>'photo.jpg',
+            'phone'=>$request->phone,
+            'realname'=>'',
+            'sex'=>'',
+            'description'=>'',
+            'integral'=>0,
+        ]);
         if($user && $res){
             // 事务提交
             DB::commit();

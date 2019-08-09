@@ -26,7 +26,7 @@ class SortsController extends Controller
         // dd($create);
         // return $create;
         foreach ($create as $key => $value){
-            $n = substr_count($value->s_path,',');
+            $n = substr_count($value->s_path,',')-1;
 
             $create[$key]->s_name = str_repeat("|----",$n).$value->s_name;
         }
@@ -87,9 +87,13 @@ class SortsController extends Controller
         //获取父级id
         $parent_data = Sorts::find($s_pid);
         // dd($parent_data);
-        $s_path= $parent_data->s_path.','.$parent_data->id;
+        // $s_path= $parent_data->s_path.','.$parent_data->id;
         
-
+        if(substr_count($parent_data->s_path,',')>2){
+            $s_path=$parent_data->s_path.','.$path_data->id;
+        }else{
+            $s_path= $parent_data->s_path.$parent_data->id.',';
+        }
         //添加
         $cate = new Sorts;
    
@@ -106,56 +110,45 @@ class SortsController extends Controller
 
     //添加分类
     public function store(Request $request)
-    {
-        // dd(1111);
-        //    
+    {   
         // return $request->all();
+
+        $validatedData = $request->validate([
+            's_name' => 'regex:/^[\一-\龥]{0,}$/',
+        ]);
+
         $s_pid = $request->input('s_pid');
         if ($s_pid == 0) {
-           $res=DB::table('sorts')->insert(["s_name"=>$request->input('s_name'),"s_pid"=>$request->input('s_pid'),"s_path"=>0]);
-           if($res){
-               $parent=DB::table('sorts')->where('s_pid',$request->input('s_pid'))->first();
-               $s_path='0,'.$parent->id;
-               $child=DB::table('sorts')->insert(["s_name"=>'品牌',"s_pid"=>$parent->id,"s_path"=>$s_path]);
-               if($child){
-                   echo "添加成功";
-               }
-            }
+            $s_path = '0,';
         }else{
             //获取父级id
             $parent_data = Sorts::find($s_pid);
-            $s_path= $parent_data->s_path.','.$parent_data->id;
-            $cate = new Sorts;
-            $cate->s_name = $request->input('s_name');
-            $cate->s_pid = $s_pid;
-            $cate->s_path = $s_path;
-
-            if ($cate->save()) {
-                // return redirect('admin\Sorts')->with('success','添加成功');
-                return back()->with('success','添加成功');
             
+            if(substr_count($parent_data->s_path,',')>2){
+                $s_path=$parent_data->s_path.','.$path_data->id;
             }else{
-                return back()->with('error','添加失败');
-            
+                $s_path= $parent_data->s_path.$parent_data->id.',';
             }
+
+            // $s_path=$parent_data->s_path.','.$path_data->id;
           
         }
 
         //添加
-        // $cate = new Sorts;
+        $cate = new Sorts;
    
-        // $cate->s_name = $request->input('s_name','');
-        // $cate->s_pid = $s_pid;
-        // $cate->s_path = $s_path;
+        $cate->s_name = $request->input('s_name','');
+        $cate->s_pid = $s_pid;
+        $cate->s_path = $s_path;
 
-        // if ($cate->save()) {
-        //     // return redirect('admin\Sorts')->with('success','添加成功');
-        //     return back()->with('success','添加成功');
+        if ($cate->save()) {
+            // return redirect('admin\Sorts')->with('success','添加成功');
+            return back()->with('success','添加成功');
            
-        // }else{
-        //     return back()->with('error','添加失败');
+        }else{
+            return back()->with('error','添加失败');
            
-        // }
+        }
 
 
     }

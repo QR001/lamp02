@@ -11,4 +11,9 @@ class CartController extends Controller
     public function index (){
         return view('home.carts.index');
     }
+
+    public function cart(Request $request)
+    {
+        return $request;
+    }
 }

@@ -1267,42 +1267,39 @@ window.Vue = __webpack_require__(38);
 Vue.component('chat-message', __webpack_require__(42));
 Vue.component('chat-form', __webpack_require__(45));
 
-var app = new Vue({
-    el: '#app',
-    data: {
-        messages: []
-    },
-    created: function created() {
-        var _this = this;
+// const app = new Vue({
+//     el: '#app',
+//     data: {
+//         messages: []
+//     },
+//     created(){
+//         this.fetchChat();
+//         Echo.private('chat')
+//             .listen('MessageSent',(e) => {
+//                 this.messages.push({
+//                     message: e.message.message,
+//                     user: e.user
+//                 });
+//             });
+//     },
 
-        this.fetchChat();
-        Echo.private('chat').listen('MessageSent', function (e) {
-            _this.messages.push({
-                message: e.message.message,
-                user: e.user
-            });
-        });
-    },
+//     methods:{
+//         fetchChat(){
+//             axios.get('/messages',message).then(response => {
+//               this.messages = response.data;
+//             });
+//         },
 
+//         addMessage(message) {
+//             this.messages.push(message);
 
-    methods: {
-        fetchChat: function fetchChat() {
-            var _this2 = this;
+//             axios.post('/messages',message).then(response => {
+//                 console.log(reponse.data);
+//             })
+//         }
+//     }
 
-            axios.get('/messages', message).then(function (response) {
-                _this2.messages = response.data;
-            });
-        },
-        addMessage: function addMessage(message) {
-            this.messages.push(message);
-
-            axios.post('/messages', message).then(function (response) {
-                console.log(reponse.data);
-            });
-        }
-    }
-
-});
+// });
 
 /***/ }),
 /* 14 */
@@ -55028,9 +55025,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
+//  import Pusher from 'pusher-js';
+//  import '../../../assets/js/components/ChatMessages.vue'
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['message']
+    props: ['messages']
 });
 
 /***/ }),
@@ -55041,28 +55043,41 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    { staticClass: "chat" },
-    _vm._l(_vm.message, function(message) {
-      return _c("li", { staticClass: "left clearfix" }, [
-        _c("div", { staticClass: "header" }, [
-          _c("strong", { staticClass: "primary-font" }, [
+  return _c("ul", { staticClass: "chat" }, [
+    _c(
+      "li",
+      {
+        directives: [
+          {
+            name: "for-key",
+            rawName: "v-for-key",
+            value: _vm.messages in _vm.messages,
+            expression: "messages in messages"
+          }
+        ],
+        staticClass: "left clearfix"
+      },
+      [
+        _c("div", { staticClass: "chat-body clearfix" }, [
+          _c("div", { staticClass: "header" }, [
+            _c("strong", { staticClass: "primary-font" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.message.user.name) +
+                  "\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", [
             _vm._v(
-              "\n                " +
-                _vm._s(message.user.name) +
-                "\n            "
+              "\n            " + _vm._s(_vm.message.message) + "\n        "
             )
           ])
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("\n            " + _vm._s(message.message) + "\n        ")
         ])
-      ])
-    }),
-    0
-  )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

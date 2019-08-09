@@ -19,6 +19,7 @@ class IndexController extends Controller
         //获取今日推荐商品
         $sale = $this->getSale();
         // dump($sale);
+        // return $sale;
 
         return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale]);
     }
@@ -44,6 +45,7 @@ class IndexController extends Controller
     public function getSale()
     {
         $sale = Good::orderBy('created_at','desc')->limit(3)->get(['id','g_name','g_img']);
+        // return $sale;
         foreach($sale as $k => $v){
             $imgs = explode(',',$v->g_img);
             array_pop($imgs);

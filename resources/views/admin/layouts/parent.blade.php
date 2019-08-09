@@ -105,6 +105,18 @@
                             <cite>订单列表</cite>
                         </a>
                     </li >
+                    <li>
+                            <a _href="/admin/coupons/couponslist ">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>物流方式</cite>
+                            </a>
+                        </li >
+                        <li>
+                            <a _href="/admin/coupons/couponslist">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>支付方式</cite>
+                            </a>
+                        </li >
                 </ul>
             </li>
 
@@ -190,7 +202,7 @@
                             <cite>网站配置</cite>
                         </a>
                     </li >
-                    
+                  
                 </ul>
             </li>
           </ul>

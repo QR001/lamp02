@@ -17,6 +17,11 @@ class Good extends Model
     // public function orderdetails(){
     //     return $this->belongsTo('App\Models\orderdetails','gid');
     // }
+
+    public function comment(){
+        return $this->hasMany('App\Models\comment','gid');
+    }
+
     public function orderdetails()
     {
     

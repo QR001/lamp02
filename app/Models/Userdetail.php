@@ -16,4 +16,9 @@ class Userdetail extends Model
         'phone',
         'pic'
     ];
+
+    public function user()
+    {
+        $this->belongsTo('App\Models\user','uid');
+    }
 }

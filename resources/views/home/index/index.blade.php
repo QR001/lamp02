@@ -17,6 +17,9 @@
 		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
 
+		<script type='text/javascript' src='https://webchat.7moor.com/javascripts/7moorInit.js?accessId=231515b0-b999-11e9-ba32-bfd32cf2bdfe&autoShow=false&language=ZHCN' async='async'>
+		</script>
+
 	</head>
 
 	<body>
@@ -838,7 +841,7 @@
 								<a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
 								<a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>									
 							</div>
-							<a href="# ">
+							<a href=" ">
 								<div class="outer-con ">
 									<div class="title ">
 									开抢啦！
@@ -862,7 +865,7 @@
 									</div>
 									<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 								</div>
-								<a href="# "><img src="/home/images/2.jpg" /></a>
+								<a href="/home/goods/goodInfo/{id} "><img src="/home/images/2.jpg" /></a>
 							</div>
 
 							<div class="am-u-sm-7 am-u-md-4 text-two">
@@ -875,7 +878,7 @@
 									</div>
 									<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 								</div>
-								<a href="# "><img src="/home/images/1.jpg" /></a>
+								<a href="/home/goods/goodInfo/5"><img src="/home/images/1.jpg" /></a>
 							</div>
 
 
@@ -2216,7 +2219,7 @@
 
 					<div class="quick_toggle ">
 						<li class="qtitem ">
-							<a href="/home/customer"><span class="kfzx "></span></a>
+							<a href="#"><span class="kfzx " onclick="qimoChatClick();"></span></a>
 							<div class="mp_tooltip ">客服中心<i class="icon_arrow_right_black "></i></div>
 						</li>
 						<!--二维码 -->

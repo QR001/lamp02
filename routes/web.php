@@ -241,21 +241,22 @@ Route::get('/home/userinfo_news','Home\UserController@news');
 
 // 前台购物车
 Route::get('/home/carts','Home\CartController@index');
-
-// 前台客服
-// Route::get('/home/customer','Home\CustomerController@index');
+Route::post('/home/carts/cart','Home\CartController@cart');
 
 //前台 显示聊天室视图
-Route::get('/home/chats','Home\ChatsController@index');
+Route::get('/home/chat','Home\ChatsController@index');
 //前台 用于获取所有用户的消息
-Route::get('/home/chats/fetchChat','Home\ChatsController@fetchChat');
+Route::get('/home/chat/messages','Home\ChatsController@fetchChat');
 //前台 用于发送消息
-Route::post('/home/chats/sendChat','Home\ChatsController@sendChat');
+Route::post('/home/chat/messages','Home\ChatsController@sendChat');
 
 //商品信息
-Route::get('/home/goods/goodInfo/{id}',function($id){
-    return view('home.goods.goodInfo');
-});
+Route::get('/home/goods/goodInfo/{id}','Home\DetailsController@index');
+//领取优惠卷
+Route::get('/home/goods/coupons/{id}','Home\DetailsController@coupons');
+//结算页面 
+Route::get('/home/pay','Home\PayController@index');
+Route::post('/home/shopping','Home\PayController@shopping');
 
 //全部活动
 Route::get('/home/blogs/blogAll',function(){
