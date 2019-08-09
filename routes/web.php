@@ -268,10 +268,11 @@ Route::get('/home/blogs/bloglist/{id}',function($id){
     return view('home.blogs.bloglist');
 });
 
-//商品列表
-Route::get('/home/goods/goodlist',function(){
-    return view('home/goods/goodlist');
-});
+//板块下的商品列表
+Route::get('/home/goods/goodlist/{sid}/{kv?}/{sortv?}/{type?}','Home\GoodsController@goodlist');
+
+//搜索下的商品列表
+Route::get('/home/goods/goodSearch/{type?}','Home\GoodsController@goodSearch');
 
 
 

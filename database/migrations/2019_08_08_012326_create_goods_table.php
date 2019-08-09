@@ -16,6 +16,8 @@ class CreateGoodsTable extends Migration
         Schema::create('goods', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('bid')->default(0);
+            $table->integer('sfid')->default(0);
+            $table->integer('sid')->default(0);
             $table->string('g_name');
             $table->integer('g_oprice');
             $table->integer('g_nprice');

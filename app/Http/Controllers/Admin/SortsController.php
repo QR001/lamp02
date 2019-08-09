@@ -117,6 +117,7 @@ class SortsController extends Controller
             's_name' => 'regex:/^[\一-\龥]{0,}$/',
         ]);
 
+       
         $s_pid = $request->input('s_pid');
         if ($s_pid == 0) {
             $s_path = '0,';

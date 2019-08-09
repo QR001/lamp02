@@ -55,9 +55,9 @@
 
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
-					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn"  value="搜索" index="1" type="submit">
+					<form action="/home/goods/goodSearch" method="get" >
+						<input id="searchInput" name="gname" type="text" value="{{ $_GET['gname'] ?? '' }}" placeholder="搜索" autocomplete="off">
+						<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
 					</form>
 				</div>
 			</div>
@@ -86,72 +86,38 @@
 				
 					<div class="am-g am-g-fixed">
 						<div class="am-u-sm-12 am-u-md-12">
-	                  	<div class="theme-popover">														
-							<div class="searchAbout">
-								<span class="font-pale">相关商品：</span>
-							
-							</div>
-							<ul class="select">
-								
-								
-								<div class="clear"></div>
-								@foreach($sort2 as $k => $v2)
-								<li class="select-list">
-									<dl id="select1">
-										<dt class="am-badge am-round">{{ $v2->s_name }}</dt>	
-									
-										 <div class="dd-conent">	
-
-											<dd class="{{ Session()->get('goods')[$k] == $v2->id ? 'selected' : '' }}"><a href="/home/goods/goodlist/{{ $sid }}/{{ $k }}/{{ $v2->id }}">全部</a></dd>
-											@foreach($v2->sort3 as $v3)
-											<dd class="{{ Session()->get('goods')[$k] == $v3->id ? 'selected' : '' }}"><a href="/home/goods/goodlist/{{ $sid }}/{{ $k }}/{{ $v3->id }}">{{ $v3->s_name }}</a></dd>
-											@endforeach
-										 </div>
-						
-									</dl>
-								</li>
-								@endforeach
-							</ul>
-							<div class="clear"></div>
-                        </div>
+	                  	
+							<div class="">
 								<div class="sort">
-									<li class="{{ $type == 'time' ? 'first' : '' }}"><a href="/home/goods/goodlist/{{ $sid }}/{{ $kv }}/{{ $sortv }}/time">最新上架</a></li>
-									<li class="{{ $type == 'sales' ? 'first' : '' }}"><a href="/home/goods/goodlist/{{ $sid }}/{{ $kv }}/{{ $sortv }}/sales">销量优先</a></li>
-									<li class="{{ $type == 'price' ? 'first' : '' }}"><a href="/home/goods/goodlist/{{ $sid }}/{{ $kv }}/{{ $sortv }}/price">价格排序</a></li>
+									<li class="{{ $type == 'time' ? 'first' : '' }}"><a href="/home/goods/goodSearch/time?gname={{ $_GET['gname'] ?? ''}}">最新上架</a></li>
+									<li class="{{ $type == 'sales' ? 'first' : '' }}"><a href="/home/goods/goodSearch/sales?gname={{ $_GET['gname'] ?? ''}}">销量优先</a></li>
+									<li class="{{ $type == 'price' ? 'first' : '' }}"><a href="/home/goods/goodSearch/price?gname={{ $_GET['gname'] ?? ''}}">价格排序</a></li>
+								
 								</div>
-								<div class="clear"></div>
 
 								<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
 									@foreach($goods as $v)
-										<li onclick="goodInfo( {{ $v->id }} )">
-											<div class="i-pic limit">
-												<img src="/uploads/goods/{{ $v->img }}" />											
-												<p class="title fl">{{ $v->g_name }}</p>
-												<p class="price fl">
-													<b>¥</b>
-													<strong>{{ $v->g_nprice }}</strong>
-												</p>
-												<p class="number fl">
-													销量<span>{{ $v->g_sales }}</span>
-												</p>
-											</div>
-										</li>
+									<li>
+										<div class="i-pic limit">
+											<img src="/uploads/goods/{{ $v->img }}" />											
+											<p class="title fl">{{ $v->g_name }}</p>
+											<p class="price fl">
+												<b>¥</b>
+												<strong>{{ $v->g_nprice }}</strong>
+											</p>
+											<p class="number fl">
+												销量<span>{{ $v->g_sales }}</span>
+											</p>
+										</div>
+									</li>
 									@endforeach
 								</ul>
-
-								<script>
-									function goodInfo(id){
-										window.location.href="/home/goods/goodInfo/"+id;
-									}
-								</script>
+							</div>
 							
 							<div class="clear"></div>
 							<!--分页 -->
-							
-							{{ $goods->links() }}
-
+							{{ $goods->appends(['gname' => $_GET['gname'] ?? ''])->links() }}
 						</div>
-
 						<style>
 							.pagination {
 								position: relative;

@@ -9,6 +9,7 @@ use App\Models\Detail;
 use App\Models\Blog;
 use App\Models\Comment;
 use App\Models\user;
+use App\Models\sorts;
 
 class GoodsController extends Controller
 {
@@ -47,8 +48,18 @@ class GoodsController extends Controller
     //显示商品添加页面
     public function goods_create()
     {
-        $blog = Blog::get();
-        return view('admin.goods.goods_create',['blog' => $blog]);
+        //获取所有活动
+        $blog = Blog::where('b_status','1')->get();
+        //获取所有板块
+        $sort = sorts::get();
+        //数据处理，获取三级板块数据
+        $sorts = [];
+        foreach($sort as $v){
+            if(substr_count($v->s_path,',') == 3){
+                $sorts[] = $v;
+            }
+        }
+        return view('admin.goods.goods_create',['blog' => $blog,'sorts' => $sorts]);
     }
 
     //显示商品图片页面
@@ -100,12 +111,9 @@ class GoodsController extends Controller
                 $npath =  date('Ymd').'/'.time().rand(0,99999999);
                 $ext = $value->extension();
                 $path = $npath.'.'.$ext;
-                // return $path;
                 
                 if($value->storeAs($fpath,$path)){
                     $filePath[] = $path;
-                }else{
-
                 }
             }
         }
@@ -137,9 +145,10 @@ class GoodsController extends Controller
     public function goods_store(Request $request)
     {
         DB::beginTransaction();
-
+        // return $request->all();
         //对商品的基本信息作出处理并返回
         $good = self::fetchData($request,'create');
+        // return $good;
         //执行插入数据操作
         $id = Good::insertGetId($good);
 
@@ -194,8 +203,17 @@ class GoodsController extends Controller
         $goods->details = $goods->detail;
         //查询现有活动
         $blog = Blog::get();
+        //获取所有板块
+        $sort = sorts::get();
+        //数据处理，获取三级板块数据
+        $sorts = [];
+        foreach($sort as $v){
+            if(substr_count($v->s_path,',') == 3){
+                $sorts[] = $v;
+            }
+        }
         // dump($goods);
-        return view('admin.goods.goods_edit',['goods' => $goods,'blog' => $blog]);
+        return view('admin.goods.goods_edit',['goods' => $goods,'blog' => $blog,'sorts' => $sorts]);
     }
 
     //执行商品修改操作
@@ -205,6 +223,7 @@ class GoodsController extends Controller
         
         //对商品的基本信息作出处理并返回
         $good = self::fetchData($request,'update');
+        // return $good;
 
         //准备需要完善的商品信息的数据
         $detail = [];
@@ -239,6 +258,20 @@ class GoodsController extends Controller
         //准备要插入的信息
         $good = [];
         $good['bid'] = $request->bid;
+        //所属三级板块
+        $good['sid'] = $request->sid;
+        // return $good;
+        //所属二级板块
+        if($request->sid){
+            $sfid = sorts::find($request->sid,['s_pid']);
+            $good['sfid'] = $sfid->s_pid;
+
+        }else{
+            $good['sfid'] = 0;
+            
+        }
+        // return $good;
+
         $good['g_name'] = $request->g_name;
         $good['g_oprice'] = $request->g_oprice;
         $good['g_nprice'] = $request->g_nprice;
@@ -262,7 +295,7 @@ class GoodsController extends Controller
         $good['g_integral'] = $request->g_integral;
         $good['g_stock'] = $request->g_stock; 
         $good['updated_at'] = date('Y-m-d H:i:s');
-
+        //如果所选操作是 create
         if($type == 'create'){
             $good['g_sales'] = 0;
             $good['g_img'] = 'default.jpg,';

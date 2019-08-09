@@ -116,6 +116,20 @@
           </div>
 
           <div class="layui-form-item">
+              <label for="bid" class="layui-form-label">
+                  <span class="x-red">*</span>所属分类
+              </label>
+              <div class="layui-input-inline">
+                  <select id="bid" name="sid" class="valid">
+                    <option value="0">暂不选择</option>
+                    @foreach($sorts as $v)
+                    <option value="{{ $v->id }}">{{ $v->s_name }}</option>
+                    @endforeach
+                  </select>
+              </div>
+          </div>
+
+          <div class="layui-form-item">
               <label for="g_status" class="layui-form-label">
                   <span class="x-red">*</span>销售状态
               </label>
