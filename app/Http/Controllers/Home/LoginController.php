@@ -8,6 +8,8 @@ use App\Http\Requests\Home\Login;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Userdetail;
+use Illuminate\Support\Facades\DB;
+use App\Models\Visit;
 
 class LoginController extends Controller
 {
@@ -17,8 +19,9 @@ class LoginController extends Controller
     }
     
     public function login(Login $request){
-        // dd($request->all());
-        
+        // 记录到用户访问表
+        Visit::create(['ip'=>$_SERVER['REMOTE_ADDR']]);
+
         // 用户名的正则
         $pattern1 = '/^[a-zA-Z]{1}[\w]{5,15}$/'; 
         // 邮箱的正则 

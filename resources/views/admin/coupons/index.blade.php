@@ -33,10 +33,10 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" action="/admin/systems/links" method="get">
+        <form class="layui-form layui-col-md12 x-so" action="/admin/coupons/couponslist" method="get">
           <input class="layui-input" value="{{$_GET['start'] ?? ''}}" placeholder="开始日" name="start" id="start">
           <input class="layui-input" value="{{$_GET['end'] ?? ''}}" placeholder="截止日" name="end" id="end">
-          <input type="text" name="l_name" value="{{$_GET['l_name'] ?? ''}}" placeholder="请输入链接名称" autocomplete="off" class="layui-input">
+          <input type="text" name="c_money" value="{{$_GET['c_money'] ?? ''}}" placeholder="请输入优惠券的金额" autocomplete="off" class="layui-input">
           <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -44,15 +44,15 @@
 
 
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        {{-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> --}}
         <button class="layui-btn" onclick="x_admin_show('添加链接','/admin/coupons/coupons_create')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：{{ $count }} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
-            <th>
+            {{-- <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-            </th>
+            </th> --}}
             <th>ID</th>
             <th>优惠的金额</th>
             <th>类别</th>
@@ -64,10 +64,10 @@
         <tbody>
           @foreach($datas as $data)
             <tr>
-                <td>
+                {{-- <td>
                     <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="2"><i class="layui-icon"></i></div>
-                </td>
-                <td>{{ $data->id }}</td>
+                </td> --}}
+                <td>{{ $id++ }}</td>
                 <td>{{ $data->c_money }}</td>
                 <td>{{ $data->c_type==1 ? '优惠券' : '红包' }}</td>
                 <td>{{ $data->c_time }}</td>
@@ -98,7 +98,7 @@
       </table>
       <div class="page">
         <div>
-          {{-- {{ $links->appends(['l_name' => $_GET['l_name'] ?? '' ,'start' => $_GET['start'] ?? '' ,'end' => $_GET['end'] ?? '' ,])->links() }} --}}
+          {{ $datas->appends(['c_money' => $_GET['c_money'] ?? ''])->links() }}
         </div>
       </div>
 
@@ -118,60 +118,7 @@
         });
       });
 
-       /*友情链接-状态*/
-      function member_stop(obj,id){
-          layer.confirm('确认要修改状态吗？',function(index){
-              if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $.ajax({
-                  url:'/admin/systems/links_status',
-                  data:{'id':id,'l_status':'1','_token':'{{csrf_token()}}'},
-                  type:'POST',
-                  success:function(data){
-                    if(data == 'success'){
-                      $(obj).attr('title','停用')
-                      $(obj).find('i').html('&#xe601;');
-
-                      $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                      layer.msg('已启用!',{icon: 6,time:1000});
-                    }else{
-                      layer.msg('请求失败!',{icon: 5,time:1000});
-                    }
-                  },
-                  error:function(){
-                    layer.msg('请求失败!',{icon: 5,time:1000});
-                  },
-                  async:true
-                });
-              }else{
-                
-                //发异步把用户状态进行更改
-                $.ajax({
-                  url:'/admin/systems/links_status',
-                  data:{'id':id,'l_status':'2','_token':'{{csrf_token()}}'},
-                  type:'POST',
-                  success:function(data){
-                    if(data == 'success'){
-                      $(obj).attr('title','启用')
-                      $(obj).find('i').html('&#xe62f;');
-
-                      $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                      layer.msg('已停用!',{icon: 5,time:1000});
-                    }else{
-                      layer.msg('请求失败!',{icon: 5,time:1000});
-                    }
-                  },
-                  error:function(){
-                    layer.msg('请求失败!',{icon: 5,time:1000});
-                  },
-                  async:true
-                });
-                
-              }
-              
-          });
-      }
+     
 
       /*优惠券的-删除*/
       function member_del(obj,id){

@@ -38,9 +38,7 @@ class UserController extends Controller
 
     // 执行用户添加
     public function user_store(Request $request){
-        // return $request->all();
-     
-        
+
         // 开启事务
         DB::beginTransaction();
         $users = [];

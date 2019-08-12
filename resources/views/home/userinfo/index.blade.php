@@ -368,7 +368,7 @@
 										<a href="information.html">
 											<img src="images/getAvatar.do.jpg">
 										</a>
-										<em class="s-name">(小叮当)<span class="vip1"></em>
+										<em class="s-name">({{ session('home.name') }})<span class="vip1"></em>
 										<div class="s-prestige am-btn am-round">
 											</span>会员福利</div>
 									</div>
@@ -377,7 +377,7 @@
 											<a href="news.html"><i class="am-icon-bell-o"></i>消息</a>
 										</div>
 										<div class="m-address">
-											<a href="address.html" class="i-trigger">我的收货地址</a>
+											<a href="/home/userinfo_address" class="i-trigger">我的收货地址</a>
 										</div>
 									</div>
 								</div>
@@ -391,21 +391,21 @@
 										<a href="bonus.html">
 											<i><img src="images/bonus.png"/></i>
 											<span class="m-title">红包</span>
-											<em class="m-num">2</em>
+											<em class="m-num">{{ $redbagCount }}</em>
 										</a>
 									</p>
 									<p class="m-coupon">
 										<a href="coupon.html">
 											<i><img src="images/coupon.png"/></i>
 											<span class="m-title">优惠券</span>
-											<em class="m-num">2</em>
+											<em class="m-num">{{ $couponCount }}</em>
 										</a>
 									</p>
 									<p class="m-bill">
 										<a href="bill.html">
 											<i><img src="images/wallet.png"/></i>
 											<span class="m-title">钱包</span>
-											<em class="m-num">2</em>
+											{{-- <em class="m-num">2</em> --}}
 										</a>
 									</p>
 									<p class="m-big">
@@ -428,14 +428,14 @@
 							<div class="m-order">
 								<div class="s-bar">
 									<i class="s-icon"></i>我的订单
-									<a class="i-load-more-item-shadow" href="order.html">全部订单</a>
+									<a class="i-load-more-item-shadow" href="/home/userinfo_order">全部订单</a>
 								</div>
 								<ul>
-									<li><a href="order.html"><i><img src="images/pay.png"/></i><span>待付款</span></a></li>
-									<li><a href="order.html"><i><img src="images/send.png"/></i><span>待发货<em class="m-num">1</em></span></a></li>
-									<li><a href="order.html"><i><img src="images/receive.png"/></i><span>待收货</span></a></li>
-									<li><a href="order.html"><i><img src="images/comment.png"/></i><span>待评价<em class="m-num">3</em></span></a></li>
-									<li><a href="change.html"><i><img src="images/refund.png"/></i><span>退换货</span></a></li>
+									<li><a href="#"><i><img src="images/pay.png"/></i><span>待付款<em class="m-num">{{ $orderStatus['status_1'] }}</em></span></span></a></li>
+									<li><a href="#"><i><img src="images/send.png"/></i><span>待发货<em class="m-num">{{ $orderStatus['status_2'] }}</em></span></a></li>
+									<li><a href="#"><i><img src="images/receive.png"/></i><span>待收货<em class="m-num">{{ $orderStatus['status_3'] }}</em></span></span></a></li>
+									<li><a href="#"><i><img src="images/comment.png"/></i><span>待评价<em class="m-num">{{ $orderStatus['status_4'] }}</em></span></a></li>
+									<li><a href="#"><i><img src="images/comment.png"/></i><span>已评价<em class="m-num">{{ $orderStatus['status_5'] }}</em></span></span></a></li>
 								</ul>
 							</div>
 							<!--九宫格-->
@@ -452,7 +452,7 @@
 									<a href="foot.html"><li class="am-u-sm-4"><i class="am-icon-clock-o am-icon-md"></i><img src="images/iconsmall2.png"/><p>我的足迹</p></li></a>                                                                        
 								</ul>
 							</div>
-							<!--物流 -->
+							{{-- <!--物流 -->
 							<div class="m-logistics">
 
 								<div class="s-bar">
@@ -535,14 +535,14 @@
 
 								</div>
 
-							</div>
+							</div> --}}
 
 							<!--收藏夹 -->
 							<div class="you-like">
 								<div class="s-bar">我的收藏
-									<a class="am-badge am-badge-danger am-round">降价</a>
-									<a class="am-badge am-badge-danger am-round">下架</a>
-									<a class="i-load-more-item-shadow" href="#"><i class="am-icon-refresh am-icon-fw"></i>换一组</a>
+									{{-- <a class="am-badge am-badge-danger am-round">降价</a>
+									<a class="am-badge am-badge-danger am-round">下架</a> --}}
+									{{-- <a class="i-load-more-item-shadow" href="#"><i class="am-icon-refresh am-icon-fw"></i>换一组</a> --}}
 								</div>
 								<div class="s-content">
 									<div class="s-item-wrap">

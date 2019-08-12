@@ -583,14 +583,20 @@
 														
 														<li class="td td-status">
 															<div class="item-status">
-																<p class="Mystatus">待评价</p>
+																
+																	<p class="Mystatus">待评价</p>
+																
 																
 															</div>
 														</li>
 														
 														<li class="td td-change">
 															<div class="am-btn am-btn-danger anniu">
-																去评价
+																	@if($order->commentCount>0)
+																		<a href="/home/userinfo/commentlist/{{$order->gid}}">写追评</a>
+																	@else
+																		<a href="/home/userinfo/commentlist/{{$order->gid}}">去评价</a>
+																	@endif
 															</div>
 														</li>
 														

@@ -11,12 +11,33 @@ class CouponsController extends Controller
     // 显示优惠券
     public function index()
     {
-        $res=Coupon::all();
-        $count=Coupon::count();
-        // dd($res);
-        return view('admin.coupons.index',['datas'=>$res,'count'=>$count]);
-    }
+       
+        // 优惠券的金额
+        $money=$_GET['c_money'] ?? '';
+        // 开始的时间
+        $start=$_GET['start'] ?? '';
+        $end=$_GET['end'] ?? '';
+        
+        // 优惠券的创建时间是你输入的
 
+        // 每页显示的条数
+        $page=2;
+        // 当前的页数
+        $currentPage=$_GET['page'] ?? 1;
+        $id=($currentPage-1)*$page+1;
+
+        if($start && $end && $end > $start){
+            $coupon = Coupon::where('c_money','like',"%".$money."%")->whereBetween('created_at',[$start,$end])->paginate($page);
+            $count = Coupon::where('c_money','like',"%".$money."%")->whereBetween('created_at',[$start,$end])->count();
+        }else{
+            $coupon=Coupon::where('c_money','like','%'.$money.'%')->paginate($page);
+            $count=Coupon::where('c_money','like','%'.$money.'%')->count();
+        }
+         
+
+        return view('admin.coupons.index',['datas'=>$coupon,'count'=>$count,'id'=>$id]);
+        
+    }
     // 添加优惠券
     public function addcoupon(){
         return view('admin.coupons.add');
@@ -26,21 +47,15 @@ class CouponsController extends Controller
     public function doaddcoupon(Request $reuqest)
     {
 
-        // 过期时间
-       
         // 最大优惠金额
-        if($reuqest->c_money >100){
-            $maxmoney=100;
-        }else{
-            $maxmoney=$reuqest->c_money;
-        }
+        $maxmoney=$reuqest->data['c_money'];
         
         $res=Coupon::create([
             'uid'=>0,
             'c_money'=>$maxmoney,
-            'c_type'=>$reuqest->c_type,
+            'c_type'=>$reuqest->data['c_type'],
             'c_status'=>1, //默认是未使用
-            'c_time'=>$reuqest->start .'至'.$reuqest->end,
+            'c_time'=>$reuqest->data['start'] .'至'.$reuqest->data['end'],
         ]);
 
         if($res){
@@ -76,11 +91,22 @@ class CouponsController extends Controller
             
             $data->date=$res;
         }
-       
-        return view('admin.coupons.update',['data'=>$data]);
+        return view('admin.coupons.update',['data'=>$data,'id'=>$id]);
     }
+
     // 执行优惠券--修改
-    // public function updateCount($id){
-        // return $id;
-    // } 
+    public function exupdate(Request $request){
+        // return $request->data['c_type'];
+        $res=Coupon::where('id',$request->data['id'])->update([
+            'c_money'=>$request->data['c_money'],
+            'c_type'=>$request->data['c_type'],
+            'c_time'=>$request->data['start'].'至'.$request->data['end'],
+        ]);
+
+        if($res){
+            return 'success';
+        }else{
+            return 'error';
+        }
+    } 
 }

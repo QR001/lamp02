@@ -18,8 +18,7 @@ class IndexController extends Controller
         $blogs = $this->getBlogs();
         //获取今日推荐商品
         $sale = $this->getSale();
-        // dump($sale);
-
+    
         return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale]);
     }
 

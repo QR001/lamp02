@@ -20,16 +20,20 @@
       <body>
         <div class="x-body">
             <form class="layui-form">
+             
               <input type="hidden" name="_token" value="8sfc4BEeyPWdumD0AsnFJPISpBM3AIIVAmTsuWGS">
               <div class="layui-form-item">
                   <label for="username" class="layui-form-label">
                       <span class="x-red">*</span>优惠的金额
                   </label>
                   <div class="layui-input-inline">
+                      {{-- 你要修改的id --}}
+                      <input type="hidden" name='id' value='{{ $id }} '>
+                      
                       <input type="text" value='{{ $data->c_money }} ' min='1' max='100' id="l_name" name="c_money" placeholder="优惠的金额" required="" lay-verify="c_money" autocomplete="off" class="layui-input">
                   </div>
                   <div class="layui-form-mid layui-word-aux">
-                      <span class="x-red">*</span>优惠券金额在 1-100之间
+                      <span class="x-red">*</span>优惠券金额必须大于0
                   </div>
               </div>
               <div class="layui-form-item">
@@ -49,10 +53,10 @@
               </div>
               
               <div class="layui-form-item">
-                  <label class="layui-form-label"><span class="x-red">*</span>类型</label>
+                  <label class="layui-form-label"><span class="x-red">*</span>类型{{ $data->c_type }}</label>
                   <div class="layui-input-block">
-                    <input type="radio" name="c_type" value="1" lay-skin="primary" title="红包" checked=""><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>红包</div></div>
-                    <input type="radio" name="c_type" value="2" lay-skin="primary" title="优惠券"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>优惠券</div></div>
+                    <input type="radio" name="c_type" value="2" lay-skin="primary" title="红包" {{ $data->c_type==2 ? "checked" : ''}}><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>红包</div></div>
+                    <input type="radio" name="c_type" value="1" lay-skin="primary" title="优惠券"  {{ $data->c_type==1 ? "checked" : ''}}><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>优惠券</div></div>
                   </div>
               </div>
 
@@ -86,11 +90,14 @@
             
               //自定义验证规则
               form.verify({
-
                 c_money: function(value){
-                    alert(value);
-                    if(value < 0 || value > 100){
-                        return '优惠的金额在1-100之间';
+                   
+                    if(value==''){
+                        return '请填写优惠金额';
+                    }
+
+                    if(value < 0){
+                        return '优惠的金额必须大于0';
                     }
 
                     if($('#start')[0].value >= $('#end')[0].value){
@@ -110,21 +117,22 @@
               form.on('submit(add)', function(data){
                 //发异步，把数据提交给php
                 $.ajax({
-                  url:'/admin/coupons/doaddcoupon',
-                  data:data.field,
+                  url:'/admin/coupons/exupdate',
+                
+                  data:{'data':data.field,'_token':'{{csrf_token()}}'},
                   type:'POST',
                   success:function(data){
-          
+                    // console.log(data);
                     // 访问成功，返回信息
                     if(data == 'success'){
-                      layer.alert("添加成功", {icon: 6},function () {
+                      layer.alert("修改成功", {icon: 6},function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
                         parent.layer.close(index);
                       });
                     }else{
-                      layer.alert("添加失败，请重新添加", {icon: 6},function () {
+                      layer.alert("修改失败，请重新添加", {icon: 6},function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame

@@ -1,7 +1,6 @@
+@extends('home.layouts.userinfo')
 <link href="/home/css/personal.css" rel="stylesheet" type="text/css">
 <link href="/home/css/orstyle.css" rel="stylesheet" type="text/css">
-
-@extends('home.layouts.userinfo')
 @section('content')
 <div class="main-wrap">
 

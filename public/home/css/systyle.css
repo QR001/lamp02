@@ -94,7 +94,7 @@ a em.m-num { margin-left: 4px;color: #F40;}
 .lg-list{ margin-bottom:5px;}
 .s-content { position: relative; overflow: hidden;background: #fff;}
 .lg-item { border-top: 1px solid #E8EEF2;padding: 13px 10px 13px 15px; overflow:hidden;}
-.item-info, .m-logistics .lg-info { position: relative; float: left;}
+.item-info, .m-logistics .lg-info { float: left;}
 .item-info img {width: 70px;height: 70px; vertical-align: top;}
 .lg-info {padding-left: 30px; float:left;}
 .lg-confirm {float: right;}

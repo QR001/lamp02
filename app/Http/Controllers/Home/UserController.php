@@ -15,6 +15,11 @@ use App\Models\orders;
 use App\Models\orderdetails;
 use App\Models\Good;
 use App\Models\refunds;
+use App\Models\Coupon;
+use App\Models\Payment;
+use App\Models\collects;
+use App\Models\Comment;
+use PhpParser\Node\Expr\BinaryOp\Coalesce;
 
 class UserController extends Controller
 {
@@ -31,7 +36,20 @@ class UserController extends Controller
            
             return  view('home.login.index');
         }
-        return view('home.userinfo.index');
+       
+        // 红包的数量----优惠券的数量
+        $redbagCount=Coupon::where(['uid'=>session('home.id'),'c_type'=>2])->count();
+        $couponCount=Coupon::where(['uid'=>session('home.id'),'c_type'=>1])->count();
+        // 该用户的订单状态
+        // 未付款
+        $orderStatus=[];
+        $orderStatus['status_1']=orders::where(['uid'=>session('home.id'),'o_status'=>1])->count();
+        $orderStatus['status_2']=orders::where(['uid'=>session('home.id'),'o_status'=>2])->count();
+        $orderStatus['status_3']=orders::where(['uid'=>session('home.id'),'o_status'=>3])->count();
+        $orderStatus['status_4']=orders::where(['uid'=>session('home.id'),'o_status'=>4])->count();
+        $orderStatus['status_5']=orders::where(['uid'=>session('home.id'),'o_status'=>5])->count();
+        
+        return view('home.userinfo.index',['redbagCount'=>$redbagCount,'couponCount'=>$couponCount,'orderStatus'=>$orderStatus]);
     }
 
     // 显示个人中心的---个人资料
@@ -363,29 +381,21 @@ class UserController extends Controller
     {
         $order= orders::with('orderdetails')->first();
 
-        // dd($order);
-       $data = orderdetails::with(['good','refunds'])->get();
-       
-        
-    //    var $arr=[];
-    //    foreach($order as $k=>$v){
-        // $arr[$k]['order']=$v
-    //    }
-    //    dd($data);
         // // 所有订单
-        // $res=orders::join('orderdetails','orderdetails.oid','orders.id')->where('orders.uid',session('home.id'))->get();
+        $res=orders::join('orderdetails','orderdetails.oid','orders.id')->where('orders.uid',session('home.id'))->get();
        
-        // foreach($res as $k=>$v){
-        //     $goods=Good::find($v->gid);
-        //     // 只获得第一个图片
-        //     $imgs=explode(',',$goods->g_img);
+        foreach($res as $k=>$v){
+            $goods=Good::find($v->gid);
+            // 只获得第一个图片
+            $imgs=explode(',',$goods->g_img);
             
-        //     $res[$k]['goods']=$goods;
-        //     $res[$k]['goods']['g_img']=$imgs[0];
-        // }
+            $res[$k]['goods']=$goods;
+            $res[$k]['goods']['g_img']=$imgs[0];
+            $v['commentCount']=Comment::where('gid',$v->gid)->count();
+        }
        
-
-        // return  view('home.userinfo.userinfo_order',['orders'=>$res]);
+    
+        return  view('home.userinfo.userinfo_order',['orders'=>$res]);
     }
 
     public function confirm($id)
@@ -413,7 +423,7 @@ class UserController extends Controller
             $res[$k]['goods']=$goods;
             $res[$k]['goods']['g_img']=$imgs[0];
         }
-        // dd($res);
+      
      
         return  view('home.userinfo.userinfo_refund',['datas'=>$res]);
     }
@@ -421,31 +431,227 @@ class UserController extends Controller
     // 显示个人中心的--优惠券
     public function userinfo_coupon()
     {
-        return view('home.userinfo.userinfo_coupon');
+        $coupons=Coupon::where(['uid'=>session('home.id'),'c_type'=>1])->get();
+        
+      
+        return view('home.userinfo.userinfo_coupon',['coupons'=>$coupons]);
+    }
+
+    // 使用优惠券
+    public function  usecoupons($id){
+        // 首先查询优惠券是否存在
+        $res=Coupon::where(['id'=>$id,'c_type'=>1,'c_status'=>1])->first();
+        // return $res;
+        if($res){ 
+            Coupon::where(['id'=>$id,'c_type'=>1,'c_status'=>1])->update(['c_status'=>2]);
+            return back();
+        }else{
+            return back();
+        }
+    }
+
+    //删除已使用的优惠券
+    public function  delcoupons($id){
+        // 首先查询优惠券是否存在
+        $res=Coupon::where(['id'=>$id,'c_type'=>1,'c_status'=>2])->first();
+        DB::beginTransaction();
+        if($res){
+            DB::commit();
+            Coupon::destroy($id);
+            return back();
+        }else{
+            DB::rollback();
+            return back();
+        }
     }
 
     // 显示个人中心的--红包
     public function redenvelopes()
     {
-        // return view('home.userinfo.userinfo_redenvelopes');
-        return view('home.userinfo.userinfo_redevelopes');
+        $redbag=Coupon::where(['uid'=>session('home.id'),'c_type'=>2])->get();
+       
+        return view('home.userinfo.userinfo_redevelopes',['redbags'=>$redbag]);
     }
 
-    // 显示个人中心的--账单明细
+    // 显示个人中心的--用户收藏
     public function collect()
     {
-        return view('home.userinfo.userinfo_collect');
+        // 判断用户是否登录    
+        if(!session('home.id')){
+            return view('home.login.index');
+        }
+        $collects=collects::join('goods','goods.id','collects.gid')->where('collects.uid',session('home.id'))->paginate('1');
+        foreach($collects as $k=>$v){
+          
+            $v['g_img']=explode(',',$v->g_img)[0];
+            
+            // 获取每一条商品的评论== 好评/评论的条数*100%
+            // 改商品的所有评论的条数
+            $zcounts=Comment::where(['gid'=>$v->gid])->count();
+            $hcounts=Comment::where(['gid'=>$v->gid,'c_score'=>3])->count();
+            // 如果商品的好评是0
+            if($hcounts == 0){
+                $v['comment_pf']='100%';
+            }else{ 
+                $v['comment_pf']=($hcounts/$zcounts*100)."%";
+            }
+            
+        }
+       
+        return view('home.userinfo.userinfo_collect',['collects'=>$collects]);
     }
+
+    // 取消收藏
+    public function delcollect($id){
+        // 删除收藏
+        collects::where(['gid'=>$id])->delete();
+        // 返回
+        return back();
+    }
+
     // 显示个人中心的--足迹
     public function foot()
     {
         return view('home.userinfo.userinfo_foot');
     }
-    // 评价
+    // 该用户评论过的所有商品的评价
     public function evaluate()
     {
-        return  view('home.userinfo.userinfo_evaluate');
+        $comments=Comment::join('goods','goods.id','comments.gid')->where('comments.uid',session('home.id'))->get();
+       
+        //对图片的处理
+        foreach($comments as $k=>$v){
+            // 商品的图片
+            $v['g_img']=explode(',',$v->g_img)[0];
+            // 用户评论的图片
+            $c_imgs=explode(',',$v->c_img);
+            array_pop($c_imgs);
+            $c_img=$c_imgs;
+            $v['c_img']=$c_img;
+        }
+
+        return  view('home.userinfo.userinfo_evaluate',['comments'=>$comments]);
     }
+    // 评论单个商品
+    public function commentlist($id){
+        //$id 是商品的id
+        $good= Good::find($id);
+        // 图片
+        $img=explode(',',$good->g_img)[0];
+       
+        return view('home.userinfo.userinfo_comment',['good'=>$good,'img'=>$img]);
+    }
+    // 执行个人中心的评论
+    public  function excomment(Request $request){
+       
+        //验证规则
+        $validator = Validator::make($request->all(), [
+            'c_content'=>'required | min:10',
+            'c_score'=>'required',
+            
+        ]);
+           
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+     
+        //判断用户是否上传图片
+        if($request->hasfile('c_img')){
+            $file=$request->file('c_img');
+            $filePath=[];
+            foreach($file as $k=>$v){
+                // 判断文件是否上传成功
+                if(!$v->isValid()){
+                    return back();
+                }
+                //此处防止没有多文件上传的情况
+                if(!empty($v)){
+                    $fpath = "/comments";
+                    $npath =  date('Ymd').'/'.time().rand(0,99999999);
+                    $ext = $v->extension();
+                    $path = $npath.'.'.$ext;
+                    if($v->storeAs($fpath,$path)){
+                        $filePath[] = $path;
+                    }
+                }
+            }
+       
+            $c_img=implode(',',$filePath).',';
+           
+            Comment::create([
+                'c_score'=>$request->c_score,
+                'c_content'=>$request->c_content,
+                'c_img'=>$c_img,
+                'uid'=>session('home.id'),
+                'gid'=>$request->gid,
+            ]);
+
+           
+            return redirect('/home/userinfo_evaluate')->withErrors(['success'=>'写入成功']);
+           
+        }else{
+            Comment::create([
+                'c_score'=>$request->c_score,
+                'c_content'=>$request->c_content,
+                'c_img'=>'',
+                'uid'=>session('home.id'),
+                'gid'=>$request->gid,
+            ]);    
+            return redirect('/home/userinfo_evaluate')->withErrors(['success'=>'写入成功']);
+           
+        }
+    }
+    
+
+    // 个人中心的---余额充值
+    public function userinfo_payments()
+    {
+        // 查询用户的余额
+        $balance = DB::table('payments')->where('uid',session('home.id'))->first();
+        if($balance){
+            $data=$balance->balance;
+        }else{
+            $data=0;
+        }
+        return view('home.userinfo.userinfo_payments',['balance'=>$data]);
+    }
+
+    // 执行个人中心的---余额充值
+    public function userinfo_balance(Request $request)
+    {
+         //验证规则  判断用户输入的金额是否合法 
+         $validator = Validator::make($request->all(), [
+            'balance'=>'required',
+        ]);
+           
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $id = session('home.id');
+        $amount = $request->balance;
+        // 查询用户原来的金额
+        $balance = DB::table('payments')->where('uid',$id)->first();
+        // 如果支付表中没有用户的信息
+        if(!$balance){
+            // 先插入一条数据，然后再进行查询
+            DB::table('payments')->insert(['uid'=>session('home.id'),'balance'=>0,'created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')]);
+            // return $news;
+            $balance = DB::table('payments')->where('uid',$id)->first();
+        }
+        $number=$balance->balance;
+   
+       //  执行修改  原来的金额+充值的金额
+       $res=DB::table('payments')->where('uid',$id)->update(['balance'=>$number + $amount]);
+       if($res){
+            return back()->withErrors(['success'=>'充值成功']);
+       }else{
+           return  back()->withErrors(['error'=>'充值失败']);
+       }
+       
+        
+    }
+
     // 消息
     public function news()
     {

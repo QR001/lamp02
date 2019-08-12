@@ -11,9 +11,7 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 
 //后台首页
 Route::get('/admin/index','Admin\LoginController@index');
@@ -150,9 +148,10 @@ Route::get('/admin/coupons/coupons_create','Admin\CouponsController@addcoupon');
 Route::post('/admin/coupons/doaddcoupon','Admin\CouponsController@doaddcoupon');
 // 执行优惠券的删除
 Route::get('/admin/coupons/delcoupon/{id}','Admin\CouponsController@delcoupon');\
-
 // 优惠券的修改页面
 Route::get('/admin/coupons/update/{id}','Admin\CouponsController@update');
+// 执行优惠券的修改
+Route::post('/admin/coupons/exupdate','Admin\CouponsController@exupdate');
 
 // 后台网站配置
 Route::get('/admin/webs/webs','Admin\webController@web');
@@ -203,7 +202,10 @@ Route::get('/home/userinfo_safe_updatepwd','Home\UserController@userinfo_safe_up
 Route::post('/home/userinfo_safe_exupdatepwd','Home\UserController@userinfo_safe_exupdatepwd');
 // 显示个人中心--支付密码
 Route::get('/home/userinfo_safe_updatepaypwd','Home\UserController@userinfo_safe_updatepaypwd');
+// 显示个人中心的--支付密码
+// Route::get('/home/userinfo_safe_');
 // 执行个人中心的--修改支付密码
+
 Route::post('/home/userinfo/safe/updatepaypwd','Home\UserController@userinfo_safe_exupdatepaypwd');
 // 个人中心的发送验证码
 Route::get('/home/userinfo/sendPhone/{phone}','Home\UserController@sendPhone');
@@ -228,19 +230,47 @@ Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
 Route::get('/home/userinfo_refund','Home\UserController@userinfo_refund');
 // 显示个人中心--优惠券
 Route::get('/home/userinfo_coupon','Home\UserController@userinfo_coupon');
+// 个人中心--立即使用优惠券
+Route::get('/home/userinfo/usecoupons/{id}','Home\UserController@usecoupons');
+// 个人中心--删除已使用过的优惠券
+Route::get('/home/userinfo/delcoupons/{id}','Home\UserController@delcoupons');
 // 显示个人中心--红包
 Route::get('/home/userinfo_redenvelopes','Home\UserController@redenvelopes');
-// 显示个人中心--收集
+// 显示个人中心--收藏
 Route::get('/home/userinfo_collect','Home\UserController@collect');
+
+// 个人中心--取消收藏
+Route::get('/home/userinfo/delcollect/{id}','Home\UserController@delcollect');
 // 显示个人中心--足迹
 Route::get('/home/userinfo_foot','Home\UserController@foot');
 // 显示个人中心--评价
 Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
+// 个人中心中--针对单个发表评论
+Route::get('/home/userinfo/commentlist/{id}','Home\UserController@commentlist');
+// 个人中心中--执行针对单个发表评论
+Route::POST('/home/userinfo/excomment','Home\UserController@excomment');
+
+// 个人的发表全部评论--页面
+Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
 // 显示个人中心--消息
 Route::get('/home/userinfo_news','Home\UserController@news');
 
+// 显示个人中心的充值页面
+Route::get('/home/userinfo_payments','Home\UserController@userinfo_payments');
+// 执行个人中心的充值
+Route::post('/home/userinfo_balance','Home\UserController@userinfo_balance');
+
+
 // 前台购物车
 Route::get('/home/carts','Home\CartController@index');
+// 前台下单
+Route::get('/home/pay','Home\PayController@index');
+// 前台购物车--移入收藏夹
+Route::get('/home/updatecollect/{id}','Home\CartController@updatecollect');
+
+// 前台购物车--删除购物车商品
+Route::get('/home/chardelete/{id}','Home\CartController@chardelete');
+
 
 // 前台客服
 // Route::get('/home/customer','Home\CustomerController@index');

@@ -44,7 +44,7 @@
 					</div>
 					<div class="fore3">
 						<a href="/home/userinfo_safe_updatepwd">
-							<div class="am-btn am-btn-secondary">修改</div>
+							<div class="am-btn am-btn-secondary" style="width:100%;">修改</div>
 						</a>
 					</div>
 				</li>
@@ -56,34 +56,23 @@
 					</div>
 					<div class="fore3">
 						<a href="/home/userinfo_safe_updatepaypwd">
-							<div class="am-btn am-btn-secondary">立即启用</div>
+							<div class="am-btn am-btn-secondary" style="width:100%;">立即启用</div>
 						</a>
 					</div>
 				</li>
 				<li>
-					<i class="i-safety-iphone"></i>
+					<i class="i-safety-wallet"></i>
 					<div class="m-left">
-						<div class="fore1">手机验证</div>
-						<div class="fore2"><small>您验证的手机：186XXXXXXXX 若已丢失或停用，请立即更换</small></div>
+						<div class="fore1">支付余额</div>
+						<div class="fore2"><small>启用支付密码功能，为您资产账户安全加把锁。</small></div>
 					</div>
 					<div class="fore3">
-						<a href="bindphone.html">
-							<div class="am-btn am-btn-secondary">换绑</div>
+						<a href="/home/userinfo_payments">
+							<div class="am-btn am-btn-secondary" style="width:100%;">立即充值</div>
 						</a>
 					</div>
 				</li>
-				<li>
-					<i class="i-safety-mail"></i>
-					<div class="m-left">
-						<div class="fore1">邮箱验证</div>
-						<div class="fore2"><small>您验证的邮箱：5831XXX@qq.com 可用于快速找回登录密码</small></div>
-					</div>
-					<div class="fore3">
-						<a href="email.html">
-							<div class="am-btn am-btn-secondary">换绑</div>
-						</a>
-					</div>
-				</li>
+			
 			</ul>
 		</div>
 

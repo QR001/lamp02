@@ -75,7 +75,7 @@
             <td>{{ $v->created_at }}</td>
             
             <td class="td-manage">
-              @if(substr_count($v->s_path,',') <2)
+              @if(substr_count($v->s_path,',') <3)
                 <a title="添加子分类" href="/admin/Sorts/list/{{ $v->id }}">
                   <i class="layui-icon"></i>
                   </a>
@@ -86,7 +86,7 @@
               <a title="编辑"  onclick="x_admin_show('编辑','/admin/Sorts/{{ $v->id }}/edit')" href="javascript:;" >
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              @if(substr_count($v->s_path,',') >0)
+              @if(substr_count($v->s_path,',') >1)
                 <a title="删除" onclick="member_del(this,{{ $v->id }})" >
                   <i class="layui-icon">&#xe640;</i>
                 </a>

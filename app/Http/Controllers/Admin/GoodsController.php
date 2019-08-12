@@ -95,21 +95,16 @@ class GoodsController extends Controller
                 return back();
             }
             if(!empty($value)){//此处防止没有多文件上传的情况
-       
                 $fpath = "/goods";
                 $npath =  date('Ymd').'/'.time().rand(0,99999999);
                 $ext = $value->extension();
                 $path = $npath.'.'.$ext;
-                // return $path;
-                
                 if($value->storeAs($fpath,$path)){
                     $filePath[] = $path;
-                }else{
-
                 }
             }
         }
-        // return $filePath;
+
         $g_img = implode(',',$filePath) . ',';
 
         return $g_img;
@@ -123,10 +118,8 @@ class GoodsController extends Controller
         foreach($imgs as $v){
             if($v != 'default.jpg'){
                 $path = public_path('/uploads/goods/'.$v);
-                if(file_exists($path)){
-                     
+                if(file_exists($path)){  
                     unlink($path);  
- 
                 }
             }
         }
