@@ -168,6 +168,12 @@
                             <cite>轮播图</cite>
                         </a>
                     </li >
+                    <li>
+                        <a _href="/admin/coupons/couponslist">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>优惠券</cite>
+                        </a>
+                    </li >
                     
                 </ul>
             </li>

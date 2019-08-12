@@ -77,11 +77,11 @@
             {{-- <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th> --}}
+            <th>商品名称</th>
             <th>商品图片</th>
-            <th>商品数量</th>
             <th>商品颜色</th>
-            <th>联系方式</th>
-            <th>收货地址</th>
+            <th>商品数量</th>
+            <th>商品尺寸</th>
             <th>状态</th>
             <th >操作</th>
             </tr>
@@ -95,11 +95,10 @@
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td> --}}
            
-            <td></td>
-
-            <td>{{ $v->d_num }}</td>
-            <td>{{ $v->d_color   }}</td>
-            <td>{{ $v->_phone }}</td>
+            <td>{{ $v['good']['g_name']}}</td>
+            <td>{{ $v['good']['g_img '] }}</td>
+            <td>{{ $v['good']['g_color'] }}</td>
+            <td>{{ $v['good']['g_size'] }}</td>
             <td>{{ $v->d_status }}</td>
             <td>
             @if($v->d_status == 1)  
@@ -111,9 +110,15 @@
             @endif
             </td>
             <td class="td-manage">
-             <a onclick="member_stop(this,'10001')" href="javascript:;"  title="退款">
-                <i class="layui-icon"></i>
-              </a>
+            @if($v->d_status == 1)
+            <a onclick="member_stop(this,'{{ $v->id }}')" href="javascript:;"  title="正常">
+              <i class="layui-icon layui-icon-face-smile">&#xe6af;</i>
+            </a>
+            @elseif($v->d_status == 2)
+            <a onclick="member_stop(this,'{{ $v->id }}')" href="javascript:;"  title="退款中">
+              <i class="layui-icon layui-icon-face-cry">&#xe69c;</i>
+            </a>
+            @endif
             </td>
           </tr>
           @endforeach
@@ -146,25 +151,48 @@
         });
       });
 
-       /*用户-停用*/
+       /*用户-退款*/
       function member_stop(obj,id){
-          layer.confirm('确认要退款吗？',function(index){
+          layer.confirm('确认此次操作吗？',function(index){
 
-              if($(obj).attr('title')=='退款'){
+              if($(obj).attr('title')=='正常'){
+                  $.ajax({
+                    url:'/admin/Orders/status',
+                    data:{'id':id,'status':'2'},
+                    type:'GET',
+                    success:function(data){
+                      // console.log(data);
+                      if(data == 'success'){
+                        $(obj).attr('title','退款中')
+                        $(obj).find('i').html('&#xe69c;');
+                        layer.msg('退款中',{icon: 5,time:1000});
+                      }
+                    },
+                    error:function(data){
+                      console.log(data);
+                    }
 
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
+                  })
+              }
 
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
+              if($(obj).attr('title')=='退款中'){
+                $.ajax({
+                    url:'/admin/Orders/status',
+                    data:{'id':id,'status':'1'},
+                    type:'GET',
+                    success:function(data){
+                      // console.log(data);
+                      if(data == 'success'){
+                        $(obj).attr('title','取消退款')
+                        $(obj).find('i').html('&#xe6af;');
+                        layer.msg('取消退款',{icon: 5,time:1000});
+                      }
+                    },
+                    error:function(data){
+                      layer.msg('操作失败',{icon: 6,time:1000});
+                    }
 
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
+                  })
               }
               
           });

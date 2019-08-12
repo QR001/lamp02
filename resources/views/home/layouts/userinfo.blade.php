@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -6,32 +5,26 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-		<title>个人中心</title>
+		<title>框架</title>
+
 		<link href="/home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
-		
-		<link href="/home/css/personal.css" rel="stylesheet" type="text/css">
-		
 		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
-		<link href="/home/css/infstyle.css" rel="stylesheet" type="text/css">
+		<link href="/home/css/personal.css" rel="stylesheet" type="text/css">
+
 		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
 		<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
-
-		<link href="/home/css/systyle.css" rel="stylesheet" type="text/css">
-
 		
 
-		<link href="/home/css/personal.css" rel="stylesheet" type="text/css">
-		<link href="/home/css/infstyle.css" rel="stylesheet" type="text/css">
 
-		<link href="AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
-		<link href="AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+		<!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet"> -->
 
-		<link href="css/personal.css" rel="stylesheet" type="text/css">
-		<link href="/home/css/addstyle.css" rel="stylesheet" type="text/css">
-		<script src="AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
-		<script src="AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
+	<!-- <link rel="stylesheet" href="/home/css/lcss/reset.min.css"> -->
+
+
+<link rel="stylesheet" href="/home/css/lcss/style.css">
 	</head>
 
 	<body>
@@ -85,28 +78,140 @@
 				</div>
 			</article>
 		</header>
-            <div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
-						</div>
-			</div>
-			<b class="line"></b>
+
+
 		<div class="center">
 			<div class="col-main">
-                @yield('content')
-                
-                @show
+				<div class="main-wrap">
+					<div class="wrapper">
+						<div class="container">
+							<div class="left">
+								<!-- <div class="top">
+									<input type="text" placeholder="Search" />
+									<a href="javascript:;" class="search"></a>
+								</div>
+								<ul class="people">
+									<li class="person" data-chat="person1">
+										<img src="img/thomas.jpg" alt="" />
+										<span class="name">Thomas Bangalter</span>
+										<span class="time">2:09 PM</span>
+										<span class="preview">I was wondering...</span>
+									</li>
+									<li class="person" data-chat="person2">
+										<img src="img/dog.png" alt="" />
+										<span class="name">Dog Woofson</span>
+										<span class="time">1:44 PM</span>
+										<span class="preview">I've forgotten how it felt before</span>
+									</li>
+								  
+								</ul> -->
+							</div>
+							<div class="right">
+								<div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
+								<div class="chat" data-chat="person1">
+									<div class="conversation-start">
+										<span>Today, 6:48 AM</span>
+									</div>
+									<div class="bubble you">
+										Hello,
+									</div>
+									<div class="bubble you">
+										it's me.
+									</div>
+									<div class="bubble you">
+										I was wondering...
+									</div>
+								</div>
+								<div class="chat" data-chat="person2">
+									<div class="conversation-start">
+										<span>Today, 5:38 PM</span>
+									</div>
+									<div class="bubble you">
+										Hello, can you hear me?
+									</div>
+									<div class="bubble you">
+										I'm in California dreaming
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble you">
+										When we were younger and free...
+									</div>
+									<div class="bubble you">
+										I've forgotten how it felt before
+									</div>
+									<div class="bubble you">
+										When we were younger and free...
+									</div>
+									<div class="bubble you">
+										I've forgotten how it felt before
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+									<div class="bubble me">
+										... about who we used to be.
+									</div>
+									<div class="bubble me">
+										Are you serious?
+									</div>
+								</div>
+								
+								
+								
+								
+								<div class="write">
+									<a href="javascript:;" class="write-link attach"></a>
+									<input type="text" />
+									<a href="javascript:;" class="write-link smiley"></a>
+									<a href="javascript:;" class="write-link send"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					  
+				</div>
 				<!--底部-->
 				<div class="footer">
 					<div class="footer-hd">
@@ -130,58 +235,67 @@
 						</p>
 					</div>
 				</div>
-
 			</div>
-			
+
 			<aside class="menu">
-					<ul>
-						<li class="person active">
-							<a href="/home/userinfo">个人中心</a>
-						</li>
-						<li class="person">
-							<a href="#">个人资料</a>
-							<ul>
-								<li> <a href="/home/userinfo_personal">个人信息</a></li>
-								<li> <a href="/home/userinfo_safe">安全设置</a></li>
-								<li> <a href="/home/userinfo_address">收货地址</a></li>
+				<ul>
+					<li class="person">
+						<a href="index.html">个人中心</a>
+					</li>
+					<li class="person">
+						<a href="#">个人资料</a>
+						<ul>
+							<li> <a href="information.html">个人信息</a></li>
+							<li> <a href="safety.html">安全设置</a></li>
+							<li> <a href="address.html">收货地址</a></li>
+						</ul>
+					</li>
+					<li class="person">
+						<a href="#">我的交易</a>
+						<ul>
+							<li><a href="order.html">订单管理</a></li>
+							<li> <a href="change.html">退款售后</a></li>
+						</ul>
+					</li>
+					<li class="person">
+						<a href="#">我的资产</a>
+						<ul>
+							<li> <a href="coupon.html">优惠券 </a></li>
+							<li> <a href="bonus.html">红包</a></li>
+							<li> <a href="bill.html">账单明细</a></li>
+						</ul>
+					</li>
+
+					<li class="person">
+						<a href="#">我的小窝</a>
+						<ul>
+							<li> <a href="collection.html">收藏</a></li>
+							<li> <a href="foot.html">足迹</a></li>
+							<li> <a href="comment.html">评价</a></li>
+							<li> <a href="news.html">消息</a></li>
+							
+						</ul>
+					</li>
+					<li class="person">
+						<!-- <div class="container"> -->
+							<div class="left">
+							
+							<ul class="people">
+								<li class="person" data-chat="person2">
+									
+									
+									
+									<span class="preview">联系卖家</span>
+								</li>
+							  
 							</ul>
-						</li>
-						<li class="person">
-							<a href="#">我的交易</a>
-							<ul>
-								<li><a href="/home/userinfo_order">订单管理</a></li>
-								<li> <a href="/home/userinfo_refund">退款售后</a></li>
-							</ul>
-						</li>
-						<li class="person">
-							<a href="#">我的资产</a>
-							<ul>
-								<li> <a href="/home/userinfo_coupon">优惠券 </a></li>
-								<li> <a href="/home/userinfo_redenvelopes">红包</a></li>
-							</ul>
-						</li>
-		
-						<li class="person">
-							<a href="#">我的小窝</a>
-							<ul>
-								<li> <a href="/home/userinfo_collect">收藏</a></li>
-								<li> <a href="/home/userinfo_foot">足迹</a></li>
-								<li> <a href="/home/userinfo_evaluate">评价</a></li>
-								<li> <a href="/home/userinfo_news">消息</a></li>
-							</ul>
-						</li>
-		
-					</ul>
-		
+						<!-- </div> -->
+					</li>
+				</ul>
+				
 			</aside>
 		</div>
-		<!--引导 -->
-		<div class="navCir">
-			<li><a href="home/home.html"><i class="am-icon-home "></i>首页</a></li>
-			<li><a href="home/sort.html"><i class="am-icon-list"></i>分类</a></li>
-			<li><a href="home/shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
-			<li class="active"><a href="index.html"><i class="am-icon-user"></i>我的</a></li>					
-		</div>
+		<script  src="/home/js/ljs/index.js"></script>
 	</body>
 
 </html>

@@ -18,30 +18,18 @@ class OrdersController extends Controller
     public function index(Request $request)
     {
 
-        // dd($request->all());
-        // $start = $request->input('start') ?? '';
-        // $end = $request->input('end') ?? '';
         $o_no  = $request->input('o_no') ?? '';
-        // $contrller = $request->input('contrller') ?? '';
-
         $list= orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->orderBy('created_at','desc')->paginate(3);
-        // dd($list);
-        // if($start && $end && $o_no )
-
-        // if($o_no){
-        //     $list = orders::where('')
-        // }
-
-        
-        return view('admin.Orders.orders',['list'=>$list]);
+        $count= orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->count();
+        return view('admin.Orders.orders',['list'=>$list,'count'=>$count]);
     }
 
     public function order_view($id){
 
         // $img = orders::with(['sends'])->get();
 
-        $data =orderdetails::with(['refunds','good'])->get();
-
+        $data =orderdetails::with(['refunds','good'])->where('id','=',$id)->get();
+        // dd($data);
         return view('admin.Orders.order_view',['data'=>$data]);
     }
 
@@ -69,5 +57,33 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
         
+    }
+
+    public function status()
+    {
+        // return $_GET;
+        $id = $_GET['id'];
+        $status = $_GET['status'];
+        $res=orderdetails::where('id',$id)->update(['d_status'=>$status]);
+        if($res){
+            return 'success';
+        }else{
+            return 'error';
+        }
+    }
+
+    //批量删除
+    public function pdelete(Request $request){
+        // return $request;
+        $data= explode(',',$request->data);
+        // return $data;
+        foreach($data as $v){
+            $data = orders::find($v);
+            $data->orderdetails()->delete();
+            $data->refunds()->delete();
+            $data->delete();
+        }
+
+
     }
 }

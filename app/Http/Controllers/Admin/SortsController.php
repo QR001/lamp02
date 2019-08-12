@@ -26,7 +26,7 @@ class SortsController extends Controller
         // dd($create);
         // return $create;
         foreach ($create as $key => $value){
-            $n = substr_count($value->s_path,',');
+            $n = substr_count($value->s_path,',')-1;
 
             $create[$key]->s_name = str_repeat("|----",$n).$value->s_name;
         }
@@ -87,9 +87,13 @@ class SortsController extends Controller
         //获取父级id
         $parent_data = Sorts::find($s_pid);
         // dd($parent_data);
-        $s_path= $parent_data->s_path.','.$parent_data->id;
+        // $s_path= $parent_data->s_path.','.$parent_data->id;
         
-
+        if(substr_count($parent_data->s_path,',')>2){
+            $s_path=$parent_data->s_path.','.$path_data->id;
+        }else{
+            $s_path= $parent_data->s_path.$parent_data->id.',';
+        }
         //添加
         $cate = new Sorts;
    
@@ -106,17 +110,23 @@ class SortsController extends Controller
 
     //添加分类
     public function store(Request $request)
-    {
-        // dd(1111);
-        //    
-        // return $request->all();
+    {   
+       
         $s_pid = $request->input('s_pid');
         if ($s_pid == 0) {
-            $s_path = 0;
+            $s_path = '0,';
         }else{
             //获取父级id
             $parent_data = Sorts::find($s_pid);
-            $s_path= $parent_data->s_path.','.$parent_data->id;
+            
+            if(substr_count($parent_data->s_path,',')>2){
+                $s_path=$parent_data->s_path.','.$path_data->id;
+            }else{
+                $s_path= $parent_data->s_path.$parent_data->id.',';
+            }
+
+            // $s_path=$parent_data->s_path.','.$path_data->id;
+          
         }
 
         //添加
@@ -156,11 +166,12 @@ class SortsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    //编辑页面
     public function edit($id)
     {
         return view('admin.Sorts.edit',['id'=>$id]);
     }
-
+    //编辑 执行更改
     public function edit_update(Request $request)
     {
         // dd($request->all());

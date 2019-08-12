@@ -1,8 +1,11 @@
 <?php
 
+
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
+
 
 class user extends Model
 {
@@ -14,5 +17,9 @@ class user extends Model
     
         return $this->hasMany('App\Models\orders');
     
+    }
+
+    public function chats(){
+        $this->hasMany(Chats::class);
     }
 }

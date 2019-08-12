@@ -18,8 +18,20 @@
 
 </head>
 <body class="form-wrap">
-
-    <div class="layui-col-md10">
+    <div class="layui-row">
+    <div class=" layui-col-md12 ">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li></li>
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px; color:red;">
+                                <legend>你的名字必须是汉字</legend>
+                        </fieldset>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="/admin/Sorts" method="POST">
             {{ csrf_field() }}
             <div class="layui-card">
@@ -34,20 +46,20 @@
                                 <option value="0">--请选择--</option>
                                 @foreach($create as $v )
                                 
-                                <option value="{{ $v->id }}" {{ substr_count($v->s_path,',') >= 2 ? 'disabled' : '' }}>{{ $v->s_name }}</option>
+                                <option value="{{ $v->id }}" {{ substr_count($v->s_path,',') >= 3 ? 'disabled' : '' }}>{{ $v->s_name }}</option>
                                 @endforeach
                         </select>
                 </div>
                 
                 </div> 
-   
-            </div>
-          
-            <div class="row cl">
-                <div class="col-9 col-offset-2">
-                    <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <div class="row cl">
+                        <div class="col-9 col-offset-2" style="margin-left:95%">
+                            <input class="layui-btn layui-btn-sm btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                        </div>
                 </div>
             </div>
+          
+            
         </form>
     </div>
 
@@ -62,6 +74,7 @@
         <span class="layui-layer-resize"></span>
     </div>
 @endif
+    </div>
 </body>
 
 <script>

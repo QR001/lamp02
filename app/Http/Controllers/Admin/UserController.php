@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
+
 class UserController extends Controller
 {
     // 用户列表
@@ -27,7 +28,6 @@ class UserController extends Controller
         $id=($currentPage-1)*$page+1;
         // 总条数
         $count=Userdetail::join('users','users.id','=','userdetails.uid')->count();
-     
        
         return view('admin.users.userlist',['users'=>$users,'count'=>$count,'id'=>$id]);
     }
@@ -39,6 +39,7 @@ class UserController extends Controller
     // 执行用户添加
     public function user_store(Request $request){
         // return $request->all();
+     
         
         // 开启事务
         DB::beginTransaction();
@@ -80,6 +81,7 @@ class UserController extends Controller
             DB::rollback();
             $status='error';
         }
+
 
         return $status;
       
@@ -143,11 +145,9 @@ class UserController extends Controller
     // 后台批量 删除用户
     public function user_deleteAll(Request $request){
       
-        //先查询数据是否存在
-        
+        //先查询数据是否存在        
         foreach($request->data  as $k=>$v){
 
-         
             $res=User::find($v);
             
             if($res){

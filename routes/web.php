@@ -21,10 +21,17 @@ Route::get('/admin/index/index2','Admin\LoginController@indexShow');
 //退出
 Route::get('/admin/login/logout','Admin\LoginController@logout');
 
+//后台  订单模块的 订单详情的退款
+Route::get('/admin/Orders/status','Admin\OrdersController@status');
+//后台  订单模块的单个删除
 //执行后台登录操作
 Route::post('/admin/login/dologin','Admin\LoginController@dologin');
 
 Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
+//后台  订单模块的批量删除
+Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
+
+
 //后台 订单模块
 Route::resource('/admin/Orders','Admin\OrdersController');
 
@@ -135,6 +142,17 @@ Route::get('/admmin/user/user_delete/{id}','Admin\UserController@user_delete');
 // 后台用户批量删除
 Route::post('/admin/user/user_deleteAll','Admin\UserController@user_deleteAll');
 
+// 后台优惠券管理
+Route::get('/admin/coupons/couponslist','Admin\CouponsController@index');
+// 添加优惠券
+Route::get('/admin/coupons/coupons_create','Admin\CouponsController@addcoupon');
+// 执行优惠券的添加
+Route::post('/admin/coupons/doaddcoupon','Admin\CouponsController@doaddcoupon');
+// 执行优惠券的删除
+Route::get('/admin/coupons/delcoupon/{id}','Admin\CouponsController@delcoupon');\
+
+// 优惠券的修改页面
+Route::get('/admin/coupons/update/{id}','Admin\CouponsController@update');
 
 // 后台网站配置
 Route::get('/admin/webs/webs','Admin\webController@web');
@@ -179,10 +197,33 @@ Route::post('/home/userinfo_updatepic','Home\UserController@userinfo_updatepic')
 
 // 显示个人中心--安全中心
 Route::get('/home/userinfo_safe','Home\UserController@userinfo_safe');
+// 显示个人中心--修改密码
+Route::get('/home/userinfo_safe_updatepwd','Home\UserController@userinfo_safe_updatepwd');
+// 执行个人中心--修改密码
+Route::post('/home/userinfo_safe_exupdatepwd','Home\UserController@userinfo_safe_exupdatepwd');
+// 显示个人中心--支付密码
+Route::get('/home/userinfo_safe_updatepaypwd','Home\UserController@userinfo_safe_updatepaypwd');
+// 执行个人中心的--修改支付密码
+Route::post('/home/userinfo/safe/updatepaypwd','Home\UserController@userinfo_safe_exupdatepaypwd');
+// 个人中心的发送验证码
+Route::get('/home/userinfo/sendPhone/{phone}','Home\UserController@sendPhone');
+
 // 显示个人中心的--收货地址
 Route::get('/home/userinfo_address','Home\UserController@userinfo_address');
+// 显示个人中心的--执行收货地址的添加
+Route::post('/home/userinfo_address','Home\UserController@userinfo_address_add');
+// 个人中心的---收货地址删除
+Route::get('/home/userinfo_address/delete/{id}','Home\UserController@userinfo_address_delete');
+// 个人中心--设为默认地址
+Route::get('/home/userinfo/defaultAddr/{id}','Home\UserController@userinfo_defaultAddr');
+
 // 显示个人中心的--订单管理
 Route::get('/home/userinfo_order','Home\UserController@userinfo_order');
+
+// 个人中心--确认收货
+Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
+
+
 // 显示个人中心的--退款售后
 Route::get('/home/userinfo_refund','Home\UserController@userinfo_refund');
 // 显示个人中心--优惠券
@@ -198,11 +239,21 @@ Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
 // 显示个人中心--消息
 Route::get('/home/userinfo_news','Home\UserController@news');
 
+// 前台购物车
+Route::get('/home/carts','Home\CartController@index');
+
+// 前台客服
+// Route::get('/home/customer','Home\CustomerController@index');
+
+//前台 显示聊天室视图
+Route::get('/home/chats','Home\ChatsController@index');
+//前台 用于获取所有用户的消息
+Route::get('/home/chats/fetchChat','Home\ChatsController@fetchChat');
+//前台 用于发送消息
+Route::post('/home/chats/sendChat','Home\ChatsController@sendChat');
 
 //商品信息
-Route::get('/home/goods/goodInfo/{id}',function($id){
-    return view('home.goods.goodInfo');
-});
+Route::get('/home/goods/goodInfo/{id}','Home\GoodsController@goodInfo');
 
 //全部活动
 Route::get('/home/blogs/blogAll',function(){
@@ -214,10 +265,11 @@ Route::get('/home/blogs/bloglist/{id}',function($id){
     return view('home.blogs.bloglist');
 });
 
-//商品列表
-Route::get('/home/goods/goodlist',function(){
-    return view('home/goods/goodlist');
-});
+//板块下的商品列表
+Route::get('/home/goods/goodlist/{sid}/{kv?}/{sortv?}/{type?}','Home\GoodsController@goodlist');
+
+//搜索下的商品列表
+Route::get('/home/goods/goodSearch/{type?}','Home\GoodsController@goodSearch');
 
 
 

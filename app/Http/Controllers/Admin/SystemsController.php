@@ -223,8 +223,6 @@ class SystemsController extends Controller
                 
                 if($value->storeAs($fpath,$path)){
                     $filePath[] = $path;
-                }else{
-
                 }
             }
         }
