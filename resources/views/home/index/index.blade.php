@@ -210,10 +210,10 @@
 										<a href="#"><p>点击更多优惠活动</p></a>									
 									</em>
 									<div class="member-login">
-										<a href="#"><strong>0</strong>待收货</a>
-										<a href="#"><strong>0</strong>待发货</a>
-										<a href="#"><strong>0</strong>待付款</a>
-										<a href="#"><strong>0</strong>待评价</a>
+										<a href="#"><strong>{{ $order[0] }}</strong>待收货</a>
+										<a href="#"><strong>{{ $order[1] }}</strong>待发货</a>
+										<a href="#"><strong>{{ $order[2] }}</strong>待付款</a>
+										<a href="#"><strong>{{ $order[3] }}</strong>待评价</a>
 									</div>
 								</div>
 								
@@ -243,7 +243,7 @@
 								<li><a target="_blank" href="/home/blogs/bloglist/{{ $v->id }}"><span>[特惠]</span>{{ $v->b_title }}</a></li>
 							@endforeach
 							</ul>
-                        <div class="advTip"><img src="/home/images/advTip.jpg"/></div>
+                        <div class="advTip"><img src="/uploads/turn2.jpg" height="100px"/></div>
 						</div>
 					</div>
 					<div class="clear"></div>
@@ -281,7 +281,7 @@
 								<h3 style="overflow:hidden;width:80%;">{{ $v->g_name }}</h3>
 							</div>
 							<div class="recommendationMain one">
-								<a href="/home/goods/goodInfo/{{ $v->id }}"><img src="/uploads/goods/{{ $v->g_img }} "></a>
+								<a href="/home/goods/goodInfo/{{ $v->id }}"><img src="/uploads/goods/{{ $v->g_img }} " height="120px"></a>
 							</div>
 						</div>						
 						@endforeach
@@ -303,7 +303,7 @@
 								<div class="icon-sale"></div>	
 									<h4>特惠</h4>							
 								<div class="activityMain ">
-									<a href="/home/goods/bloglist/{{ $v->id }}"><img src="/uploads/blogs/{{ $v->b_img }}" width="100%" height="250px"></a>
+									<a href="/home/blogs/bloglist/{{ $v->id }}"><img src="/uploads/blogs/{{ $v->b_img }}" width="100%" height="250px"></a>
 								</div>
 								<div class="info ">
 									<h3>{{ $v->b_title }}</h3>
@@ -358,43 +358,39 @@
 									<div class="sub-title ">
 										¥{{ $good->g_nprice }}
 									</div>
-									<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
+									<i class="am-icon-shopping-basket am-icon-md  seprate" onclick="carts({{ $good->id }})"></i>
 								</div>
-<<<<<<< HEAD
-								<a href="/home/goods/goodInfo/5"><img src="/home/images/1.jpg" /></a>
-							</div>
-
-
-						<div class="am-u-sm-3 am-u-md-2 text-three big">
-							<div class="outer-con ">
-								<div class="title ">
-									小优布丁
-								</div>
-								<div class="sub-title ">
-									¥4.8
-								</div>
-								<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-							</div>
-							<a href="# "><img src="/home/images/5.jpg" /></a>
-						</div>
-
-						<div class="am-u-sm-3 am-u-md-2 text-three sug">
-							<div class="outer-con ">
-								<div class="title ">
-									小优布丁
-								</div>
-								<div class="sub-title ">
-									¥4.8
-								</div>
-								<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-=======
-								<a href="# "><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a>
->>>>>>> origin/wuyanmeng
+								<a href="/home/goods/goodInfo/{{ $good->id }}"><img src="/uploads/goods/{{ $good->img }}" height="170px" /></a>
 							</div>
 						@endforeach
 
 					</div>
 					@endforeach
+
+					<script>
+						function carts(id)
+						{
+							$.ajax({
+								type:'POST',
+								url:'/home/carts/cart',
+								data:{'color':'图片色','number':1,'id':id,'_token':'{{csrf_token()}}'},
+								success:function(data){
+									if(data == 'nologin'){
+										alert("还没有登录哦");
+									}
+									if(data == 'success'){
+										alert('加入成功');
+									}else{
+										alert("请稍后再试试吧~");
+									}
+								},
+								error:function(){
+									alert('请稍后再试试吧~');
+								}
+							})
+						}
+						
+					</script>
 
 
                  <div class="clear "></div>  
@@ -402,163 +398,7 @@
                  
 
    
-<<<<<<< HEAD
-   
-   
-					<div class="footer ">
-						<div class="footer-hd ">
-							<p>
-								<a href="# ">恒望科技</a>
-								<b>|</b>
-								<a href="# ">商城首页</a>
-								<b>|</b>
-								<a href="# ">支付宝</a>
-								<b>|</b>
-								<a href="# ">物流</a>
-							</p>
-						</div>
-						<div class="footer-bd ">
-							<p>
-								<a href="# ">关于恒望</a>
-								<a href="# ">合作伙伴</a>
-								<a href="# ">联系我们</a>
-								<a href="# ">网站地图</a>
-								<em>© 2015-2025 Hengwang.com 版权所有</em>
-							</p>
-						</div>
-					</div>
-
-		</div>
-		</div>
-		<!--引导 -->
-		<div class="navCir">
-			<li class="active"><a href="home.html"><i class="am-icon-home "></i>首页</a></li>
-			<li><a href="sort.html"><i class="am-icon-list"></i>分类</a></li>
-			<li><a href="/home/carts"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
-			<li><a href="person/index.html"><i class="am-icon-user"></i>我的</a></li>					
-		</div>
-
-
-		<!--菜单 -->
-		<div class=tip>
-			<div id="sidebar">
-				<div id="wrap">
-					<div id="prof" class="item ">
-						<a href="# ">
-							<span class="setting "></span>
-						</a>
-						<div class="ibar_login_box status_login ">
-							<div class="avatar_box ">
-								<p class="avatar_imgbox "><img src="/home/images/no-img_mid_.jpg " /></p>
-								<ul class="user_info ">
-									<li>用户名sl1903</li>
-									<li>级&nbsp;别普通会员</li>
-								</ul>
-							</div>
-							<div class="login_btnbox ">
-								<a href="# " class="login_order ">我的订单</a>
-								<a href="# " class="login_favorite ">我的收藏</a>
-							</div>
-							<i class="icon_arrow_white "></i>
-						</div>
-
-					</div>
-					<div id="shopCart " class="item ">
-						<a href="/home/carts">
-							<span class="message "></span>
-						</a>
-						<p>
-							购物车
-						</p>
-						<p class="cart_num ">0</p>
-					</div>
-					<div id="asset " class="item ">
-						<a href="# ">
-							<span class="view "></span>
-						</a>
-						<div class="mp_tooltip ">
-							我的资产
-							<i class="icon_arrow_right_black "></i>
-						</div>
-					</div>
-
-					<div id="foot " class="item ">
-						<a href="# ">
-							<span class="zuji "></span>
-						</a>
-						<div class="mp_tooltip ">
-							我的足迹
-							<i class="icon_arrow_right_black "></i>
-						</div>
-					</div>
-
-					<div id="brand " class="item ">
-						<a href="#">
-							<span class="wdsc "><img src="/home/images/wdsc.png " /></span>
-						</a>
-						<div class="mp_tooltip ">
-							我的收藏
-							<i class="icon_arrow_right_black "></i>
-						</div>
-					</div>
-
-					<div id="broadcast " class="item ">
-						<a href="# ">
-							<span class="chongzhi "><img src="/home/images/chongzhi.png " /></span>
-						</a>
-						<div class="mp_tooltip ">
-							我要充值
-							<i class="icon_arrow_right_black "></i>
-						</div>
-					</div>
-
-					<div class="quick_toggle ">
-						<li class="qtitem ">
-							<a href="#"><span class="kfzx " onclick="qimoChatClick();"></span></a>
-							<div class="mp_tooltip ">客服中心<i class="icon_arrow_right_black "></i></div>
-						</li>
-						<!--二维码 -->
-						<li class="qtitem ">
-							<a href="#none "><span class="mpbtn_qrcode "></span></a>
-							<div class="mp_qrcode " style="display:none; "><img src="/home/images/weixin_code_145.png " /><i class="icon_arrow_white "></i></div>
-						</li>
-						<li class="qtitem ">
-							<a href="#top " class="return_top "><span class="top "></span></a>
-						</li>
-					</div>
-
-					<!--回到顶部 -->
-					<div id="quick_links_pop " class="quick_links_pop hide "></div>
-
-				</div>
-
-			</div>
-			<div id="prof-content " class="nav-content ">
-				<div class="nav-con-close ">
-					<i class="am-icon-angle-right am-icon-fw "></i>
-				</div>
-				<div>
-					我
-				</div>
-			</div>
-			<div id="shopCart-content " class="nav-content ">
-				<div class="nav-con-close ">
-					<i class="am-icon-angle-right am-icon-fw "></i>
-				</div>
-				<div>
-					购物车
-				</div>
-			</div>
-			<div id="asset-content " class="nav-content ">
-				<div class="nav-con-close ">
-					<i class="am-icon-angle-right am-icon-fw "></i>
-				</div>
-				<div>
-					资产
-				</div>
-=======
 @extends('home.layouts.footer')
->>>>>>> origin/wuyanmeng
 
 @section('content')
 

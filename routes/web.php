@@ -275,6 +275,8 @@ Route::post('/home/userinfo_balance','Home\UserController@userinfo_balance');
 
 // 前台购物车
 Route::get('/home/carts','Home\CartController@index');
+//加入购物车
+Route::post('/home/carts/cart','Home\CartController@cart');
 // 前台下单
 Route::get('/home/pay','Home\PayController@index');
 // 前台购物车--移入收藏夹
@@ -303,14 +305,10 @@ Route::get('/home/pay','Home\PayController@index');
 Route::post('/home/shopping','Home\PayController@shopping');
 
 //全部活动
-Route::get('/home/blogs/blogAll',function(){
-    return view('home.blogs.blogAll');
-});
+Route::get('/home/blogs/blogAll','Home\BlogsController@blogAll');
 
 //活动详情
-Route::get('/home/blogs/bloglist/{id}',function($id){
-    return view('home.blogs.bloglist');
-});
+Route::get('/home/blogs/bloglist/{id}','Home\BlogsController@bloglist');
 
 //板块下的商品列表
 Route::get('/home/goods/goodlist/{sid}/{kv?}/{sortv?}/{type?}','Home\GoodsController@goodlist');

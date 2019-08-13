@@ -8,6 +8,7 @@ use App\Models\Turn;
 use App\Models\Blog;
 use App\Models\Good;
 use App\Models\Sorts;
+use App\Models\orders;
 
 class IndexController extends Controller
 {
@@ -19,14 +20,33 @@ class IndexController extends Controller
         $blogs = $this->getBlogs();
         //获取今日推荐商品
         $sale = $this->getSale();
-        // dump($sale);
-        // return $sale;
-
         //获取分类 以及分类下的商品
         $sort = $this->getSorts();
 
-        // dump($sort);
-        return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort]);
+        if(session('home.id')){
+            //获取当前登录用户的订单信息
+            $order = $this->order();
+            return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'order' => $order]);
+
+        }else{
+            return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort]);
+
+        }
+
+    }
+
+    //获取当前登录用户的订单信息
+    public function order()
+    {
+        $id = session('home.id');
+        $order1 = orders::where(['uid' => $id,'o_status' => 1])->count();
+        $order2 = orders::where(['uid' => $id,'o_status' => 2])->count();
+        $order3 = orders::where(['uid' => $id,'o_status' => 3])->count();
+        $order4 = orders::where(['uid' => $id,'o_status' => 4])->count();
+
+        $order = [$order1,$order2,$order3,$order4];
+
+        return $order;
     }
 
     //分类
