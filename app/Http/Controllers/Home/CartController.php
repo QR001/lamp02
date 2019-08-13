@@ -39,9 +39,11 @@ class CartController extends Controller
 
         DB::beginTransaction();
         // 从购物车表里删除改商品
+
         //存入收藏夹 
         $collect= collects::create(['uid'=>$uid,'gid'=>$id]);
-        $res2=Cart::destroy($id);
+        // $res2=Cart::destroy($id);
+        $res2=Cart::where('gid',$id)->delete();
         if($collect && $res2){
             DB::commit();
             return view('home.userinfo.userinfo_collect');

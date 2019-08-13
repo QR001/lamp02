@@ -35,7 +35,7 @@ class WebController extends Controller
             
              // 修改操作
              //  判断是否有文件上传
-            if ($request->hasFile('w_logo')) {
+             if ($request->hasFile('w_logo')) {
                 // 获取网站的logo
                 $ext=$request->file('w_logo')->extension();
                 // 文件名 

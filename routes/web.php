@@ -30,13 +30,25 @@ Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
 Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
 
 
+
+//后台 订单管理的添加物流方式页面
+Route::get('/admin/Orders/order_cends','Admin\OrdersController@order_cends');
+Route::post('/admin/Orders/order_add','Admin\OrdersController@order_add');
+Route::get('/admin/Orders/order_update/{id}','Admin\OrdersController@order_update');
+Route::post('/admin/Orders/order_update_add','Admin\OrdersController@order_update_add');
+Route::get('/admin/Orders/update_delete/{id}','Admin\OrdersController@update_delete');
+//后台 订单管理的添加支付方式页面
+Route::get('/admin/Orders/order_pay','Admin\OrdersController@order_pay');
+Route::post('/admin/Orders/order_pay_add','Admin\OrdersController@order_pay_add');
+Route::get('/admin/Orders/order_pay_update/{id}','Admin\OrdersController@order_pay_update');
+Route::post('/admin/Orders/pay_update','Admin\OrdersController@pay_update');
+Route::get('/admin/Orders/pay_delete/{id}','Admin\OrdersController@pay_delete');
+//后他 订单管理的查看订单详情
+Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 //后台 订单模块
 Route::resource('/admin/Orders','Admin\OrdersController');
 
-//后台 订单管理的添加页面
-// Route::get('/admin/Orders/order_add','Admin\OrdersController@order_add');
-//后他 订单管理的产看订单详情
-Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
+
 
 // 后台 分类板块执行删除单个
 Route::get('/admin/Sorts/delete/{id}','Admin\SortsController@delete');
@@ -305,7 +317,4 @@ Route::get('/home/goods/goodlist/{sid}/{kv?}/{sortv?}/{type?}','Home\GoodsContro
 
 //搜索下的商品列表
 Route::get('/home/goods/goodSearch/{type?}','Home\GoodsController@goodSearch');
-
-
-
 

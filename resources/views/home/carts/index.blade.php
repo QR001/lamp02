@@ -153,9 +153,10 @@
 									<div class="amount-wrapper ">
 									  <div class="item-amount ">
 										<div class="sl">
-										  <input class="min am-btn" name="" type="button" value="-" />
-										  <input class='text_box' name="" type="text" value="{{ $cart->c_num }}" style="width:30px;" />
-										  <input class="add am-btn" name="" type="button" value="+" /></div>
+										  {{-- <input class="min am-btn" name="" type="button" value="-" /> --}}
+										  {{-- <input class='text_box' name="" type="text" value="{{ $cart->c_num }}" style="width:30px;" /> --}}
+										  <input class='text_box' name="" min='1' max='100' type="number" value="{{ $cart->c_num }}" style="width:50px;" />
+										  {{-- <input class="add am-btn" name="" type="button" value="+" /></div> --}}
 									  </div>
 									</div>
 								  </li>
@@ -257,7 +258,7 @@
 			  $('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-				
+				// console.log(cart_num);
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -275,7 +276,15 @@
 				$('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-				
+				// console.log(cart_num);
+				if(cart_num <=0){
+					
+				   $(this).val(1);
+				   cart_num=1;
+				}
+
+				console.log(cart_num);
+
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -289,43 +298,43 @@
 			});
 
 			//当增加数量的时候改变价格
-			$('.text_box').next().click(function(){
-				// alert('增加');
-				$('.text_box').each(function(){
-				//   商品的数量
-				var cart_num=$(this).val();
+			// $('.text_box').next().click(function(){
+			// 	// alert('增加');
+			// 	// $('.text_box').each(function(){
+			// 	//   商品的数量
+			// 	var cart_num=$(this).val();
+			// 	console.log(cart_num);
+			// 	//  每一个商品的价格
+			// 	var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
-				//  每一个商品的价格
-				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
+			// 	// 计算到小计
+			// 	var sum=cart_num*price;
 				
-				// 计算到小计
-				var sum=cart_num*price;
+            //     $(this).parent().parent().parent().parent().next().children().children().text(sum);
 				
-                $(this).parent().parent().parent().parent().next().children().children().text(sum);
-				
-			  });
-			  totalPrice();
-			});
+			// //   });
+			//   totalPrice();
+			// });
 
 			// 当数量减少的时候价格改变
-			$('.text_box').prev().click(function(){
-				// alert('增加');
-				$('.text_box').each(function(){
-				//   商品的数量
-				var cart_num=$(this).val();
+			// $('.text_box').prev().click(function(){
+			// 	// alert('增加');
+			// 	$('.text_box').each(function(){
+			// 	//   商品的数量
+			// 	var cart_num=$(this).val();
 				
-				//  每一个商品的价格
-				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
+			// 	//  每一个商品的价格
+			// 	var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
-				// 计算到小计
-				var sum=cart_num*price;
+			// 	// 计算到小计
+			// 	var sum=cart_num*price;
 				
-                $(this).parent().parent().parent().parent().next().children().children().text(sum);
+            //     $(this).parent().parent().parent().parent().next().children().children().text(sum);
 				
-			  });
-			  totalPrice();
+			//   });
+			//   totalPrice();
 
-			});
+			// });
 
             // 多选框
 			$('.check').click(function(){

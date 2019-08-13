@@ -18,13 +18,6 @@ class DetailsController extends Controller
         //查找 商品 商品详情 
         $data =Good::join('details','details.gid','goods.id')->where('goods.id',$id)->first();
         // dd($data->g_sales);
-        
-        //商品的销量
-        $orders=Good::join('orderdetails','orderdetails.gid','goods.id')->where(['goods.id'=>$id,'d_status'=>1])->count();
-        if($orders !=0){
-            $g_sales = $data->g_sales +  $orders;
-        }
-
       
         // 商品的评论
         $data2=Comment::where('gid',$id)->paginate(2);
@@ -65,7 +58,7 @@ class DetailsController extends Controller
         }
 
        
-        return view('home.goods.goodInfo',['data'=>$data,'image'=>$image,'color'=>$color,'comment'=>$data2,'goods'=>$goods,'img'=>$img,'coupons'=>$coupons,'count'=>$count,'g_sales'=>$g_sales]);
+        return view('home.goods.goodInfo',['data'=>$data,'image'=>$image,'color'=>$color,'comment'=>$data2,'goods'=>$goods,'img'=>$img,'coupons'=>$coupons,'count'=>$count]);
     }
 
    public function coupons($id)

@@ -87,19 +87,19 @@
             </tr>
         </thead>
         <tbody>
-          @foreach ($data as $k=>$v)
+          @foreach ($data as $v)
               
          
           <tr>
             {{-- <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td> --}}
-           
+
             <td>{{ $v['good']['g_name']}}</td>
-            <td>{{ $v['good']['g_img '] }}</td>
+            <td><img src="/uploads/goods/{{ $img[0] }}" alt="图片读取中...."></td>
             <td>{{ $v['good']['g_color'] }}</td>
+            <td>{{ $v->d_num}}</td>
             <td>{{ $v['good']['g_size'] }}</td>
-            <td>{{ $v->d_status }}</td>
             <td>
             @if($v->d_status == 1)  
               正常
