@@ -362,6 +362,7 @@
 								</div>
 								<a href="/home/goods/goodInfo/{{ $good->id }}"><img src="/uploads/goods/{{ $good->img }}" height="170px" /></a>
 								{{-- <a href="# "><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a> --}}
+								<a href="# "><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a>
 							</div>
 						@endforeach
 

@@ -249,7 +249,7 @@
 			  $('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-				// console.log(cart_num);
+			
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -316,6 +316,14 @@
 				
 			// 	//  每一个商品的价格
 			// 	var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
+
+				if(cart_num <=0){
+					
+				   $(this).val(1);
+				   cart_num=1;
+				}
+
+
 
 				if(cart_num <=0){
 					

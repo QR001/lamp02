@@ -38,8 +38,14 @@ class CartController extends Controller
 
         //存入收藏夹 
         $collect= collects::create(['uid'=>$uid,'gid'=>$id]);
+<<<<<<< HEAD
         // $res2=Cart::destroy($id);
         $res2=Cart::where('gid',$id)->delete();
+=======
+        
+        $res2=Cart::where('gid',$id)->delete();
+        
+>>>>>>> origin/zhangyahan
         if($collect && $res2){
             DB::commit();
             return view('home.userinfo.userinfo_collect');
