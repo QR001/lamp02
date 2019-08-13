@@ -361,6 +361,7 @@
 									<i class="am-icon-shopping-basket am-icon-md  seprate" onclick="carts({{ $good->id }})"></i>
 								</div>
 								<a href="/home/goods/goodInfo/{{ $good->id }}"><img src="/uploads/goods/{{ $good->img }}" height="170px" /></a>
+								{{-- <a href="# "><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a> --}}
 							</div>
 						@endforeach
 

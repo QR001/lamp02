@@ -214,8 +214,7 @@ Route::get('/home/userinfo_safe_updatepwd','Home\UserController@userinfo_safe_up
 Route::post('/home/userinfo_safe_exupdatepwd','Home\UserController@userinfo_safe_exupdatepwd');
 // 显示个人中心--支付密码
 Route::get('/home/userinfo_safe_updatepaypwd','Home\UserController@userinfo_safe_updatepaypwd');
-// 显示个人中心的--支付密码
-// Route::get('/home/userinfo_safe_');
+
 // 执行个人中心的--修改支付密码
 
 Route::post('/home/userinfo/safe/updatepaypwd','Home\UserController@userinfo_safe_exupdatepaypwd');
@@ -233,10 +232,12 @@ Route::get('/home/userinfo/defaultAddr/{id}','Home\UserController@userinfo_defau
 
 // 显示个人中心的--订单管理
 Route::get('/home/userinfo_order','Home\UserController@userinfo_order');
-
+// 个人中心的一键支付页面
+Route::POST('/home/userinfo_fastpay','Home\UserController@userinfo_fastpay');
+// 个人中心的--执行一键支付
+Route::POST('/home/userinfo_exfastpay','Home\UserController@userinfo_exfastpay');
 // 个人中心--确认收货
 Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
-
 
 // 显示个人中心的--退款售后
 Route::get('/home/userinfo_refund','Home\UserController@userinfo_refund');
@@ -277,8 +278,14 @@ Route::post('/home/userinfo_balance','Home\UserController@userinfo_balance');
 Route::get('/home/carts','Home\CartController@index');
 //加入购物车
 Route::post('/home/carts/cart','Home\CartController@cart');
+
+// 前台购物车下单
+Route::post('/home/pay','Home\PayController@pay');
+
 // 前台下单
-Route::get('/home/pay','Home\PayController@index');
+Route::any('/home/comfirmpay','Home\PayController@index');
+// 执行下单
+Route::post('/home/comfirepay','Home\PayController@comfirepay');
 // 前台购物车--移入收藏夹
 Route::get('/home/updatecollect/{id}','Home\CartController@updatecollect');
 

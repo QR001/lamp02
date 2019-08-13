@@ -4,7 +4,7 @@
 <div class="main-wrap">
 
         <div class="am-cf am-padding">
-            <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">修改密码</strong> / <small>Password</small></div>
+            <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">余额充值</strong> / <small>Password</small></div>
         </div>
         <hr>
         <!--进度条-->
@@ -47,6 +47,14 @@
                   
                     <div class="am-form-content">
                         <input type="text" disabled value="请正确填写充值的金额" style="color:red;" type="text" pattern="\d*">
+                    </div>
+                </div>
+            @endif
+            @if($errors->has('noyue'))
+                <div class="am-form-group">
+                  
+                    <div class="am-form-content">
+                        <input type="text" disabled value="没有余额,请尽快充值" style="color:red;" type="text" pattern="\d*">
                     </div>
                 </div>
             @endif 

@@ -17,7 +17,7 @@ class DetailsController extends Controller
         //查找 商品 商品详情 
         $data =Good::join('details','details.gid','goods.id')->where('goods.id',$id)->first();
         // dd($data->g_sales);
-      
+    
         // dump($data);
         // 商品的评论
         $data2=Comment::where('gid',$id)->paginate(2);

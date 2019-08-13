@@ -710,3 +710,48 @@
 @section('content')
 
 @endsection
+	<script>
+		
+		function shopping(id){
+			var price = $('.sys_item_price').html() ;
+			var color = $('.sku-line.selected').html();
+			var size = $('#size').html();
+			var number = $('#text_box').val();
+			var img=$('.jqzoom')[0].src;
+			console.log(img);
+			$.ajax({
+				type:'POST',
+				url:'/home/shopping',
+				data:{'price':price,'color':color,'size':size,'number':number,'img':img,'_token':'{{csrf_token()}}'},
+				success:function(data){
+					console.log(data);
+				},
+				error:function(data){
+					console.log(data);
+				}
+			})
+			
+		}
+
+		function charts(id){
+			var price = $('.sys_item_price').html() ;
+			var color = $('.sku-line.selected').html();
+			var size = $('#size').html();
+			var number = $('#text_box').val();
+			var img=$('.jqzoom')[0].src;
+			// console.log(img);
+			$.ajax({
+				type:'POST',
+				url:'/home/carts/cart',
+				data:{'price':price,'color':color,'size':size,'number':number,'img':img,'_token':'{{csrf_token()}}'},
+				success:function(data){
+					console.log(data);
+				},
+				error:function(data){
+					console.log(data);
+				}
+			})
+		}
+	</script>
+
+</html>

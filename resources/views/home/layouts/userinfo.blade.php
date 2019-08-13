@@ -61,7 +61,7 @@
 								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+								<div class="menu-hd"><a id="mc-menu-hd" href="/home/cart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
 								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -161,7 +161,7 @@
 							<a href="#">我的资产</a>
 							<ul>
 								<li> <a href="/home/userinfo_coupon">优惠券 </a></li>
-								<li> <a href="/home/userinfo_redenvelopes">红包</a></li>
+								{{-- <li> <a href="/home/userinfo_redenvelopes">红包</a></li> --}}
 							</ul>
 						</li>
 		
@@ -183,7 +183,7 @@
 		<div class="navCir">
 			<li><a href="home/home.html"><i class="am-icon-home "></i>首页</a></li>
 			<li><a href="home/sort.html"><i class="am-icon-list"></i>分类</a></li>
-			<li><a href="home/shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
+			<li><a href="/home/cart"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
 			<li class="active"><a href="index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 	</body>

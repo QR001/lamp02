@@ -289,8 +289,7 @@ class UserController extends Controller
         $array = array('id'=>$id,'paypwd'=> $paypwd);
 
         $update = DB::table('userdetails')->where('uid','=',$id)->update($array);
-        
-       
+
         
         if($update){
             return back()->withErrors(['success'=>'修改成功']);
@@ -649,6 +648,56 @@ class UserController extends Controller
            return  back()->withErrors(['error'=>'充值失败']);
        }
        
+        
+    }
+
+    // 一键支付的页面
+    public function userinfo_fastpay(Request $request){
+     
+        // 判断该订单是否存在
+        $order=orders::find($request->id);
+        if($order){
+            return view('home.userinfo.userinfo_fastpay',['orderid'=>$request->id,'o_amount'=>$request->zongji]);
+        }else{
+            return back();
+        }
+    }
+    // 执行付款操作
+    public  function userinfo_exfastpay(Request $request){
+
+        if($request->paypwd==''){
+            return back()->withErrors(['nopaypwd'=>"请填写支付密码"]);
+        }
+        //判断支付密码是否正确
+        $ypaypwd=Userdetail::where('uid',session('home.id'))->first();
+        $userpwd=md5($request->paypwd);
+        
+        if($userpwd == $ypaypwd->paypwd){
+            // 支付密码正确
+            $yue=Payment::where('uid',session('home.id'))->first();
+            // 判断余额是否够付款
+            if($yue->balance < $request->o_amount){
+                // 不够
+                return redirect('/home/userinfo_payments')->withErrors(['noyue'=>'用户的余额不够']);
+            }else{
+                // 够---扣除余额--修改订单的状态
+                $res=Payment::where('uid',session('home.id'))->update([
+                    'balance'=>$yue->balance - $request->o_amount,
+                ]);
+                if($res){
+                    $res2=order::where('id',$request->orderid)->update([
+                        'o_status'=>2,
+                    ]);
+                    if($res2){
+                        return redirect('/home/userinfo_order');
+                    }
+                }
+            }
+
+        }else{
+        //     // 支付密码错误--重新输入密码
+                return redirect('/home/userinfo_order')->withErrors(['paypwd'=>'支付密码错误']);
+        }
         
     }
 
