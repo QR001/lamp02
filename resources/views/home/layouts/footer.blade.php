@@ -113,8 +113,8 @@
 
 					<div class="quick_toggle ">
 						<li class="qtitem ">
-							<a href="# "><span class="kfzx "></span></a>
-							<div class="mp_tooltip ">客服中心<i class="icon_arrow_right_black "></i></div>
+							<a onclick="qimoChatClick();"><span class="kfzx "></span></a>
+							<div class="mp_tooltip " >客服中心<i class="icon_arrow_right_black "></i></div>
 						</li>
 						<!--二维码 -->
 						<li class="qtitem ">

@@ -86,37 +86,33 @@
   <div class="am-u-md-9">
     <article class="blog-main">
       <h3 class="am-article-title blog-title">
-        <a href="#">×活动滚滚而来中</a>
+        <a href="#">×活动总是如期而至，抓紧机会抢购吧！</a>
       </h3>
-      <h4 class="am-article-meta blog-meta">{{ date('Y-m-d H:i:s') }}</h4>
 
       <div class="am-g blog-content">
         <div class="am-u-sm-12">
-          <p>活动总是如期而至，抓紧机会抢购吧！</p>
           
-          <strong class="blog-tit"><p><span>丨</span>活动标题</p></strong>
-          <div class="Row">
-          	<li><img src="/home/images/blog01.jpg"/></li>
-          	<li><img src="/home/images/blog02.jpg"/></li>
-          	<li><img src="/home/images/blog03.jpg"/></li>
-          </div>
-          <p>活动内容</p>
-    
-         <strong class="blog-tit"><p><span>丨</span>活动标题</p></strong>
-          <div class="Row">
-          	<li><img src="/home/images/blog04.jpg"/></li>
-          	<li><img src="/home/images/blog05.jpg"/></li>
-          	<li><img src="/home/images/blog06.jpg"/></li>
-          </div>
-          <p>活动内容</p>
-          
-         <strong class="blog-tit"><p><span>丨</span>活动标题</p></strong>
-          <div class="Row">
-          	<li><img src="/home/images/blog07.jpg"/></li>
-          	<li><img src="/home/images/blog08.jpg"/></li>
-          	<li><img src="/home/images/blog09.jpg"/></li>
-          </div>          
-          <p>活动内容</p>
+		  	@foreach($blogs as $v)
+			  	<div class="am-u-sm-12" style="margin-top:25px;">
+				  	<strong class="blog-tit"><p><span>丨</span>{{ $v->b_title }}</p></strong>
+					<h4 class="am-article-meta blog-meta">{{ $v->updated_at }}</h4>
+			
+				</div>
+				
+				<div class="Row" class="am-u-sm-12">
+					@if(isset($v->goods[0]))
+						@foreach($v->goods as $g)
+						<li onclick="good({{ $g->id }})"><img src="/uploads/goods/{{ $g->img }}"/></li>
+						@endforeach
+					@else
+						
+						<li onclick="blog( {{ $v->id}} )"><img src="/uploads/blogs/{{ $v->b_img }}"/></li>
+
+					@endif
+					
+				</div>
+				<p class="am-u-sm-12">{{ $v->b_content }}</p>
+			@endforeach
 
         </div>
   
@@ -124,12 +120,63 @@
 
     </article>
 
+	<script>
+		function good(id){
+			window.location.href = "/home/goods/goodInfo/"+id;
+		}
+
+		function blog(id){
+			window.location.href = "/home/blogs/bloglist/"+id;
+		}
+	</script>
+
 
     <hr class="am-article-divider blog-hr">
-    <ul class="am-pagination blog-pagination">
-      <li class="am-pagination-prev"><a href="">&laquo; 上一页</a></li>
-      <li class="am-pagination-next"><a href="">下一页 &raquo;</a></li>
-    </ul>
+    
+	{{ $blogs->links() }}
+	<style>
+		.pagination {
+			position: relative;
+		}
+		.am-pagination-right {
+			text-align: right;
+		}
+		.pagination {
+			padding-left: 0;
+			margin: 1.5rem 0;
+			list-style: none;
+			color: #999999;
+			text-align: left;
+		}
+
+		.pagination li {
+			float: none;
+		}
+		.pagination > li {
+			display: inline-block;
+		}
+		.pagination > li > a, .pagination > li > span {
+			position: relative;
+			display: block;
+			padding: 0.5em 1em;
+			text-decoration: none;
+			line-height: 1.2;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 0;
+			margin-bottom: 5px;
+			margin-right: 5px;
+		}
+
+		.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+			z-index: 2;
+			color: #fff;
+			background-color: #0e90d2;
+			border-color: #0e90d2;
+			cursor: default;
+		}
+		</style>
+
   </div>
 
   <div class="am-u-md-3 blog-sidebar">
@@ -138,11 +185,9 @@
       <section class="am-panel am-panel-default">
         <div class="am-panel-hd">热门话题</div>
         <ul class="am-list blog-list">
-        	<li><a href="#"><p>[特惠]闺蜜喊你来囤国货啦</p></a></li>  
-          <li><a href="#"><p>[公告]华北、华中部分地区配送延迟</p></a></li>
-          <li><a href="#"><p>[特惠]家电狂欢千亿礼券 买1送1！</p></a></li>
-          <li><a href="#"><p>[公告]商城与广州市签署战略合作协议</p></a></li>
-          <li><a href="#"><p>[特惠]洋河年末大促，低至两件五折</p></a></li>      
+        	@foreach($sblogs as $s)
+          	<li><a href="/home/blogs/bloglist/{{ $s->id }}"><p>[特惠]{{ $s->b_title }}</p></a></li>      
+			@endforeach
         </ul>
       </section>
 
@@ -151,33 +196,8 @@
 
 </div>
 
-<div class="footer" >
- <div class="footer-hd">
- <p>
- <a href="#">恒望科技</a>
- <b>|</b>
- <a href="#">商城首页</a>
- <b>|</b>
- <a href="#">支付宝</a>
- <b>|</b>
- <a href="#">物流</a>
- </p>
- </div>
- <div class="footer-bd">
- <p>
- <a href="#">关于恒望</a>
- <a href="#">合作伙伴</a>
- <a href="#">联系我们</a>
- <a href="#">网站地图</a>
- <em>© 2015-2025 Hengwang.com 版权所有</em>
- </p>
- </div>
-</div>
+@extends('home.layouts.footer')
 
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
-<!--<![endif]-->
-<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
+@section('content')
 
-</body>
-</html>
+@endsection

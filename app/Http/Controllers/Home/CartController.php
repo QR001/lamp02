@@ -53,7 +53,24 @@ class CartController extends Controller
 
     public function cart(Request $request)
     {
-        return $request;
+        $uid = session('home.id');
+        if(!$uid){
+            return 'nologin';
+        }
+        $arr = ['uid' => $uid,'gid' => $request->id,'c_color' => $request->color];
+        $res = DB::table('carts')->where($arr)->get();
+        if(isset($res[0])){
+            $res = DB::table('carts')->where($arr)->update(['c_num' => $res[0]->c_num + $request->number]);
+        }else{
+            $arr['c_num'] = $request->number;
+            $res = DB::table('carts')->insert($arr);
+        }
+        if($res){
+            return 'success';
+        }else{
+            return 'error';
+        }
+
     }
     // 移出收藏夹
     public function chardelete($id)

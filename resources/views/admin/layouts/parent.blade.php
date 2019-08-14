@@ -52,13 +52,7 @@
                     <li><a _href="/admin/index/index2"><i class="iconfont">&#xe6a7;</i><cite>控制台</cite></a></li >
                 </ul>
             </li>
-            
-            <li>
-                <a href="javascript:;"><i class="iconfont">&#xe6f6;</i><cite>优惠管理</cite><i class="iconfont nav_right">&#xe6a7;</i></a>
-                <ul class="sub-menu">
-                    <li><a _href="html/upload.html"><i class="iconfont">&#xe6a7;</i><cite>优惠列表</cite></a></li>
-                </ul>
-            </li>
+           
 
             <li>
                 <a href="javascript:;">
@@ -121,7 +115,6 @@
             </li>
 
             <li>
-<li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe69e;</i>
                     <cite>分类管理</cite>
@@ -134,7 +127,7 @@
                             <cite>分类列表</cite>
                         </a>
                     </li >
-            <li>
+                    <li>
                         <a _href="/admin/Sorts/create">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>分类添加</cite>

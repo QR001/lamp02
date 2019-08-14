@@ -11,16 +11,6 @@ use App\Models\sorts;
 
 class GoodsController extends Controller
 {
-    //显示商品详情
-    public function goodInfo($id)
-    {
-        //确定该商品是否存在
-        $good = Good::findOrFail($id);
-        // return $good;
-
-
-        return view('home.goods.goodInfo');
-    }
 
     //全局搜索下的商品列表
     public function goodSearch($type = 'time')
@@ -64,7 +54,7 @@ class GoodsController extends Controller
             //@param 已经选择板块并且选择的板块事当前遍历的板块
             if($kv != 'none' && $sortv != 'none' && $kv == $k){
                 $goods[$kv] = $sortv;
-            }elseif($kv != 'none' && $sortv != 'none' && session()->get('goods')[$k] != $v->id){
+            }elseif($kv != 'none' && $sortv != 'none' && isset(session()->get('goods')[$k]) && session()->get('goods')[$k] != $v->id){
                 //该板块选择过
                 $goods[$k] = session()->get('goods')[$k];
             }else{

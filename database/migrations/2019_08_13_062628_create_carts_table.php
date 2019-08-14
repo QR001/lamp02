@@ -17,6 +17,7 @@ class CreateCartsTable extends Migration
             $table->increments('id');
             $table->integer('uid')->comment('用户的id');
             $table->integer('gid')->comment('商品的id');
+            $table->string('c_color')->comment('商品的颜色');
             $table->integer('c_num')->comment('商品的数量');
             $table->timestamps();
         });

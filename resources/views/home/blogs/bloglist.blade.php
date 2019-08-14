@@ -86,35 +86,27 @@
   <div class="am-u-md-9">
     <article class="blog-main">
       <h3 class="am-article-title blog-title">
-        <a href="#">×张毛爷爷，搞定靓妆容</a>
+        <a href="#">×{{ $blogs->b_title }}</a>
       </h3>
-      <h4 class="am-article-meta blog-meta">2014-06-17 09:52</h4>
+      <h4 class="am-article-meta blog-meta">{{ $blogs->updated_at }}</h4>
 
       <div class="am-g blog-content">
         <div class="am-u-sm-12">
-          <p>年轻的妹子爱美丽，这是人之常情，但是没有足够的经济实力，面对昂贵奢华的护肤品难免囊中羞涩。不过不用担心，年轻的资本就是，不需要投入太多，却依然有俏丽的脸蛋儿~今天小编就给妹子们准备了炙手可热的百元护肤大礼包，看看有没有自己需要的吧！</p>
+          <p>{{ $blogs->b_content }}</p>
           
-          <!-- <strong class="blog-tit"><p>一张毛爷爷<span>丨</span>基础护肤</p></strong> -->
           <div class="Row">
-          	<li><img src="/home/images/blog01.jpg"/></li>
-          	<li><img src="/home/images/blog02.jpg"/></li>
-          	<li><img src="/home/images/blog03.jpg"/></li>
+		  	@foreach($goods as $k => $v)
+			  	
+          		<li onclick="good({{ $v->id }})"><img src="/uploads/goods/{{ $v->img }}" height="230px" /></li>
+			@endforeach
           </div>
+			<script>
+					function good(id)
+					{
+						window.location.href = "/home/goods/goodInfo/"+id;
+					} 
+			</script>
           
-         <!-- <strong class="blog-tit"><p>两张毛爷爷<span>丨</span>彩妆</p></strong> -->
-          <div class="Row">
-          	<li><img src="/home/images/blog05.jpg"/></li>
-          	<li><img src="/home/images/blog05.jpg"/></li>
-          	<li><img src="/home/images/blog06.jpg"/></li>
-          </div>
-        
-         <!-- <strong class="blog-tit"><p>三张毛爷爷<span>丨</span>身体护理</p></strong> -->
-          <div class="Row">
-          	<li><img src="/home/images/blog07.jpg"/></li>
-          	<li><img src="/home/images/blog08.jpg"/></li>
-          	<li><img src="/home/images/blog09.jpg"/></li>
-          </div>          
-
         </div>
   
       </div>
@@ -123,10 +115,51 @@
 
 
     <hr class="am-article-divider blog-hr">
-    <ul class="am-pagination blog-pagination">
-      <li class="am-pagination-prev"><a href="">&laquo; 上一页</a></li>
-      <li class="am-pagination-next"><a href="">下一页 &raquo;</a></li>
-    </ul>
+    
+	{{ $goods->links() }}
+	<style>
+		.pagination {
+			position: relative;
+		}
+		.am-pagination-right {
+			text-align: right;
+		}
+		.pagination {
+			padding-left: 0;
+			margin: 1.5rem 0;
+			list-style: none;
+			color: #999999;
+			text-align: left;
+		}
+
+		.pagination li {
+			float: none;
+		}
+		.pagination > li {
+			display: inline-block;
+		}
+		.pagination > li > a, .pagination > li > span {
+			position: relative;
+			display: block;
+			padding: 0.5em 1em;
+			text-decoration: none;
+			line-height: 1.2;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 0;
+			margin-bottom: 5px;
+			margin-right: 5px;
+		}
+
+		.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+			z-index: 2;
+			color: #fff;
+			background-color: #0e90d2;
+			border-color: #0e90d2;
+			cursor: default;
+		}
+		</style>
+
   </div>
 
   <div class="am-u-md-3 blog-sidebar">
@@ -135,11 +168,9 @@
       <section class="am-panel am-panel-default">
         <div class="am-panel-hd">热门话题</div>
         <ul class="am-list blog-list">
-        	<li><a href="#"><p>[特惠]闺蜜喊你来囤国货啦</p></a></li>  
-          <li><a href="#"><p>[公告]华北、华中部分地区配送延迟</p></a></li>
-          <li><a href="#"><p>[特惠]家电狂欢千亿礼券 买1送1！</p></a></li>
-          <li><a href="#"><p>[公告]商城与广州市签署战略合作协议</p></a></li>
-          <li><a href="#"><p>[特惠]洋河年末大促，低至两件五折</p></a></li>      
+        	@foreach($sblogs as $v)
+          	<li><a href="/home/blogs/bloglist/{{ $v->id }}"><p>[特惠]{{ $v->b_title }}</p></a></li>    
+			@endforeach  
         </ul>
       </section>
 
@@ -148,34 +179,8 @@
 
 </div>
 
-<div class="footer" >
- <div class="footer-hd">
- <p>
- <a href="#">恒望科技</a>
- <b>|</b>
- <a href="#">商城首页</a>
- <b>|</b>
- <a href="#">支付宝</a>
- <b>|</b>
- <a href="#">物流</a>
- </p>
- </div>
- <div class="footer-bd">
- <p>
- <a href="#">关于恒望</a>
- <a href="#">合作伙伴</a>
- <a href="#">联系我们</a>
- <a href="#">网站地图</a>
- <em>© 2015-2025 Hengwang.com 版权所有</em>
- </p>
- </div>
-</div>
+@extends('home.layouts.footer')
 
+@section('content')
 
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
-<!--<![endif]-->
-<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
-
-</body>
-</html>
+@endsection
