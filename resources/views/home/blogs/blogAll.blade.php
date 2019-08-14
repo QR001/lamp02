@@ -102,11 +102,11 @@
 				<div class="Row" class="am-u-sm-12">
 					@if(isset($v->goods[0]))
 						@foreach($v->goods as $g)
-						<li onclick="good({{ $g->id }})"><img src="/uploads/goods/{{ $g->img }}"/></li>
+						<li onclick="good({{ $g->id }})"><img src="/uploads/goods/{{ $g->img }}" height="240px"/></li>
 						@endforeach
 					@else
 						
-						<li onclick="blog( {{ $v->id}} )"><img src="/uploads/blogs/{{ $v->b_img }}"/></li>
+						<li onclick="blog( {{ $v->id}} )"><img src="/uploads/blogs/{{ $v->b_img }}" height="240px"/></li>
 
 					@endif
 					
@@ -195,9 +195,35 @@
   </div>
 
 </div>
+<div class="footer" >
+ <div class="footer-hd">
+ <p>
+ <a href="#">恒望科技</a>
+ <b>|</b>
+ <a href="#">商城首页</a>
+ <b>|</b>
+ <a href="#">支付宝</a>
+ <b>|</b>
+ <a href="#">物流</a>
+ </p>
+ </div>
+ <div class="footer-bd">
+ <p>
+ <a href="#">关于恒望</a>
+ <a href="#">合作伙伴</a>
+ <a href="#">联系我们</a>
+ <a href="#">网站地图</a>
+ <em>© 2015-2025 Hengwang.com 版权所有</em>
+ </p>
+ </div>
+</div>
 
-@extends('home.layouts.footer')
 
-@section('content')
 
-@endsection
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
+
+</body>
+</html>

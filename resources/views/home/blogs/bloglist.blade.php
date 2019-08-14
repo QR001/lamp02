@@ -98,7 +98,15 @@
 		  	@foreach($goods as $k => $v)
 			  	
           		<li onclick="good({{ $v->id }})"><img src="/uploads/goods/{{ $v->img }}" height="230px" /></li>
-			@endforeach
+            @endforeach
+            
+            @if(!isset($goods[0]))
+            <script>
+            
+                alert("该活动商品已经抢光了呢，等待下次机会吧");
+                window.history.back();
+            </script>    
+            @endif
           </div>
 			<script>
 					function good(id)
@@ -179,8 +187,35 @@
 
 </div>
 
-@extends('home.layouts.footer')
 
-@section('content')
+<div class="footer" >
+ <div class="footer-hd">
+ <p>
+ <a href="#">恒望科技</a>
+ <b>|</b>
+ <a href="#">商城首页</a>
+ <b>|</b>
+ <a href="#">支付宝</a>
+ <b>|</b>
+ <a href="#">物流</a>
+ </p>
+ </div>
+ <div class="footer-bd">
+ <p>
+ <a href="#">关于恒望</a>
+ <a href="#">合作伙伴</a>
+ <a href="#">联系我们</a>
+ <a href="#">网站地图</a>
+ <em>© 2015-2025 Hengwang.com 版权所有</em>
+ </p>
+ </div>
+</div>
 
-@endsection
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
+
+</body>
+</html>
