@@ -213,7 +213,7 @@
 									<div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">{{ $data->g_sales }}</span></div>
 								</li> --}}
 								<li class="tm-ind-item tm-ind-sumCount canClick">
-									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{ $g_sales }}</span></div>
+									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count"></span></div>
 								</li>
 								<li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
 									<div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">{{ $count }}</span></div>
@@ -822,7 +822,7 @@
 			var size = $('#size').html();
 			var number = $('#text_box').val();
 			var img=$('.jqzoom')[0].src;
-			// console.log(img);
+			console.log(img);
 			$.ajax({
 				type:'POST',
 				url:'/home/shopping',

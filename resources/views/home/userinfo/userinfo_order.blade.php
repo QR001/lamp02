@@ -256,12 +256,20 @@
 																
 															</div>
 														</li>
+														{{-- 一键支付 --}}
+														<form action='/home/userinfo_fastpay' method='POST'>
+															{{ csrf_field() }}
+															{{-- 订单的id --}}
+															<input type="hidden" name='id' value='{{ $order->id }}'>
+															{{-- 订单的总价 --}}
+															<input type="hidden" name='zongji' value='{{ $order->o_amount }}'>
+															<li class="td td-change">
+																<button class="am-btn am-btn-danger anniu">
+																	一键支付
+																</button>
+															</li>
+														</form>
 														
-														<li class="td td-change">
-															<div class="am-btn am-btn-danger anniu">
-																一键支付
-															</div>
-														</li>
 														
 													</div>
 												</div>
@@ -275,6 +283,12 @@
 								</div>
 							@endif
 						@endforeach
+						{{-- 支付密码错误的提示信息 --}}
+						@if($errors->has('paypwd'))
+
+							<p style="color:red;">支付密码错误</p>						
+						
+						@endif
 					</div>
 					<div class="am-tab-panel am-fade" id="tab3">
 						<div class="order-top">
@@ -368,11 +382,15 @@
 														</li>
 														
 														<li class="td td-change">
-															<div class="am-btn am-btn-danger anniu">
+															<div  id='tixingfahuo' class="am-btn am-btn-danger anniu">
 																提醒发货
 															</div>
 														</li>
-														
+														<script>
+															$('#tixingfahuo').click(function(){
+																alert('提醒成功');
+															});
+														</script>
 													</div>
 												</div>
 											</div>
@@ -618,5 +636,6 @@
 
 			</div>
 		</div>
-	</div>	
+	</div>
+
 @endsection

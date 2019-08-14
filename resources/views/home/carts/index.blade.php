@@ -95,24 +95,18 @@
 
 					<tr class="item-list">
 							<div class="bundle  bundle-last ">
-							  <div class="bundle-hd">
-								<div class="bd-promos">
-								  <div class="bd-has-promo">已享优惠:
-									<span class="bd-has-promo-content">省￥19.50</span>&nbsp;&nbsp;</div>
-								  <div class="act-promo">
-									<a href="#" target="_blank">第二支半价，第三支免费
-									  <span class="gt">&gt;&gt;</span></a>
-								  </div>
-								  <span class="list-change theme-login">编辑</span></div>
-							  </div>
+							  
 							  <div class="clear"></div>
 							  <div class="bundle-main">
+								<form action='/home/comfirmpay' method='post'>
+									{{ csrf_field() }}
 								@foreach($carts as $cart)
-								{{-- {{dd($cart)}} --}}
+								
 								 <ul class="item-content clearfix">
 								  <li class="td td-chk">
 									<div class="cart-checkbox ">
-									  <input class="check" id="J_CheckBox_170037950254"  name="items[]"  value="170037950254" type="checkbox">
+										{{-- 传输了 商品id和商品的数量 --}}
+									  <input class="check" id="J_CheckBox_170037950254"  name="items[]"  value="{{ $cart->id }}-{{ $cart->c_num }}" type="checkbox">
 									  <label for="J_CheckBox_170037950254"></label>
 									</div>
 								
@@ -130,7 +124,7 @@
 								  </li>
 								  <li class="td td-info">
 									<div class="item-props item-props-can">
-									  <span class="sku-line">颜色：{{ $cart->g_color }}</span>
+									  <span class="sku-line">颜色：{{ $cart->c_color }}</span>
 									  <br/>
 									  <br/>
 									  <span class="sku-line">尺寸：{{ $cart->g_size }}</span>
@@ -153,9 +147,8 @@
 									<div class="amount-wrapper ">
 									  <div class="item-amount ">
 										<div class="sl">
-										  <input class="min am-btn" name="" type="button" value="-" />
-										  <input class='text_box' name="" type="text" value="{{ $cart->c_num }}" style="width:30px;" />
-										  <input class="add am-btn" name="" type="button" value="+" /></div>
+										 
+										  <input class='text_box' name="" min='1' max='100' type="number" value="{{ $cart->c_num }}" style="width:50px;" />
 									  </div>
 									</div>
 								  </li>
@@ -189,31 +182,30 @@
 						</div>
 						<span>全选</span>
 					</div>
-					{{-- <div class="operations">
-						<a href="#" hidefocus="true" class="deleteAll">删除</a>
-						<a href="" hidefocus="true" class="J_BatchFav">移入收藏夹</a>
-					</div> --}}
+					
 					<div class="float-bar-right">
-						<div class="amount-sum">
-							<span class="txt">已选商品</span>
-							<em id="J_SelectedItemsCount">0</em><span class="txt">件</span>
-							<div class="arrow-box">
-								<span class="selected-items-arrow"></span>
-								<span class="arrow"></span>
-							</div>
-						</div>
+						
 						<div class="price-sum">
 							<span class="txt">合计:</span>
 							<strong class="price">¥<em id="J_Total">0.00</em></strong>
+							@if($errors->has('no'))
+								<strong class="price"><em>至少选择一个商品</em></strong>
+							@endif
+							@if($errors->has('repay'))
+								<strong class="price"><em>请选择 物流方式 支付方式后重新下单</em></strong>
+							@endif
+							
+							
 						</div>
-						<div class="btn-area">
+						<input type="hidden" name='total' id='total' value=''>
+						<button class="btn-area">
 							<a href="pay.html" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 								<span>结&nbsp;算</span></a>
-						</div>
+						</button>
 					</div>
 
 				</div>
-
+			</form>
 				<div class="footer">
 					<div class="footer-hd">
 						<p>
@@ -257,7 +249,7 @@
 			  $('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-				
+			
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -275,7 +267,14 @@
 				$('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-				
+
+				if(cart_num <=0){
+					
+				   $(this).val(1);
+				   cart_num=1;
+				}
+
+
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -288,54 +287,11 @@
 			  totalPrice();
 			});
 
-			//当增加数量的时候改变价格
-			$('.text_box').next().click(function(){
-				// alert('增加');
-				$('.text_box').each(function(){
-				//   商品的数量
-				var cart_num=$(this).val();
-				
-				//  每一个商品的价格
-				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
-				
-				// 计算到小计
-				var sum=cart_num*price;
-				
-                $(this).parent().parent().parent().parent().next().children().children().text(sum);
-				
-			  });
-			  totalPrice();
-			});
-
-			// 当数量减少的时候价格改变
-			$('.text_box').prev().click(function(){
-				// alert('增加');
-				$('.text_box').each(function(){
-				//   商品的数量
-				var cart_num=$(this).val();
-				
-				//  每一个商品的价格
-				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
-				
-				// 计算到小计
-				var sum=cart_num*price;
-				
-                $(this).parent().parent().parent().parent().next().children().children().text(sum);
-				
-			  });
-			  totalPrice();
-
-			});
-
-            // 多选框
-			$('.check').click(function(){
-				totalPrice();
-			});
 			// 全选
 			$('#selectAll').click(function(){
 
 				if($(this).attr('checked')){
-					// console.log();
+	
 					$('.check').attr('checked','checked');
 				}else{
 					$('.check').removeAttr('checked');
@@ -343,7 +299,15 @@
 				totalPrice();
 			});
 
+			$('.check').click(function(){
+				if($(this).attr('checked')){
+					totalPrice();
+				}else{
+					totalPrice();
+				}
 
+				
+			});
 
 			//计算总价
 			function totalPrice(){
@@ -358,6 +322,7 @@
 		        });
 		        //写入总金额
 				$('#J_Total').text(total);
+				$('#total').val(total);
 	        }
 
 		  })

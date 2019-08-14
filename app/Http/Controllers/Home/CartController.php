@@ -19,17 +19,13 @@ class CartController extends Controller
         }
 
         $res=Cart::join('goods','goods.id','carts.gid')->where(['carts.uid'=>session('home.id')])->get();
-        
-      
+       
         foreach($res as $k=>$v){
             $gimg=explode(',',$v->g_img);
             // 商品的图片
             $res[$k]['g_img']=$gimg[0];
-            
         }
-
-        // 查询该用户是否有优惠券
-        
+        // dd($res);
         return view('home.carts.index',['carts'=>$res]);
     }
 
@@ -39,9 +35,12 @@ class CartController extends Controller
 
         DB::beginTransaction();
         // 从购物车表里删除改商品
+
         //存入收藏夹 
         $collect= collects::create(['uid'=>$uid,'gid'=>$id]);
-        $res2=Cart::destroy($id);
+        
+        $res2=Cart::where('gid',$id)->delete();
+        
         if($collect && $res2){
             DB::commit();
             return view('home.userinfo.userinfo_collect');
@@ -61,13 +60,12 @@ class CartController extends Controller
         DB::beginTransaction();
        $delete = DB::table('carts')->where('gid',$id)->delete();
 
-    
        if($delete){
-        DB::commit();
-        return back();
+            DB::commit();
+            return back();
        }else{
-        DB::rollback();
-        return back();
+            DB::rollback();
+            return back();
        }
     }
 

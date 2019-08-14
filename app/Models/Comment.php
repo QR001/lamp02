@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-<<<<<<< HEAD
     //
 
-    protected $fillable=['gid','uid','c_score','c_content'];
+    // protected $fillable=['gid','uid','c_score','c_content'];
+    //白名单
+    protected $fillable = ['c_score','c_content','c_img','uid','gid'];
 
     public function Good()
     {
@@ -20,8 +21,5 @@ class Comment extends Model
     {
         $this->belongsTo('App\Models\user','uid');
     }
-=======
-    //白名单
-    protected $fillable = ['c_score','c_content','c_img','uid','gid'];
->>>>>>> origin/zhangyahan
+    
 }
