@@ -90,7 +90,7 @@ class PayController extends Controller
             $coupon=$res->id;
             $couponmoney=$res->c_money;
             // 删除用户选择的优惠券
-            Coupon::destroy($coupon);
+            Coupon::where($coupon)->update(['']);
         }else{
             $coupon='';
             $couponmoney=0;
