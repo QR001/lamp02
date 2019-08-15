@@ -4,8 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use Illuminate\Foundation\Auth\User;
+use App\Models\Cart;
+use App\Models\Comment;
+use App\Models\Coupon;
+use App\Models\locations;
+use App\Models\orderdetails;
+use App\Models\orders;
+use App\Models\Payment;
 use App\Models\Userdetail;
+use App\Models\collects;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -117,28 +124,63 @@ class UserController extends Controller
 
     // 后台用户删除
     public function user_delete($id){
-        // 开启事务
-        DB::beginTransaction();
 
-        // 删除用户表
-        $res1=User::where('id',$id)->delete();
+       
+        // 删除商品评论表
+        $data1=Comment::where('uid',$id)->get();
 
-        if($res1){
-            $res2=Userdetail::where('uid',$id)->delete();
-            if($res2){
-                // 事务提交
-                DB::commit();
-                return 'success';
-            }else{
-                // 事务回滚
-                DB::rollback();
-                return 'error';
-            } 
-        }else{
-            // 事务回滚
-            DB::rollback();
-            return 'error';
+        $res=Comment::where('uid',$id)->delete();
+
+   
+        // 删除 优惠券表
+        $data2=Coupon::where('uid',$id)->get();
+        
+  
+        $res2=Coupon::where('uid',$id)->delete();
+
+   
+        // 删除 订单详情
+        $res4=orders::where('uid',$id)->get();
+      
+        if(!empty($res4)){
+       
+            foreach($res4 as $k=>$v){
+             
+                orderdetails::where('oid',$v->id)->delete();
+            }
         }
+     
+        // 删除订单表
+        $data3=orders::where('uid',$id)->get();
+        
+     
+        $res3=orders::where('uid',$id)->delete();
+   
+        // 删除购物车
+
+        $re5=Cart::where('uid',$id)->delete();
+        
+        // 删除收藏夹
+
+        $res6=collects::where('uid',$id)->delete();
+       
+        // 删除 支付表
+
+        $res7=Payment::where('uid',$id)->delete();
+       
+        // 删除收货地址
+
+        $res10=locations::where('uid',$id)->delete();
+
+        // 删除用户详情表
+       
+        $res8=Userdetail::where('uid',$id)->delete();
+       
+        // 删除用户表
+        $res9=User::destroy($id);
+
+        return 'success';
+        
     }
     // 后台批量 删除用户
     public function user_deleteAll(Request $request){

@@ -22,6 +22,7 @@ class CreateUserdetailsTable extends Migration
             $table->integer('integral',false,false);
             $table->string('phone',50);
             $table->string('pic',150);
+            $table->string('paypwd',255);
             $table->timestamps();
         });
     }

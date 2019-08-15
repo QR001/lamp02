@@ -19,7 +19,7 @@ class CreateDetailsTable extends Migration
             $table->string('d_prompt')->comment("相关提示");
             $table->string('d_explain')->comment("保养说明");
             $table->bigInteger('gid')->unsigned();
-            $table->foreign('gid')->references('id')->on('goods')->onDelete('cascade');
+            // $table->foreign('gid')->references('id')->on('goods')->onDelete('cascade');
             $table->timestamps();
         });
     }

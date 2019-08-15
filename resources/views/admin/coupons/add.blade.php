@@ -33,31 +33,7 @@
                       <span class="x-red">*</span>优惠券金额在必须大于0
                   </div>
               </div>
-              <div class="layui-form-item">
-                  <label for="phone" class="layui-form-label">
-                      <span class="x-red">*</span>过期时间
-                  </label>
-
-                 
-                  <div class="layui-input-inline">
-             
-                        <input class="layui-input" placeholder="开始日" name="start" id="start" lay-key="1">
-                        <br>
-                        至
-                        <br>
-                        <br>
-                        <input class="layui-input" placeholder="截止日" name="end" id="end" lay-key="2">
-                    </div>
-              </div>
-              
-              <div class="layui-form-item">
-                  <label class="layui-form-label"><span class="x-red">*</span>类型</label>
-                  <div class="layui-input-block">
-                    <input type="radio" name="c_type" value="1" lay-skin="primary" title="红包" checked=""><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>红包</div></div>
-                    <input type="radio" name="c_type" value="2" lay-skin="primary" title="优惠券"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>优惠券</div></div>
-                  </div>
-              </div>
-
+            
               <div class="layui-form-item">
                   <label for="L_repass" class="layui-form-label">
                   </label>
@@ -98,13 +74,6 @@
                         return '优惠的金额必须大于0';
                     }
 
-                    if($('#start')[0].value >= $('#end')[0].value){
-                        return '选择时间不规范，请重新选择';
-                    }
-
-                    if($('#start')[0].value.length < 1 || $('#end')[0].value.length < 1){
-                        return "活动时间不可为空";
-                    }
                 },  
                 
 

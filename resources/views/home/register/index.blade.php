@@ -274,54 +274,6 @@
 			}
 			
 		});
-		/*$('#emailRegister').submit(function(){
-
-			// console.log(flag_1);
-			// console.log(flag_2);
-			// console.log(flag_3);
-			// console.log(flag_4);
-
-			//判断所有条件是否符合
-			if(! flag_1 && flag_2 && flag_3 && flag_4){
-				return false;
-			}
-			
-
-
-			$.ajax({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				},
-				type:'POST',
-				url:'/home/register',
-				dataType:'json',
-				data:{
-					'_token':'{{ csrf_token() }}',
-				},
-				async: true,
-				success:function(res){
-					console.log(res);
-				},
-				error : function (msg) {   
-					if (msg.status == 422) {
-						var json=JSON.parse(msg.responseText);
-						json = json.errors;                      
-						for ( var item in json) {
-							for ( var i = 0; i < json[item].length; i++) {
-								alert(json[item][i]);
-								return ; //遇到验证错误，就退出
-							}
-						}
-					} else {
-						alert('服务器连接失败');
-						return ;
-					}
-				}
-				
-				
-			});
-			
-		});*/
 		
 		
 	</script>

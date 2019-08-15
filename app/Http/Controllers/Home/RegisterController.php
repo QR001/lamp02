@@ -48,6 +48,7 @@ class RegisterController extends Controller
             $userDetail->sex='';
             $userDetail->integral=0;
             $userDetail->phone='';
+            $userDetail->paypwd=md5('000000');
 
             $userDetail->uid=$users->id;
             
@@ -89,7 +90,6 @@ class RegisterController extends Controller
         $user->token=str_random(30);
         //判断是否激活成功
         if($user->save()){
-       
             return redirect()->action('Home\LoginController@index');
         }else{
          
@@ -113,10 +113,17 @@ class RegisterController extends Controller
         session([$k=>$code]);
         
         $url = "http://v.juhe.cn/sms/send";
+        // $params = array(
+        //     'key'   => 'ec23ab5562872ad112176e409b99bf26', //您申请的APPKEY
+        //     'mobile'    => $phone, //接受短信的用户手机号码
+        //     'tpl_id'    => '176433', //您申请的短信模板ID，根据实际情况修改
+        //     'tpl_value' =>'#code#='.$code, //您设置的模板变量，根据实际情况修改
+        //     'dtype'    =>'json'
+        // );
         $params = array(
-            'key'   => 'ec23ab5562872ad112176e409b99bf26', //您申请的APPKEY
+            'key'   => '21b37ea902d69960bee02faf8cd8ad64', //您申请的APPKEY
             'mobile'    => $phone, //接受短信的用户手机号码
-            'tpl_id'    => '176433', //您申请的短信模板ID，根据实际情况修改
+            'tpl_id'    => '179820', //您申请的短信模板ID，根据实际情况修改
             'tpl_value' =>'#code#='.$code, //您设置的模板变量，根据实际情况修改
             'dtype'    =>'json'
         );
@@ -192,7 +199,6 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
-
 
         // 验证验证码是否正确
         $phone=$request->input('phone',0);

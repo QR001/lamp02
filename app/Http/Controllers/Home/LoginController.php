@@ -18,6 +18,7 @@ class LoginController extends Controller
         return view('home.login.index');
     }
     
+    // 执行登录
     public function login(Login $request){
         // 记录到用户访问表
         Visit::create(['ip'=>$_SERVER['REMOTE_ADDR']]);
@@ -57,7 +58,7 @@ class LoginController extends Controller
                         'phone'=>$userinfo[0]->phone,
                         'pic'=>$userinfo[0]->pic,
                     ]]);
-                    // dd(session('home'));
+                 
                     return redirect('home/index');
                 }else{
                 // 密码匹配不正确
@@ -133,6 +134,14 @@ class LoginController extends Controller
             return back()->withErrors(['format'=>'格式不正确']);
         }
 
+    }
+
+    // 前台退出
+    public function logout()
+    {
+        session()->forget('home');
+        dd(session('home'));
+        return redirect('/admin/index');
     }
 
 
