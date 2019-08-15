@@ -86,7 +86,7 @@
           </div>
           <div class="login-links">
            
-            <a href="register.html" class="zcnext am-fr am-btn-default">注册</a>
+            <a href="/home/register" class="zcnext am-fr am-btn-default">注册</a>
             <br /></div>
           
           <div class="partner">

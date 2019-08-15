@@ -166,7 +166,6 @@
 									<i class="s-icon"></i>我的常用
 								</div>
 								<ul>
-
 									<a href="home/shopcart.html"><li class="am-u-sm-4"><i class="am-icon-shopping-basket am-icon-md"></i><img src="images/iconbig.png"/><p>购物车</p></li></a>
 									<a href="collection.html"><li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i><img src="images/iconsmall1.png"/><p>我的收藏</p></li></a>
 									<a href="home/home.html"><li class="am-u-sm-4"><i class="am-icon-gift am-icon-md"></i><img src="images/iconsmall0.png"/><p>为你推荐</p></li></a>
@@ -189,45 +188,48 @@
 							</div>
 							<div class="s-care s-care-noweather">
 								<div class="s-date">
-									<em>21</em>
-									<span>星期一</span>
-									<span>2015.12</span>
+									<em>{{ $day }}</em>
+									<span>{{ $week }}</span>
+									<span>{{ $year }}.{{ $month }}</span>
 								</div>
 							</div>
 						</div>
 						<!--新品 -->
-						<div class="new-goods">
-							<div class="s-bar">
-								<i class="s-icon"></i>今日新品
-								<a class="i-load-more-item-shadow">15款新品</a>
+						@if($newgood !==0)
+							<div class="new-goods">
+								<div class="s-bar">
+									<i class="s-icon"></i>今日新品
+							
+								</div>
+								<div class="new-goods-info">
+									<a class="shop-info" href="#" target="_blank">
+										<div class="face-img-panel">
+											<img src="/uploads/goods/{{ $newgood->g_img }}" alt="">
+										</div>
+										<span class="new-goods-num ">{{ $newgood->g_sales }}</span>
+										<span class="shop-title">{{ $newgood->g_name }}</span>
+									</a>
+								
+								</div>
 							</div>
-							<div class="new-goods-info">
-								<a class="shop-info" href="#" target="_blank">
-									<div class="face-img-panel">
-										<img src="images/imgsearch1.jpg" alt="">
-									</div>
-									<span class="new-goods-num ">4</span>
-									<span class="shop-title">剥壳松子</span>
-								</a>
-								<a class="follow " target="_blank">关注</a>
-							</div>
-						</div>
+						@endif
 
 						<!--热卖推荐 -->
-						<div class="new-goods">
-							<div class="s-bar">
-								<i class="s-icon"></i>热卖推荐
+						@if($newgood !==0)
+							<div class="new-goods">
+								<div class="s-bar">
+									<i class="s-icon"></i>热卖推荐
+								</div>
+								<div class="new-goods-info">
+									<a class="shop-info" href="#" target="_blank">
+										<div >
+											<img src="/uploads/goods/{{ $hotgood->g_img }}" alt="">
+										</div>
+										<span class="one-hot-goods">￥{{ $hotgood->g_nprice }}</span>
+									</a>
+								</div>
 							</div>
-							<div class="new-goods-info">
-								<a class="shop-info" href="#" target="_blank">
-									<div >
-										<img src="images/imgsearch1.jpg" alt="">
-									</div>
-                                    <span class="one-hot-goods">￥9.20</span>
-								</a>
-							</div>
-						</div>
-
+						@endif
 					</div>
 				</div>
 				<!--底部-->

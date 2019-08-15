@@ -19,9 +19,9 @@ class CreateCommentsTable extends Migration
             $table->string('c_content')->comment("评论内容");
             $table->string('c_img')->comment('评论图片');
             $table->bigInteger('uid')->unsigned();
-            $table->foreign('uid')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('uid')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('gid')->unsigned();
-            $table->foreign('gid')->references('id')->on('goods')->onDelete('cascade');
+            // $table->foreign('gid')->references('id')->on('goods')->onDelete('cascade');
             $table->timestamps();
         });
     }

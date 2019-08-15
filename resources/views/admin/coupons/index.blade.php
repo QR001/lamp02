@@ -55,8 +55,7 @@
             </th> --}}
             <th>ID</th>
             <th>优惠的金额</th>
-            <th>类别</th>
-            <th>有效的时间</th>
+           
             <th>加入时间</th>
             <th>状态</th>
             <th>操作</th>
@@ -64,13 +63,10 @@
         <tbody>
           @foreach($datas as $data)
             <tr>
-                {{-- <td>
-                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="2"><i class="layui-icon"></i></div>
-                </td> --}}
+              
                 <td>{{ $id++ }}</td>
                 <td>{{ $data->c_money }}</td>
-                <td>{{ $data->c_type==1 ? '优惠券' : '红包' }}</td>
-                <td>{{ $data->c_time }}</td>
+               
                 <td>{{ $data->created_at }}</td>
                 <td class="td-status">
                   @if($data->c_status==1)

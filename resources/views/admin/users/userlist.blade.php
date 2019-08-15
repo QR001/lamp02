@@ -30,8 +30,7 @@
         <div class="x-body">
           <div class="layui-row">
             <form class="layui-form layui-col-md12 x-so" action='/admin/user/userlist'>
-              {{-- <input class="layui-input" value="{{$_GET['start'] ?? ''}}" placeholder="开始日" name="start" id="start" lay-key="1">
-              <input class="layui-input" value="{{$_GET['end'] ?? ''}}" placeholder="截止日" name="end" id="end" lay-key="2"> --}}
+              
               <input type="text" name="name" value="{{ $_GET['name'] ?? '' }}" autocomplete="off" class="layui-input">
               <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i></button>
             </form>
@@ -198,11 +197,11 @@
               layer.confirm('确认要删除吗？',function(index){
                 $.ajax({
                   url:'/admmin/user/user_delete/'+id,
-                  // data:{'id':id},
+                  
                   type:'GET',
                  
                   success:function(data){
-                    console.log(data);
+                    // console.log(data);
                     //发异步删除数据
                     $(obj).parents("tr").remove();
                     layer.msg('已删除!',{icon:1,time:1000});

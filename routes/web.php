@@ -179,7 +179,8 @@ Route::post('/home/register/phoneRegister','Home\RegisterController@phoneRegiste
 // 前台登录
 Route::get('/home/login','Home\LoginController@index');
 Route::post('/home/login','Home\LoginController@login');
-
+//前台 退出
+Route::get('/home/login/logout','Home\LoginController@logout');
 
 // 前台首页
 Route::get('/','Home\IndexController@index');

@@ -38,8 +38,8 @@ class UserController extends Controller
         }
        
         // 红包的数量----优惠券的数量
-        $redbagCount=Coupon::where(['uid'=>session('home.id'),'c_type'=>2])->count();
-        $couponCount=Coupon::where(['uid'=>session('home.id'),'c_type'=>1])->count();
+       
+        $couponCount=Coupon::where(['uid'=>session('home.id')])->count();
         // 该用户的订单状态
         // 未付款
         $orderStatus=[];
@@ -48,8 +48,39 @@ class UserController extends Controller
         $orderStatus['status_3']=orders::where(['uid'=>session('home.id'),'o_status'=>3])->count();
         $orderStatus['status_4']=orders::where(['uid'=>session('home.id'),'o_status'=>4])->count();
         $orderStatus['status_5']=orders::where(['uid'=>session('home.id'),'o_status'=>5])->count();
+        // 日历
+        // 年
+        $year=date('Y');
+        // 月
+        $month=date('F');
+        // 日
+        $day=date('d');
+        // 星期
+        $week=date('l');
+        // 今日新品
+        $newgood=Good::orderBy('created_at','desc')->offset(0)->limit(1)->first();
         
-        return view('home.userinfo.index',['redbagCount'=>$redbagCount,'couponCount'=>$couponCount,'orderStatus'=>$orderStatus]);
+        
+        if(empty($newgood)){
+         
+            $newgood=0;
+           
+        }else{
+          
+           $newgood->g_img=explode(',',$newgood->g_img)[0];
+            
+        }
+        
+        // 热卖推荐
+        $hotgood=Good::orderBy('g_sales','desc')->offset(0)->limit(1)->first();
+ 
+        if(empty($hotgood)){
+            $hotgood=0;
+        }else{
+            $hotgood->g_img=explode(',',$hotgood->g_img)[0];
+        }
+
+        return view('home.userinfo.index',['couponCount'=>$couponCount,'orderStatus'=>$orderStatus,'year'=>$year,'month'=>$month,'day'=>$day,'week'=>$week,'newgood'=>$newgood,'hotgood'=>$hotgood]);
     }
 
     // 显示个人中心的---个人资料
@@ -675,27 +706,32 @@ class UserController extends Controller
         if($userpwd == $ypaypwd->paypwd){
             // 支付密码正确
             $yue=Payment::where('uid',session('home.id'))->first();
-            // 判断余额是否够付款
-            if($yue->balance < $request->o_amount){
-                // 不够
+            if(!$yue){
                 return redirect('/home/userinfo_payments')->withErrors(['noyue'=>'用户的余额不够']);
             }else{
-                // 够---扣除余额--修改订单的状态
-                $res=Payment::where('uid',session('home.id'))->update([
-                    'balance'=>$yue->balance - $request->o_amount,
-                ]);
-                if($res){
-                    $res2=order::where('id',$request->orderid)->update([
-                        'o_status'=>2,
+                 // 判断余额是否够付款
+                if($yue->balance < $request->o_amount){
+                    // 不够
+                    return redirect('/home/userinfo_payments')->withErrors(['noyue'=>'用户的余额不够']);
+                }else{
+                    // 够---扣除余额--修改订单的状态
+                    $res=Payment::where('uid',session('home.id'))->update([
+                        'balance'=>$yue->balance - $request->o_amount,
                     ]);
-                    if($res2){
-                        return redirect('/home/userinfo_order');
+                    if($res){
+                        $res2=orders::where('id',$request->orderid)->update([
+                            'o_status'=>2,
+                        ]);
+                        if($res2){
+                            return redirect('/home/userinfo_order');
+                        }
                     }
                 }
             }
+           
 
         }else{
-        //     // 支付密码错误--重新输入密码
+            // 支付密码错误--重新输入密码
                 return redirect('/home/userinfo_order')->withErrors(['paypwd'=>'支付密码错误']);
         }
         

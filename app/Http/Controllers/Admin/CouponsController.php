@@ -53,9 +53,9 @@ class CouponsController extends Controller
         $res=Coupon::create([
             'uid'=>0,
             'c_money'=>$maxmoney,
-            'c_type'=>$reuqest->data['c_type'],
+            
             'c_status'=>1, //默认是未使用
-            'c_time'=>$reuqest->data['start'] .'至'.$reuqest->data['end'],
+        
         ]);
 
         if($res){
@@ -86,21 +86,15 @@ class CouponsController extends Controller
        
         $data=Coupon::findOrFail($id);
        
-        if($data){
-            $res=explode('至',$data->c_time);
-            
-            $data->date=$res;
-        }
+        // dump($data);
         return view('admin.coupons.update',['data'=>$data,'id'=>$id]);
     }
 
     // 执行优惠券--修改
     public function exupdate(Request $request){
-        // return $request->data['c_type'];
+        // return $request->all();
         $res=Coupon::where('id',$request->data['id'])->update([
             'c_money'=>$request->data['c_money'],
-            'c_type'=>$request->data['c_type'],
-            'c_time'=>$request->data['start'].'至'.$request->data['end'],
         ]);
 
         if($res){

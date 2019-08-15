@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCouponsTable extends Migration
+class CreatePaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateCouponsTable extends Migration
      */
     public function up()
     {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('pays', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('uid')->default(0)->comment('用户的id,默认是0代表未被领取');
-            $table->integer('c_money')->commit('金额');
-          
-            $table->string('c_status',10)->commit('1 未使用 2 已使用');
-          
+            $table->string('p_method',255);
+            $table->string('p_img',255);
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateCouponsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coupons');
+        Schema::dropIfExists('pays');
     }
 }

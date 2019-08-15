@@ -36,29 +36,6 @@
                       <span class="x-red">*</span>优惠券金额必须大于0
                   </div>
               </div>
-              <div class="layui-form-item">
-                  <label for="phone" class="layui-form-label">
-                      <span class="x-red">*</span>过期时间
-                  </label>
-                 
-                  <div class="layui-input-inline">
-             
-                        <input class="layui-input" placeholder="开始日" value='{{ $data->date[0] }}' name="start" id="start" lay-key="1">
-                        <br>
-                        至
-                        <br>
-                        <br>
-                        <input class="layui-input" placeholder="截止日" value='{{ $data->date[1] }}' name="end" id="end" lay-key="2">
-                    </div>
-              </div>
-              
-              <div class="layui-form-item">
-                  <label class="layui-form-label"><span class="x-red">*</span>类型{{ $data->c_type }}</label>
-                  <div class="layui-input-block">
-                    <input type="radio" name="c_type" value="2" lay-skin="primary" title="红包" {{ $data->c_type==2 ? "checked" : ''}}><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>红包</div></div>
-                    <input type="radio" name="c_type" value="1" lay-skin="primary" title="优惠券"  {{ $data->c_type==1 ? "checked" : ''}}><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>优惠券</div></div>
-                  </div>
-              </div>
 
               <div class="layui-form-item">
                   <label for="L_repass" class="layui-form-label">
@@ -70,19 +47,7 @@
           </form>
         </div>
         <script>
-            layui.use('laydate', function(){
-                var laydate = layui.laydate;
-                
-                //执行一个laydate实例
-                laydate.render({
-                elem: '#start' //指定元素
-                });
-
-                //执行一个laydate实例
-                laydate.render({
-                elem: '#end' //指定元素
-                });
-            });
+            
             layui.use(['form','layer'], function(){
                 $ = layui.jquery;
               var form = layui.form
@@ -100,16 +65,7 @@
                         return '优惠的金额必须大于0';
                     }
 
-                    if($('#start')[0].value >= $('#end')[0].value){
-                        return '选择时间不规范，请重新选择';
-                    }
-
-                    if($('#start')[0].value.length < 1 || $('#end')[0].value.length < 1){
-                        return "活动时间不可为空";
-                    }
                 },  
-                
-
               });
               
     
@@ -122,7 +78,7 @@
                   data:{'data':data.field,'_token':'{{csrf_token()}}'},
                   type:'POST',
                   success:function(data){
-                    // console.log(data);
+                    
                     // 访问成功，返回信息
                     if(data == 'success'){
                       layer.alert("修改成功", {icon: 6},function () {
@@ -141,7 +97,8 @@
                     }
                     
                   },
-                  error:function(){
+                  error:function(err){
+                    // console.log(err);
                     layer.alert("添加失败，请重新添加", {icon: 6},function () {
                       // 获得frame索引
                       var index = parent.layer.getFrameIndex(window.name);

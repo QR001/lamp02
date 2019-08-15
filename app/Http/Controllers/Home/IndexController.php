@@ -19,8 +19,7 @@ class IndexController extends Controller
         $blogs = $this->getBlogs();
         //获取今日推荐商品
         $sale = $this->getSale();
-        // dump($sale);
-        // return $sale;
+     
 
         //获取分类 以及分类下的商品
         $sort = $this->getSorts();
