@@ -89,6 +89,7 @@ Route::get('/admin/systems/turns','Admin\SystemsController@turns');
 //修改轮播图
 Route::post('/admin/systems/turnsUpdate','Admin\SystemsController@turnsUpdate');
 
+
 //显示活动列表
 Route::get('/admin/blogs/list','Admin\BlogsController@list');
 //显示添加活动页面
@@ -257,6 +258,8 @@ Route::get('/home/userinfo_collect','Home\UserController@collect');
 Route::get('/home/userinfo/delcollect/{id}','Home\UserController@delcollect');
 // 显示个人中心--足迹
 Route::get('/home/userinfo_foot','Home\UserController@foot');
+//删除足迹中的商品
+Route::get('/home/userinfo/del/{id}','Home\UserController@del');
 // 显示个人中心--评价
 Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
 // 个人中心中--针对单个发表评论

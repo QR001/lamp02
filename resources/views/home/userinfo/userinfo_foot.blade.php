@@ -13,9 +13,15 @@
 
 		<link href="css/personal.css" rel="stylesheet" type="text/css">
 		<link href="css/footstyle.css" rel="stylesheet" type="text/css">
+		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 
 	</head>
-
+	@if(!isset($track[0]))
+		<script>
+			alert("还没有足迹哦，快去看看想要的商品吧！！！");
+			window.history.back();
+		</script>
+	@endif
 	<body>
 		<!--头 -->
 		<!--头 -->
@@ -96,166 +102,10 @@
 						</div>
 						<hr/>
 
-						<!--足迹列表 -->
-
-						<div class="goods">
-							<div class="goods-date" data-date="2015-12-21">
-								<span><i class="month-lite">12</i>.<i class="day-lite">21</i><i class="date-desc">今天</i></span>
-								<del class="am-icon-trash"></del>
-								<s class="line"></s>
-							</div>
-
-							<div class="goods-box first-box">
-								<div class="goods-pic">
-									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="意大利费列罗进口食品巧克力零食24粒  进口巧克力食品">
-											<img src="images/TB1_pic.jpg_200x200.jpg" class="goods-img"></a>
-									</div>
-									<a class="goods-delete" href="javascript:void(0);"><i class="am-icon-trash"></i></a>
-									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
-								</div>
-
-								<div class="goods-attr">
-									<div class="good-title">
-										<a class="title" href="#" target="_blank">意大利费列罗进口食品巧克力零食24粒  进口巧克力食品</a>
-									</div>
-									<div class="goods-price">
-										<span class="g_price">                                    
-                                        <span>¥</span><strong>71</strong>
-										</span>
-										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>142</strong>
-										</span>
-									</div>
-									<div class="clear"></div>
-									<div class="goods-num">
-										<div class="match-recom">
-											<a href="#" class="match-recom-item">找相似</a>
-											<a href="#" class="match-recom-item">找搭配</a>
-											<i><em></em><span></span></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="goods">
-							<div class="goods-date" data-date="2015-12-21">
-								<s class="line"></s>
-							</div>
-
-							<div class="goods-box">
-								<div class="goods-pic">
-									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="意大利费列罗进口食品巧克力零食24粒  进口巧克力食品">
-											<img src="images/TB1_pic.jpg_200x200.jpg" class="goods-img"></a>
-									</div>
-									<a class="goods-delete" href="javascript:void(0);"><i class="am-icon-trash"></i></a>
-									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
-								</div>
-
-								<div class="goods-attr">
-									<div class="good-title">
-										<a class="title" href="#" target="_blank">意大利费列罗进口食品巧克力零食24粒  进口巧克力食品</a>
-									</div>
-									<div class="goods-price">
-										<span class="g_price">                                    
-                                        <span>¥</span><strong>71</strong>
-										</span>
-										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>142</strong>
-										</span>
-									</div>
-									<div class="clear"></div>
-									<div class="goods-num">
-										<div class="match-recom">
-											<a href="#" class="match-recom-item">找相似</a>
-											<a href="#" class="match-recom-item">找搭配</a>
-											<i><em></em><span></span></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="goods">
-							<div class="goods-date" data-date="2015-12-21">
-								<s class="line"></s>
-							</div>
-
-							<div class="goods-box">
-								<div class="goods-pic">
-									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="意大利费列罗进口食品巧克力零食24粒  进口巧克力食品">
-											<img src="images/TB1_pic.jpg_200x200.jpg" class="goods-img"></a>
-									</div>
-									<a class="goods-delete" href="javascript:void(0);"><i class="am-icon-trash"></i></a>
-									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
-								</div>
-
-								<div class="goods-attr">
-									<div class="good-title">
-										<a class="title" href="#" target="_blank">意大利费列罗进口食品巧克力零食24粒  进口巧克力食品</a>
-									</div>
-									<div class="goods-price">
-										<span class="g_price">                                    
-                                        <span>¥</span><strong>71</strong>
-										</span>
-										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>142</strong>
-										</span>
-									</div>
-									<div class="clear"></div>
-									<div class="goods-num">
-										<div class="match-recom">
-											<a href="#" class="match-recom-item">找相似</a>
-											<a href="#" class="match-recom-item">找搭配</a>
-											<i><em></em><span></span></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="goods">
-							<div class="goods-date" data-date="2015-12-21">
-								<s class="line"></s>
-							</div>
-
-							<div class="goods-box">
-								<div class="goods-pic">
-									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="意大利费列罗进口食品巧克力零食24粒  进口巧克力食品">
-											<img src="images/TB1_pic.jpg_200x200.jpg" class="goods-img"></a>
-									</div>
-									<a class="goods-delete" href="javascript:void(0);"><i class="am-icon-trash"></i></a>
-									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
-								</div>
-
-								<div class="goods-attr">
-									<div class="good-title">
-										<a class="title" href="#" target="_blank">意大利费列罗进口食品巧克力零食24粒  进口巧克力食品</a>
-									</div>
-									<div class="goods-price">
-										<span class="g_price">                                    
-                                        <span>¥</span><strong>71</strong>
-										</span>
-										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>142</strong>
-										</span>
-									</div>
-									<div class="clear"></div>
-									<div class="goods-num">
-										<div class="match-recom">
-											<a href="#" class="match-recom-item">找相似</a>
-											<a href="#" class="match-recom-item">找搭配</a>
-											<i><em></em><span></span></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 						
+
+						<!--足迹列表 -->
+						@foreach($track as $v)
 						<div class="goods">
 							<div class="goods-date" data-date="2015-12-21">
 								<s class="line"></s>
@@ -264,76 +114,62 @@
 							<div class="goods-box">
 								<div class="goods-pic">
 									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="意大利费列罗进口食品巧克力零食24粒  进口巧克力食品">
-											<img src="images/TB1_pic.jpg_200x200.jpg" class="goods-img"></a>
+										<a class="goods-pic-link" target="_blank" href="#" title="{{ $v->good->g_name }}">
+											<img src="/uploads/goods/{{ $v->good->img }}" height="180px" class="goods-img"></a>
 									</div>
-									<a class="goods-delete" href="javascript:void(0);"><i class="am-icon-trash"></i></a>
+									<a class="goods-delete"  href="javascript:void(0);" ><i onclick="del({{ $v->good->id }})" class="am-icon-trash"></i></a>
+									@if($v->good->g_status == 2)
 									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
+									@endif
 								</div>
+
+								<script>
+									function del(id)
+									{
+										$.ajax({
+											url:'/home/userinfo/del/'+id,
+											type:'GET',
+											success:function(data){
+												if(data == 'success'){
+													alert('删除成功');
+													window.location.reload();
+												}else{
+													alert("系统繁忙，请稍后再试吧");
+												}
+												
+											},
+											error:function(){
+												alert("系统繁忙，请稍后再试吧");
+											}
+										});
+									}
+								</script>
 
 								<div class="goods-attr">
 									<div class="good-title">
-										<a class="title" href="#" target="_blank">意大利费列罗进口食品巧克力零食24粒  进口巧克力食品</a>
+										<a class="title" href="#" target="_blank">{{ $v->good->g_name }}</a>
 									</div>
 									<div class="goods-price">
 										<span class="g_price">                                    
-                                        <span>¥</span><strong>71</strong>
+                                        <span>¥</span><strong>{{ $v->good->g_nprice }}</strong>
 										</span>
 										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>142</strong>
+                                        <span>¥</span><strong>{{ $v->good->g_nprice }}</strong>
 										</span>
 									</div>
 									<div class="clear"></div>
 									<div class="goods-num">
 										<div class="match-recom">
-											<a href="#" class="match-recom-item">找相似</a>
-											<a href="#" class="match-recom-item">找搭配</a>
+											<!-- <a href="#" class="match-recom-item">找相似</a> -->
 											<i><em></em><span></span></i>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>						
+						</div>		
+						@endforeach				
 						<div class="clear"></div>
-						<div class="goods">
-							<div class="goods-date" data-date="2015-12-17">
-								<span><i class="month-lite"></i><i class="day-lite"></i>	<i class="date-desc">一周内</i></span>
-								<del class="am-icon-trash"></del>
-								<s class="line"></s>
-							</div>
-							<div class="goods-box">
-								<div class="goods-pic">
-									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="意大利费列罗进口食品巧克力零食24粒  进口巧克力食品">
-											<img src="images/TB1_pic.jpg_200x200.jpg" class="goods-img"></a>
-									</div>
-									<a class="goods-delete" href="javascript:void(0);"><i class="am-icon-trash"></i></a>
-									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
-								</div>
-
-								<div class="goods-attr">
-									<div class="good-title">
-										<a class="title" href="#" target="_blank">意大利费列罗进口食品巧克力零食24粒  进口巧克力食品</a>
-									</div>
-									<div class="goods-price">
-										<span class="g_price">                                    
-                                        <span>¥</span><strong>71</strong>
-										</span>
-										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>142</strong>
-										</span>
-									</div>
-									<div class="clear"></div>
-									<div class="goods-num">
-										<div class="match-recom">
-											<a href="#" class="match-recom-item">找相似</a>
-											<a href="#" class="match-recom-item">找搭配</a>
-											<i><em></em><span></span></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div> 
+						
 						
 						
 					</div>

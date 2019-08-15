@@ -152,8 +152,38 @@
                     </li >
                     
                 </ul>
-            </li>             
-             
+            </li>    
+            
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6ae;</i>
+                    <cite>销售设置</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    
+                    <li>
+                        <a _href="/admin/coupons/couponslist">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>优惠券</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/admin/coupons/couponslist">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>物流方式</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/admin/coupons/couponslist">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>支付方式</cite>
+                        </a>
+                    </li>
+ 
+                </ul>
+            </li>
+              
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6ae;</i>
@@ -173,24 +203,7 @@
                             <cite>轮播图</cite>
                         </a>
                     </li >
-                    <li>
-                        <a _href="/admin/coupons/couponslist">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>优惠券</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="/admin/coupons/couponslist">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>物流方式</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="/admin/coupons/couponslist">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>支付方式</cite>
-                        </a>
-                    </li>
+                   
  
                 </ul>
             </li>
