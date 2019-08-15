@@ -19,6 +19,7 @@ use App\Models\Coupon;
 use App\Models\Payment;
 use App\Models\collects;
 use App\Models\Comment;
+use App\Models\Track;
 use PhpParser\Node\Expr\BinaryOp\Coalesce;
 
 class UserController extends Controller
@@ -512,7 +513,27 @@ class UserController extends Controller
     // 显示个人中心的--足迹
     public function foot()
     {
-        return view('home.userinfo.userinfo_foot');
+        $track = Track::where(['uid' => session('home.id')])->get();
+        // return $track;
+        foreach($track as $v){
+            $good = Good::find($v->gid);
+            $img = explode(',',$good->g_img);
+            $good->img = $img[0];
+            $v->good = $good;
+        }
+
+        
+        return view('home.userinfo.userinfo_foot',['track' => $track]);
+    }
+    //删除足迹中的商品
+    public function del($id)
+    {
+        $res = Track::where(['uid' => session('home.id'),'gid' => $id])->delete();
+        if($res){
+            return 'success';
+        }else{
+            return 'error';    
+        }
     }
     // 该用户评论过的所有商品的评价
     public function evaluate()

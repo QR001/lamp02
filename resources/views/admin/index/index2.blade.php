@@ -13,7 +13,7 @@
     <body>
     <div class="x-body layui-anim layui-anim-up">
         <blockquote class="layui-elem-quote">欢迎管理员：
-            <span class="x-red">{{ Session::get('admin')->name }}</span>！当前时间:{{ date('Y-m-d H:i:s') }}</blockquote>
+            <span class="x-red">{{ Session::get('admin')->name }}</span>！当前时间:{{ date('Y-m-d G:i:s') }}</blockquote>
         <fieldset class="layui-elem-field">
             <legend>数据统计</legend>
             <div class="layui-field-box">
@@ -85,7 +85,7 @@
                             <td><?PHP echo get_cfg_var ("upload_max_filesize")?get_cfg_var ("upload_max_filesize"):"不允许上传附件"; ?> </td></tr>
                         <tr>
                             <th>执行时间限制</th>
-                            <td>30s</td></tr>
+                            <td><?PHP echo get_cfg_var("max_execution_time")."秒 "; ?></td></tr>
                         <tr>
                             <th>剩余空间</th>
                             <td>86015.2M</td></tr>

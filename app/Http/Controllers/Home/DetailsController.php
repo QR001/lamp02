@@ -9,6 +9,7 @@ use App\Models\user;
 use DB;
 use App\Models\Comment;
 use App\Models\coupon;
+use App\Models\Track;
 
 class DetailsController extends Controller
 {
@@ -48,7 +49,7 @@ class DetailsController extends Controller
         $color = explode(',',$data->g_color);
       
         //查找优惠卷
-        $coupons = coupon::where(['uid'=>0,'c_status'=>1])->orderBy('c_time','desc')->get();
+        $coupons = coupon::where(['uid'=>0,'c_status'=>1])->get();
         // dump($coupons);
 
         //推荐最新相似商品
@@ -78,8 +79,17 @@ class DetailsController extends Controller
             array_pop($a);
             $v['comment_imgs'] = $a;
            
+        };
+
+        if(session('home.id')){
+            $track = Track::where(['uid' => session('home.id'),'gid' => $id])->first();
+            if($track){
+                Track::where(['uid' => session('home.id'),'gid' => $id])->update(['updated_at' => date('Y-m-d H:i:s')]);
+            }else{
+                Track::insert(['uid' => session('home.id'),'gid' => $id,'created_at' => date('Y-m-d H:i:s'),'updated_at' => date('Y-m-d H:i:s')]);
+            }
+
         }
-        // dump($img);
        
         return view('home.goods.goodInfo',['count' => $count,'lgoods' => $lgoods,'data'=>$data,'image'=>$image,'color'=>$color,'comment'=>$data2,'goods'=>$goods,'img'=>$img,'coupons'=>$coupons]);
     }

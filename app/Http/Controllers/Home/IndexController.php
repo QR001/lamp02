@@ -9,6 +9,7 @@ use App\Models\Blog;
 use App\Models\Good;
 use App\Models\Sorts;
 use App\Models\orders;
+use App\Models\Link;
 
 class IndexController extends Controller
 {
@@ -22,17 +23,26 @@ class IndexController extends Controller
         $sale = $this->getSale();
         //获取分类 以及分类下的商品
         $sort = $this->getSorts();
+        //友情链接
+        $links = $this->getlinks();
 
         if(session('home.id')){
             //获取当前登录用户的订单信息
             $order = $this->order();
-            return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'order' => $order]);
+            return view('home.index.index',['links' => $links,'turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'order' => $order]);
 
         }else{
-            return view('home.index.index',['turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort]);
+            return view('home.index.index',['links' => $links,'turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort]);
 
         }
 
+    }
+
+    //获取友情链接
+    public function getlinks()
+    {
+        $links = Link::where('l_status',1)->get();
+        return $links;
     }
 
     //获取当前登录用户的订单信息
