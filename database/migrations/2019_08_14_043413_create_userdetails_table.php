@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserdetailsTables extends Migration
+class CreateUserdetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,8 @@ class CreateUserdetailsTables extends Migration
     public function up()
     {
         Schema::create('userdetails', function (Blueprint $table) {
-           
             $table->bigIncrements('id');
-            
             $table->bigInteger('uid')->unsigned()->comment('用户表的外键');
-            // $table->foreign('uid')->references('id')->on('users')->onDelete('cascade');
-
             $table->string('realname',50);
             $table->string('sex',10);
             $table->text('description');

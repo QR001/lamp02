@@ -293,15 +293,6 @@ Route::get('/home/updatecollect/{id}','Home\CartController@updatecollect');
 Route::get('/home/chardelete/{id}','Home\CartController@chardelete');
 
 
-// 前台客服
-// Route::get('/home/customer','Home\CustomerController@index');
-
-//前台 显示聊天室视图
-Route::get('/home/chat','Home\ChatsController@index');
-//前台 用于获取所有用户的消息
-Route::get('/home/chat/messages','Home\ChatsController@fetchChat');
-//前台 用于发送消息
-Route::post('/home/chat/messages','Home\ChatsController@sendChat');
 
 //商品信息
 Route::get('/home/goods/goodInfo/{id}','Home\DetailsController@index');

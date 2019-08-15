@@ -378,6 +378,7 @@ class UserController extends Controller
     // 显示个人中心的--订单管理
     public function userinfo_order()
     {
+        dd(session('home.id'));
         $order= orders::with('orderdetails')->first();
 
         // // 所有订单
@@ -412,7 +413,7 @@ class UserController extends Controller
         $res=orders::join('orderdetails','orderdetails.oid','orders.id')
             ->where('orders.uid',session('home.id'))
             ->get();
-    
+
        
         foreach($res as $k=>$v){
             $goods=Good::find($v->gid);

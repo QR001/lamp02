@@ -86,9 +86,11 @@ class IndexController extends Controller
     public function getTurns()
     {
         $turns = Turn::where('id',1)->first();
+        // dd($turns);
         // return $turns;
         $imgs = explode(',',$turns->t_img);
         array_pop($imgs);
+       
         return $imgs;
     }
 

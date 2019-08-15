@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSendsTable extends Migration
+class CreateSortsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateSendsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sends', function (Blueprint $table) {
+        Schema::create('sorts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('s_express',50)->comment('快递方式');
-            $table->string('s_img',50)->comment('图片');
+            $table->string('s_name',50);
+            $table->string('s_pid',10,false,false);
+            $table->string('s_path',50);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateSendsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sends');
+        Schema::dropIfExists('sorts');
     }
 }
