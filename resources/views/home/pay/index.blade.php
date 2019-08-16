@@ -157,7 +157,7 @@
 							<h3>选择物流方式--双击对物流进行选择</h3>
 							<ul class="op_express_delivery_hot">
 								@foreach ($wulius as $wuliu)
-									<li data-value="shentong" class="OP_LOG_BTN" expressmethods='{{ $wuliu->id }}'><img src='/uploads/express/{{ $wuliu->s_img }}'>{{ $wuliu->s_express }}<span></span></li>
+									<li data-value="shentong" class="OP_LOG_BTN" expressmethods='{{ $wuliu->id }}'><img src='/uploads/{{ $wuliu->s_img }}' style="width:100px">{{ $wuliu->s_express }}<span></span></li>
 								@endforeach
 								
 							</ul>

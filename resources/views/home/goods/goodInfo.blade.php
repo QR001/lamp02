@@ -340,21 +340,44 @@
 						<script>
 		
 							function shopping(id){
+
+								//商品促销价
 								var price = $('.sys_item_price').html() ;
-								var color = $('.sku-line.selected').html();
-								var size = $('#size').html();
+								//商品数量
 								var number = $('#text_box').val();
-								var img=$('.jqzoom')[0].src;
-								// console.log(img);
+								//商品总价
+								var total = price * number;
+
+								//商品颜色
+								var color = $('.color');
+								var g_color = '';
+								for(var i=0;i<color.length;i++){
+									if(color[i].getAttribute('class') == 'sku-line color selected'){
+										g_color = $(color[i]);
+									}
+								}
+								if(g_color == ''){
+									alert("可选规格不可为空");
+									return false;
+								}
+
+								g_color = g_color[0].innerText;
 								$.ajax({
 									type:'POST',
-									url:'/home/shopping',
-									data:{'price':price,'color':color,'size':size,'number':number,'img':img,'_token':'{{csrf_token()}}'},
+									url:'/home/comfirmpay',
+									data:{'total':total,'number':number,'id':id,'_token':'{{csrf_token()}}'},
 									success:function(data){
-										console.log(data);
+										if(data == 'nologin'){
+											alert("还没有登录哦");
+										}
+										if(data){
+											alert('加入成功');
+										}else{
+											alert("请稍后再试试吧~");
+										}
 									},
 									error:function(data){
-										console.log(data);
+										alert("请稍后再试试吧~");
 									}
 								})
 								

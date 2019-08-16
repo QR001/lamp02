@@ -39,8 +39,8 @@
 								<td class="td-inner">交易操作</td>
 							</div>
 						</div>
-						@foreach($datas as $data)
 						
+						@foreach($datas as $k=>$v)
 							<div class="order-main">
 								<div class="order-list">
 									<div class="order-title">
@@ -54,15 +54,15 @@
 												<li class="td td-item">
 													<div class="item-pic">
 														<a href="#" class="J_MakePoint">
-															<img src="images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg">
+															<img src="/uploads/goods/{{ $imgs[0] }}" class="itempic J_ItemImg">
 														</a>
 													</div>
 													<div class="item-info">
 														<div class="item-basic-info">
 															<a href="#">
-																<p>美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
-																<p class="info-little">颜色：12#川南玛瑙
-																	<br/>包装：裸装 </p>
+																<p>{{ $v['good']['g_name'] }}</p>
+																<p class="info-little">颜色：{{ $v['good']['g_color'] }}
+																	{{-- <br/>包装：裸装 </p> --}}
 															</a>
 														</div>
 													</div>
@@ -71,12 +71,12 @@
 												<ul class="td-changeorder">
 													<li class="td td-orderprice">
 														<div class="item-orderprice">
-															<span>交易金额：</span>72.00
+															<span>交易金额：</span>{{ $v['refunds']['payments'] }}
 														</div>
 													</li>
 													<li class="td td-changeprice">
 														<div class="item-changeprice">
-															<span>退款金额：</span>70.00
+															<span>退款金额：</span>{{ $v['refunds']['payments'] }}
 														</div>
 													</li>
 												</ul>
@@ -92,7 +92,7 @@
 												</li>
 											</div>
 											<li class="td td-change td-changebutton">
-												<a href="record.html">
+												<a href="/home/userinfo_record">
 												<div class="am-btn am-btn-danger anniu">
 													钱款去向</div>
 												</a>

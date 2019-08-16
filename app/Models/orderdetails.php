@@ -14,6 +14,10 @@ class orderdetails extends Model
         return $this->belongsTo('App\Models\good','gid');
     }
 
+    public function order(){
+        return $this->belongsTo('App\Models\orders','oid');
+    }
+
     public function refunds(){
         return $this->hasOne('App\Models\refunds','did');
     }

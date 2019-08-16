@@ -8,4 +8,9 @@ class Payment extends Model
 {
     //
     protected $fillable = ['uid','balance','pid'];
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\user','uid','id');
+    }
 }

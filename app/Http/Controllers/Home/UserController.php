@@ -409,25 +409,34 @@ class UserController extends Controller
 
     // 显示个人中心的--订单管理
     public function userinfo_order()
-    {
-        dd(session('home.id'));
-        $order= orders::with('orderdetails')->first();
+    {  
+        // 所有订单
+        $order = orders::with(['orderdetails'])->where('uid',session('home.id'))->get();
+    //   dd($order);
+        foreach($order as $k=>$v){
+            // dd($v);
+            $gid = $v['orderdetails']['gid'];
+        }
 
-        // // 所有订单
-        $res=orders::join('orderdetails','orderdetails.oid','orders.id')->where('orders.uid',session('home.id'))->get();
-       
-        foreach($res as $k=>$v){
-            $goods=Good::find($v->gid);
+        $orders = orderdetails::with('good')->where('gid',$gid)->get();
+
+    
+      
+      //  $res=orders::join('orderdetails','orderdetails.oid','orders.id')->where('orders.uid',session('home.id'))->get();
+       //dd($res);
+        foreach($orders as $k=>$v){
             // 只获得第一个图片
-            $imgs=explode(',',$goods->g_img);
-            
-            $res[$k]['goods']=$goods;
-            $res[$k]['goods']['g_img']=$imgs[0];
-            $v['commentCount']=Comment::where('gid',$v->gid)->count();
+            $imgs=explode(',',$v['good']['g_img']);
+            array_pop($imgs);
+          
+            // $res[$k]['goods']=$goods;
+
+            // $res[$k]['goods']['g_img']=$imgs[0];
+            // $v['commentCount']=Comment::where('gid',$v->gid)->count();
         }
        
     
-        return  view('home.userinfo.userinfo_order',['orders'=>$res]);
+        return  view('home.userinfo.userinfo_order',['order'=>$order,'orders'=>$orders,'imgs'=>$imgs]);
     }
 
     public function confirm($id)
@@ -438,26 +447,78 @@ class UserController extends Controller
         }
         return back();
     }
-    // 显示个人中心的--退款售后
-    public function userinfo_refund()
-    {
-        // 所有订单
-        $res=orders::join('orderdetails','orderdetails.oid','orders.id')
-            ->where('orders.uid',session('home.id'))
-            ->get();
 
-       
-        foreach($res as $k=>$v){
-            $goods=Good::find($v->gid);
-            // 只获得第一个图片
-            $imgs=explode(',',$goods->g_img);
-            
-            $res[$k]['goods']=$goods;
-            $res[$k]['goods']['g_img']=$imgs[0];
+    //订单管理的退款
+    public function refund($did,$gid,$num)
+    {
+
+        $order = orderdetails::with(['order','good'])->where(['oid'=>$did,'gid'=>$gid])->get();
+        // dd($data);
+        // $order = DB::table('orders')->join('goods','goods.id','orders.gid')
+        // dd($order);
+        foreach($order as $k=>$v){
+            $img=explode(',',$v['good']['g_img']);
+            array_pop($img);
         }
-      
-     
-        return  view('home.userinfo.userinfo_refund',['datas'=>$res]);
+       
+        return view('home.userinfo.refund',['img'=>$img,'order'=>$order,'gid'=>$gid,'num'=>$num]);
+    }
+
+    //退款申请
+    public function refundstore(Request $request)
+    {
+        // dd($request->all());
+        // $id = orderdetails::where('gid',$)->get();
+        $gid = $request->gid;
+        $did = $request->did;
+        $r_num =  $request->r_num;
+        $r_cause = $request->r_cause;
+        $payments = $request->payments;
+        // dd($payments);
+        $r_explain = $request->r_explain;
+
+        if($r_explain == null){
+            $r_explain = '';
+        }
+
+        $data = refunds::create(['uid'=>session('home.id'),'payments'=>$payments,'did'=>$did,'r_num'=>$r_num,'r_cause'=>$r_cause,'r_explain'=>$r_explain]);
+
+        if($data){
+            // return redirect('/home/refund_store/'.$did);
+            return redirect()->action('Home\UserController@refund_store',['did'=>$did,'gid'=>$gid]);
+        }else{
+            return back()->with('error','申请失败');
+        }
+
+    }
+
+    //显示申请成功页面
+   public function refund_store()
+   {
+    //    dd($_GET);
+        $did = $_GET['did'];
+        $gid = $_GET['gid'];
+        return view('home.userinfo.refund_store',['did'=>$did,'gid'=>$did]);
+   }
+
+    // 显示个人中心的--退款售后
+    public function userinfo_refund($did,$gid)
+    {
+        // $res =orderdetails::with(['refunds','good'])->where(['id'=>session('home.id'),'d_status'=>'3'])->get();
+        $order = orderdetails::with(['order','good','refunds'])->where(['id'=>session('home.id'),'oid'=>$did,'gid'=>$gid,'d_status'=>'3'])->get();
+        // dd($order);
+        foreach($order as $k=>$v){
+            // 只获得第一个图片
+            $imgs=explode(',',$v['good']['g_img']);
+            array_pop($imgs);
+        }
+        return  view('home.userinfo.userinfo_refund',['datas'=>$order,'imgs'=>$imgs]);
+    }
+
+    //显示退款去向页面
+    public function userinfo_record()
+    {
+        return  1111;
     }
 
     // 显示个人中心的--优惠券

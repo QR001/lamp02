@@ -229,11 +229,25 @@ Route::get('/home/userinfo_address','Home\UserController@userinfo_address');
 Route::post('/home/userinfo_address','Home\UserController@userinfo_address_add');
 // 个人中心的---收货地址删除
 Route::get('/home/userinfo_address/delete/{id}','Home\UserController@userinfo_address_delete');
-// 个人中心--设为默认地址
+// 个人中心--设为默认地址[]
 Route::get('/home/userinfo/defaultAddr/{id}','Home\UserController@userinfo_defaultAddr');
 
 // 显示个人中心的--订单管理
 Route::get('/home/userinfo_order','Home\UserController@userinfo_order');
+
+//显示个人中心的 -- 退款
+Route::get('/home/refund/{did}/{gid}/{num}','Home\UserController@refund');
+//提交申请
+Route::post('/home/refundstore','Home\UserController@refundstore');
+//显示个人中心的--申请退款成功
+Route::get('/home/refund_store','Home\UserController@refund_store');
+
+// 显示个人中心的--退款售后
+Route::get('/home/userinfo_refund/{did}/{gid}','Home\UserController@userinfo_refund');
+
+//显示钱款去向的页面
+Route::get('/home/l/{did}/{gid}','Home\UserController@userinfo_record');
+
 // 个人中心的一键支付页面
 Route::POST('/home/userinfo_fastpay','Home\UserController@userinfo_fastpay');
 // 个人中心的--执行一键支付
@@ -241,8 +255,6 @@ Route::POST('/home/userinfo_exfastpay','Home\UserController@userinfo_exfastpay')
 // 个人中心--确认收货
 Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
 
-// 显示个人中心的--退款售后
-Route::get('/home/userinfo_refund','Home\UserController@userinfo_refund');
 // 显示个人中心--优惠券
 Route::get('/home/userinfo_coupon','Home\UserController@userinfo_coupon');
 // 个人中心--立即使用优惠券
@@ -287,7 +299,7 @@ Route::post('/home/carts/cart','Home\CartController@cart');
 Route::post('/home/pay','Home\PayController@pay');
 
 // 前台下单
-Route::any('/home/comfirmpay','Home\PayController@index');
+Route::post('/home/comfirmpay','Home\PayController@index');
 // 执行下单
 Route::post('/home/comfirepay','Home\PayController@comfirepay');
 // 前台购物车--移入收藏夹

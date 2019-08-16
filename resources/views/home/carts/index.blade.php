@@ -289,61 +289,6 @@
 			  totalPrice();
 			});
 
-			//当增加数量的时候改变价格
-			// $('.text_box').next().click(function(){
-			// 	// alert('增加');
-			// 	// $('.text_box').each(function(){
-			// 	//   商品的数量
-			// 	var cart_num=$(this).val();
-			// 	console.log(cart_num);
-			// 	//  每一个商品的价格
-			// 	var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
-				
-			// 	// 计算到小计
-			// 	var sum=cart_num*price;
-				
-            //     $(this).parent().parent().parent().parent().next().children().children().text(sum);
-				
-			// //   });
-			//   totalPrice();
-			// });
-
-			// 当数量减少的时候价格改变
-			// $('.text_box').prev().click(function(){
-			// 	// alert('增加');
-			// 	$('.text_box').each(function(){
-			// 	//   商品的数量
-			// 	var cart_num=$(this).val();
-				
-			// 	//  每一个商品的价格
-			// 	var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
-
-				if(cart_num <=0){
-					
-				   $(this).val(1);
-				   cart_num=1;
-				}
-
-
-
-				if(cart_num <=0){
-					
-				   $(this).val(1);
-				   cart_num=1;
-				}
-
-
-				//  每一个商品的价格
-				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
-				
-			// 	// 计算到小计
-			// 	var sum=cart_num*price;
-				
-            //     $(this).parent().parent().parent().parent().next().children().children().text(sum);
-				
-			  });
-			  totalPrice();
-			});
 
 			// 全选
 			$('#selectAll').click(function(){

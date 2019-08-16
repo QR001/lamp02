@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Models\user;
+use App\Models\user;
 use App\Models\pay;
 use App\Models\orders;
 use App\Models\orderdetails;
 use App\Models\sends;
-
 use App\Models\refunds;
+use App\Models\payment;
+use DB;
 
 class OrdersController extends Controller
 {
@@ -18,10 +19,10 @@ class OrdersController extends Controller
 
     public function index(Request $request)
     {
-
+        // dd($request->all());
         $o_no  = $request->input('o_no') ?? '';
         $list= orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->orderBy('created_at','desc')->paginate(3);
-        // dd($list);
+        // dd($list['user']);
         $count= orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->count();
         return view('admin.Orders.orders',['list'=>$list,'count'=>$count]);
     }
@@ -31,12 +32,17 @@ class OrdersController extends Controller
         // $img = orders::with(['sends'])->get();
 
         $data =orderdetails::with(['refunds','good'])->where('id','=',$id)->get();
+        
+      
+        foreach($data as $k=>$v){
+            $uid = $v['refunds']['uid'];
+        }
      
        foreach($data as $k=>$v){
             $img = explode(',',$v['good']['g_img']);
             array_pop($img);
        }
-        return view('admin.Orders.order_view',['data'=>$data,'img'=>$img]);
+        return view('admin.Orders.order_view',['data'=>$data,'img'=>$img,'uid'=>$uid]);
     }
 
     //删除单个
@@ -60,15 +66,44 @@ class OrdersController extends Controller
     //修改状态
     public function status()
     {
-        // return $_GET;
+    //    return $_GET;
+        $uid = $_GET['uid'];
         $id = $_GET['id'];
         $status = $_GET['status'];
-        $res=orderdetails::where('id',$id)->update(['d_status'=>$status]);
-        if($res){
-            return 'success';
-        }else{
-            return 'error';
+        $res = refunds::find($id);
+        
+        $payments = $res->payments;
+     
+        $user = payment::where('uid','=',$uid)->get();
+        foreach($user as $k=>$v){
+            $balance = $v->balance;
         }
+      
+        $number = $payments + $balance; 
+        // return $number;
+       
+        $res = payment::where('uid',$uid)->update(['balance'=>$number]);
+        
+        
+        if($res){
+            $add=orderdetails::where('id',$id)->update(['d_status'=>$status]);
+            if($add){
+                return 'success';
+            }else{
+                return 'error';
+            }
+        };
+        // 
+      
+        // $status = $_GET['status'];
+       
+        // $res=orderdetails::where('id',$id)->update(['d_status'=>$status]);
+        
+        // if($res){
+        //     return 'success';
+        // }else{
+        //     return 'error';
+        // }
     }
 
     //批量删除
@@ -144,11 +179,11 @@ class OrdersController extends Controller
     public function order_update_add(Request $request)
     {
         $validatedData = $request->validate([
-            's_express' => 'min:2|max:50|unique:sends'
+            's_express' => 'min:2|max:50'
         ],[
             's_express.min'=>'物流名称不得低于2个字符',
             's_express.max'=>'物流名称不得高于50个字符',
-            's_express.unique'=>'物流名称已存在'
+            // 's_express.unique'=>'物流名称已存在'
         ]);
         $data = sends::find($request->id);
         // dd($data->s_img);
@@ -203,13 +238,15 @@ class OrdersController extends Controller
     //执行添加支付方式
     public function order_pay_add(Request $request)
     {
-        $validatedData = $request->validate([
-            'p_method' => 'min:2|max:50|unique:pays'
-        ],[
-            'p_method.min'=>'物流名称不得低于2个字符',
-            'p_method.max'=>'物流名称不得高于50个字符',
-            'p_method.unique'=>'物流名称已存在'
-        ]);
+        // dd($request->all());
+        // $p_method = $request->p_method;
+        // $validatedData = $request->validate([
+        //     'p_method' => 'min:2|max:50|unique:pays'
+        // ],[
+        //     'p_method.min'=>'物流名称不得低于2个字符',
+        //     'p_method.max'=>'物流名称不得高于50个字符',
+        //     'p_method.unique'=>'物流名称已存在'
+        // ]);
         // dd($request->all());
         if ($request->hasFile('p_img')) {
             // 获取文件后缀
@@ -217,13 +254,17 @@ class OrdersController extends Controller
             // 文件名 
             $filename=time().rand(0,100);
             
-            $path = $request->file('p_img')->storeAs('/method',date('Ymd').'/'.$filename.','.$ext);
+            $path = $request->file('p_img')->storeAs('/pay',date('Ymd').'/'.$filename.','.$ext);
             // dd($path);
+            // dd($request->p_method);
             //写入数据库
-            pay::create([
-                'p_method'=>$request->p_method,
-                'p_img'=>$path,
-            ]);
+            // pay::create([
+            //     'p_method'=>$request->p_method,
+            //     'p_img'=>$path,
+            // ]);
+            // DB::table('pays')->insert('insert into');
+            $time=date('Y-m-d H:i:s');
+            DB::insert('insert into pays (p_method, p_img,created_at,updated_at) values (?,?,?,?)', [$request->p_method, $path,$time,$time]);
             return back();
                      
         }else{

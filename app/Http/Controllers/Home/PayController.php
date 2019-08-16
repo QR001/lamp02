@@ -21,6 +21,7 @@ class PayController extends Controller
     //
     public function index(Request $request)
     {
+        
         // 判断用户是否选择商品
         if(!$request->items){
             return back()->withErrors(['no'=>'至少选择一个商品']);

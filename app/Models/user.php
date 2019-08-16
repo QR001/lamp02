@@ -33,4 +33,9 @@ class user extends Model
         $this->hasOne('App\Models\userdetail','id');
     }
 
+    public function Payment()
+    {
+        $this->hasOne('App\Models\Payment','uid');
+    }
+
 }

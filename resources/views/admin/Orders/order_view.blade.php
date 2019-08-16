@@ -86,10 +86,11 @@
             <th >操作</th>
             </tr>
         </thead>
+
         <tbody>
           @foreach ($data as $v)
               
-         
+         {{-- {{ dump($v) }} --}}
           <tr>
             {{-- <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
@@ -110,12 +111,12 @@
             @endif
             </td>
             <td class="td-manage">
-            @if($v->d_status == 1)
-            <a onclick="member_stop(this,'{{ $v->id }}')" href="javascript:;"  title="正常">
-              <i class="layui-icon layui-icon-face-smile">&#xe6af;</i>
-            </a>
+            @if($v['refunds'] == null)
+              <a href="javascript:;"  title="正常">
+                <i class="layui-icon layui-icon-face-smile">&#xe6af;</i>
+              </a>
             @elseif($v->d_status == 2)
-            <a onclick="member_stop(this,'{{ $v->id }}')" href="javascript:;"  title="退款中">
+            <a onclick="member_stop(this,'{{ $v->id }}','{{ $uid }}')" href="javascript:;"  title="用户申请退款">
               <i class="layui-icon layui-icon-face-cry">&#xe69c;</i>
             </a>
             @endif
@@ -152,44 +153,24 @@
       });
 
        /*用户-退款*/
-      function member_stop(obj,id){
+      function member_stop(obj,id,uid){
           layer.confirm('确认此次操作吗？',function(index){
 
-              if($(obj).attr('title')=='正常'){
+              if($(obj).attr('title')=='用户申请退款'){
                   $.ajax({
                     url:'/admin/Orders/status',
-                    data:{'id':id,'status':'2'},
+                    data:{'id':id,'status':'3','uid':uid},
                     type:'GET',
                     success:function(data){
                       // console.log(data);
                       if(data == 'success'){
-                        $(obj).attr('title','退款中')
+                        $(obj).attr('title','退款成功')
                         $(obj).find('i').html('&#xe69c;');
-                        layer.msg('退款中',{icon: 5,time:1000});
+                        layer.msg('退款成功',{icon: 5,time:1000});
                       }
                     },
                     error:function(data){
                       console.log(data);
-                    }
-
-                  })
-              }
-
-              if($(obj).attr('title')=='退款中'){
-                $.ajax({
-                    url:'/admin/Orders/status',
-                    data:{'id':id,'status':'1'},
-                    type:'GET',
-                    success:function(data){
-                      // console.log(data);
-                      if(data == 'success'){
-                        $(obj).attr('title','取消退款')
-                        $(obj).find('i').html('&#xe6af;');
-                        layer.msg('取消退款',{icon: 5,time:1000});
-                      }
-                    },
-                    error:function(data){
-                      layer.msg('操作失败',{icon: 6,time:1000});
                     }
 
                   })
