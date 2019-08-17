@@ -19,7 +19,8 @@ use App\Models\Coupon;
 use App\Models\Payment;
 use App\Models\collects;
 use App\Models\Comment;
-use PhpParser\Node\Expr\BinaryOp\Coalesce;
+use App\Models\Track;
+use App\Models\Web;
 
 class UserController extends Controller
 {
@@ -28,15 +29,28 @@ class UserController extends Controller
         $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>session('home.id')])->first();
         return $userinfo;
     }
+
     // 显示个人中心
     public function index()
     {
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         // 判断是否登录
         if(session('home.name')==null){
            
             return  view('home.login.index');
         }
-       
+        
+        
         // 红包的数量----优惠券的数量
        
         $couponCount=Coupon::where(['uid'=>session('home.id')])->count();
@@ -80,15 +94,26 @@ class UserController extends Controller
             $hotgood->g_img=explode(',',$hotgood->g_img)[0];
         }
 
-        return view('home.userinfo.index',['couponCount'=>$couponCount,'orderStatus'=>$orderStatus,'year'=>$year,'month'=>$month,'day'=>$day,'week'=>$week,'newgood'=>$newgood,'hotgood'=>$hotgood]);
+        return view('home.userinfo.index',['couponCount'=>$couponCount,'orderStatus'=>$orderStatus,'year'=>$year,'month'=>$month,'day'=>$day,'week'=>$week,'newgood'=>$newgood,'hotgood'=>$hotgood,'web'=>$web]);
     }
 
     // 显示个人中心的---个人资料
     public function userinfo_personal()
     {
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         $userinfo=self::catinfo();
         
-        return view('home.userinfo.userinfo_personal',['userinfo'=>$userinfo]);
+        return view('home.userinfo.userinfo_personal',['userinfo'=>$userinfo,'web'=>$web]);
     }
 
     // 执行个人中心的---个人资料修改
@@ -156,13 +181,31 @@ class UserController extends Controller
     // 显示个人中心--安全设置
     public function userinfo_safe()
     {
+        // 网站配置
+        $web=Web::find(1); 
+        if($web){
+             if($web->w_isopen ==2){
+                 return view('errors.close');
+             }
+        }else{
+             $web='';
+        }
        $userinfo=self::catinfo();
-       return view('home.userinfo.userinfo_safe',['userinfo'=>$userinfo]);
+       return view('home.userinfo.userinfo_safe',['userinfo'=>$userinfo,'web'=>$web]);
     }
 
     // 显示个人中心的---修改密码页面
     public function userinfo_safe_updatepwd(){
-        return view('home.userinfo.userinfo_safe_updatepwd');
+         // 网站配置
+         $web=Web::find(1); 
+         if($web){
+              if($web->w_isopen ==2){
+                  return view('errors.close');
+              }
+         }else{
+              $web='';
+         }
+        return view('home.userinfo.userinfo_safe_updatepwd',['web'=>$web]);
     }
 
     //执行个人中心的--修改密码
@@ -189,10 +232,10 @@ class UserController extends Controller
             $res=DB::table('users')->where('id',$id)->update(['password'=>Hash::make($request->npwd)]);
             
             if($res){
-                // return  "修改正确";
+
                 return redirect('/home/login')->withErrors(['loginExpire'=>'登录过期请重新登录']); 
             }else{
-                // return '修改失败';
+            
                 return back()->withErrors(['nomodify'=>'修改失败']); 
             }
         }else{
@@ -204,9 +247,18 @@ class UserController extends Controller
     // 修改支付密码--页面
     public function userinfo_safe_updatepaypwd()
     {
+         // 网站配置
+         $web=Web::find(1); 
+         if($web){
+              if($web->w_isopen ==2){
+                  return view('errors.close');
+              }
+         }else{
+              $web='';
+         }
         $userinfo=self::catinfo();
        
-        return view('home.userinfo.userinfo_safe_updatepaypwd',['userinfo'=>$userinfo]);
+        return view('home.userinfo.userinfo_safe_updatepaypwd',['userinfo'=>$userinfo,'web'=>$web]);
     }
 
     
@@ -215,7 +267,7 @@ class UserController extends Controller
     public function sendPhone($phone)
     {
         
-        // return $phone;
+  
         // 接收手机号
       
         $code=rand(1234,4321);
@@ -299,8 +351,6 @@ class UserController extends Controller
             return back()->withErrors(['nocode'=>'手机验证码错误']);
         }
 
-     
-
          //验证规则
          $validator = Validator::make($request->all(), [
             'code'=>'required | numeric',
@@ -333,10 +383,20 @@ class UserController extends Controller
     // 显示个人中心--收货地址
     public function userinfo_address()
     {
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
         // 查询收货地址
         $location=locations::where('uid',session('home.id'))->get();
         
-        return  view('home.userinfo.userinfo_address',['locations'=>$location]);
+        return  view('home.userinfo.userinfo_address',['locations'=>$location,'web'=>$web]);
     }
 
     // 执行个人中心--添加用户地址
@@ -386,7 +446,6 @@ class UserController extends Controller
     // 个人中心--收货地址设为默认
     public function userinfo_defaultAddr($id)
     {
-        // return  $id;
         //先查询是否有这条数据
         $res=locations::where(['uid'=>session('home.id')])->get();
       
@@ -409,25 +468,118 @@ class UserController extends Controller
     // 显示个人中心的--订单管理
     public function userinfo_order()
     {
-        $order= orders::with('orderdetails')->first();
+         // 网站配置
+         $web=Web::find(1); 
+  
+         if($web){
+             if($web->w_isopen ==2){
+                 return view('errors.close');
+             }
+         }else{
+             $web='';
+         }
 
-        // // 所有订单
-        $res=orders::join('orderdetails','orderdetails.oid','orders.id')->where('orders.uid',session('home.id'))->get();
-       
-        foreach($res as $k=>$v){
-            $goods=Good::find($v->gid);
-            // 只获得第一个图片
-            $imgs=explode(',',$goods->g_img);
-            
-            $res[$k]['goods']=$goods;
-            $res[$k]['goods']['g_img']=$imgs[0];
-            $v['commentCount']=Comment::where('gid',$v->gid)->count();
+        // 所有订单
+        $Allorders=orders::where(['uid'=>session('home.id')])->paginate(2,['*'],'AllPage');
+        // 查询订单详情和订单的商品
+        foreach ($Allorders as $k=>$v){
+            $res=$Allorders[$k]['orderinfo']=orderdetails::join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$v->id])->get();
+            foreach($res as $key=>$value){
+                
+                $value['g_img']=explode(',',$value['g_img'])[0];
+                
+            }
+        }
+
+        // 待付款
+        $orders1=orders::where(['uid'=>session('home.id'),'o_status'=>'1'])->paginate(2,['*'],'nopay');
+
+        if(isset($orders1[0])){
+           
+            foreach ($orders1 as $k=>$v){
+                $res=$orders1[$k]['orderinfo']=orderdetails::join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$v->id])->get();
+                foreach($res as $key=>$value){
+
+                    $value['g_img']=explode(',',$value['g_img'])[0];
+                }
+            }
+
+        }else{
+            $orders1='';
         }
        
+        // 未发货
+        $orders2=orders::where(['uid'=>session('home.id'),'o_status'=>'2'])->paginate(2,['*'],'nosend');
+       
+        if(isset($orders2[0])){
+           
+            foreach ($orders2 as $k=>$v){
+                $res=$orders2[$k]['orderinfo']=orderdetails::join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$v->id])->get();
+                foreach($res as $key=>$value){
+
+                    $value['g_img']=explode(',',$value['g_img'])[0];
+                }
+            }
+
+        }else{
+            $orders2='';
+        }
+
+        // 待收货
+        $orders3=orders::where(['uid'=>session('home.id'),'o_status'=>'3'])->paginate(2,['*'],'norece');
+       
+        if(isset($orders3[0])){
+           
+            foreach ($orders3 as $k=>$v){
+                $res=$orders3[$k]['orderinfo']=orderdetails::join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$v->id])->get();
+                foreach($res as $key=>$value){
+
+                    $value['g_img']=explode(',',$value['g_img'])[0];
+                }
+            }
+
+        }else{
+            $orders3='';
+        }
+
+        // 待评价
+        $orders4=orders::where(['uid'=>session('home.id'),'o_status'=>'4'])->paginate(2,['*'],'noeval');
+       
+        if(isset($orders4[0])){
+           
+            foreach ($orders4 as $k=>$v){
+                $res=$orders4[$k]['orderinfo']=orderdetails::join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$v->id])->get();
+                foreach($res as $key=>$value){
+                    $value['g_img']=explode(',',$value['g_img'])[0];
+                    // dump($value);
+                    $value['g_comment']=Comment::where(['gid'=>$value->gid,'uid'=>session('home.id')])->count();
+                }
+                // dump($res);
+                // 商品的评论
+                // $v['CommentCount']=Comment::join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$v->id])->get();
+            }
+
+        }else{
+            $orders4='';
+        }
+        
     
-        return  view('home.userinfo.userinfo_order',['orders'=>$res]);
+        return  view('home.userinfo.userinfo_order',['Allorders'=>$Allorders,'orders1'=>$orders1,'orders2'=>$orders2,'orders3'=>$orders3,'orders4'=>$orders4,'web'=>$web]);
+    }
+    // 取消订单
+    public  function delorder($id){
+        // 先查询改订单是否存在
+        $order=orders::find($id);
+
+        if($order){
+            orders::destroy($id);
+            return back();
+        }else{
+            return back();
+        }
     }
 
+    // 确认收货
     public function confirm($id)
     {
         $res=orders::find($id);
@@ -461,19 +613,30 @@ class UserController extends Controller
     // 显示个人中心的--优惠券
     public function userinfo_coupon()
     {
-        $coupons=Coupon::where(['uid'=>session('home.id'),'c_type'=>1])->get();
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
+        $coupons=Coupon::where(['uid'=>session('home.id')])->get();
         
       
-        return view('home.userinfo.userinfo_coupon',['coupons'=>$coupons]);
+        return view('home.userinfo.userinfo_coupon',['coupons'=>$coupons,'web'=>$web]);
     }
 
     // 使用优惠券
     public function  usecoupons($id){
         // 首先查询优惠券是否存在
-        $res=Coupon::where(['id'=>$id,'c_type'=>1,'c_status'=>1])->first();
+        $res=Coupon::where(['id'=>$id])->first();
         // return $res;
         if($res){ 
-            Coupon::where(['id'=>$id,'c_type'=>1,'c_status'=>1])->update(['c_status'=>2]);
+            Coupon::where(['id'=>$id])->update(['c_status'=>2]);
             return back();
         }else{
             return back();
@@ -483,7 +646,7 @@ class UserController extends Controller
     //删除已使用的优惠券
     public function  delcoupons($id){
         // 首先查询优惠券是否存在
-        $res=Coupon::where(['id'=>$id,'c_type'=>1,'c_status'=>2])->first();
+        $res=Coupon::where(['id'=>$id])->first();
         DB::beginTransaction();
         if($res){
             DB::commit();
@@ -495,17 +658,21 @@ class UserController extends Controller
         }
     }
 
-    // 显示个人中心的--红包
-    public function redenvelopes()
-    {
-        $redbag=Coupon::where(['uid'=>session('home.id'),'c_type'=>2])->get();
-       
-        return view('home.userinfo.userinfo_redevelopes',['redbags'=>$redbag]);
-    }
 
     // 显示个人中心的--用户收藏
     public function collect()
     {
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         // 判断用户是否登录    
         if(!session('home.id')){
             return view('home.login.index');
@@ -528,7 +695,7 @@ class UserController extends Controller
             
         }
        
-        return view('home.userinfo.userinfo_collect',['collects'=>$collects]);
+        return view('home.userinfo.userinfo_collect',['collects'=>$collects,'web'=>$web]);
     }
 
     // 取消收藏
@@ -539,14 +706,56 @@ class UserController extends Controller
         return back();
     }
 
-    // 显示个人中心的--足迹
-    public function foot()
+     // 显示个人中心的--足迹
+     public function foot()
     {
-        return view('home.userinfo.userinfo_foot');
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
+        $track = Track::where(['uid' => session('home.id')])->get();
+        
+        foreach($track as $v){
+            $good = Good::find($v->gid);
+            $img = explode(',',$good->g_img);
+            $good->img = $img[0];
+            $v->good = $good;
+        }
+
+        return view('home.userinfo.userinfo_foot',['track' => $track,'web'=>$web]);
     }
+    //删除足迹中的商品
+    public function del($id)
+    {
+        $res = Track::where(['uid' => session('home.id'),'gid' => $id])->delete();
+        if($res){
+            return 'success';
+        }else{
+            return 'error';    
+        }
+    }
+
     // 该用户评论过的所有商品的评价
     public function evaluate()
     {
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         $comments=Comment::join('goods','goods.id','comments.gid')->where('comments.uid',session('home.id'))->get();
        
         //对图片的处理
@@ -560,16 +769,28 @@ class UserController extends Controller
             $v['c_img']=$c_img;
         }
 
-        return  view('home.userinfo.userinfo_evaluate',['comments'=>$comments]);
+        return  view('home.userinfo.userinfo_evaluate',['comments'=>$comments,'web'=>$web]);
     }
+    
     // 评论单个商品
     public function commentlist($id){
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         //$id 是商品的id
         $good= Good::find($id);
         // 图片
         $img=explode(',',$good->g_img)[0];
        
-        return view('home.userinfo.userinfo_comment',['good'=>$good,'img'=>$img]);
+        return view('home.userinfo.userinfo_comment',['good'=>$good,'img'=>$img,'web'=>$web]);
     }
     // 执行个人中心的评论
     public  function excomment(Request $request){
@@ -578,7 +799,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'c_content'=>'required | min:10',
             'c_score'=>'required',
-            
         ]);
            
         if ($validator->fails()) {
@@ -636,6 +856,16 @@ class UserController extends Controller
     // 个人中心的---余额充值
     public function userinfo_payments()
     {
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
         // 查询用户的余额
         $balance = DB::table('payments')->where('uid',session('home.id'))->first();
         if($balance){
@@ -643,7 +873,7 @@ class UserController extends Controller
         }else{
             $data=0;
         }
-        return view('home.userinfo.userinfo_payments',['balance'=>$data]);
+        return view('home.userinfo.userinfo_payments',['balance'=>$data,'web'=>$web]);
     }
 
     // 执行个人中心的---余额充值
@@ -684,18 +914,29 @@ class UserController extends Controller
 
     // 一键支付的页面
     public function userinfo_fastpay(Request $request){
-     
+ 
+        // 网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+             $web='';
+        }
         // 判断该订单是否存在
         $order=orders::find($request->id);
+  
         if($order){
-            return view('home.userinfo.userinfo_fastpay',['orderid'=>$request->id,'o_amount'=>$request->zongji]);
+            return view('home.userinfo.userinfo_fastpay',['orderid'=>$request->id,'o_amount'=>$request->zongji,'web'=>$web]);
         }else{
             return back();
         }
     }
     // 执行付款操作
     public  function userinfo_exfastpay(Request $request){
-
+        // dd($request->all());
         if($request->paypwd==''){
             return back()->withErrors(['nopaypwd'=>"请填写支付密码"]);
         }
@@ -737,9 +978,5 @@ class UserController extends Controller
         
     }
 
-    // 消息
-    public function news()
-    {
-        return view('home.userinfo.userinfo_news');
-    }
+   
 }

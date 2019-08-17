@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Link;
 use App\Models\Turn;
+use Illuminate\Support\Facades\DB;
 
 class SystemsController extends Controller
 {
@@ -231,4 +232,6 @@ class SystemsController extends Controller
 
         return $t_img;
     }
+
+   
 }

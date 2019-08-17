@@ -13,13 +13,25 @@
 		<link href="/home/css/dlstyle.css" rel="stylesheet" type="text/css">
 		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
-
+		@if($web != '')
+		{{-- 网站的描述 --}}
+			<meta name="keywords" content="{{ $web->w_keyword }}">
+		{{-- 网站的关键字 --}}
+			<meta name="description" content="{{ $web->w_description }}">
+		@endif
 	</head>
 
 	<body>
 
 		<div class="login-boxtitle">
-			<a href="home/demo.html"><img alt="" src="images/logobig.png" /></a>
+			<a href="#">
+				 {{-- 网站的logo --}}
+				 @if($web == '')
+				 <img alt="logo" src="images/logobig.png" />
+			   	@else
+				 <img src="/uploads/{{ $web->w_logo }}" alt="">
+			    @endif
+			</a>
 		</div>
 
 		<div class="res-banner">
@@ -213,7 +225,13 @@
 						<a href="# ">合作伙伴</a>
 						<a href="# ">联系我们</a>
 						<a href="# ">网站地图</a>
-						<em>© 2015-2025 Hengwang.com 版权所有</em>
+						{{-- 版权 --}}
+						@if($web != '')
+							<em>© {{ $web->w_cright }} 版权所有</em></p>
+						@else
+							<em>© 未来家具 版权所有</em></p>
+						@endif
+						
 					</p>
 				</div>
 			</div>

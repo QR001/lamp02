@@ -70,6 +70,7 @@ class UserController extends Controller
             $userinfo -> realname = '';
             $userinfo -> integral = 0;
             $userinfo ->description = '' ;
+            $userinfo ->paypwd = md5('000000') ;
 
             if($userinfo->save()){
                 // 事务提交
@@ -94,7 +95,7 @@ class UserController extends Controller
 
     // 修改用户的状态
     public function  user_status(Request $request){
-        // return $request->all();
+       
        $res=User::where('id',$request->id)->update(['status'=>$request->status]);
        if($res){
             return 'success';

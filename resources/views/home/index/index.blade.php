@@ -19,6 +19,12 @@
 
 		<script type='text/javascript' src='https://webchat.7moor.com/javascripts/7moorInit.js?accessId=231515b0-b999-11e9-ba32-bfd32cf2bdfe&autoShow=false&language=ZHCN' async='async'>
 		</script>
+		@if($web != '')
+		{{-- 网站的描述 --}}
+		  <meta name="keywords" content="{{ $web->w_keyword }}">
+		{{-- 网站的关键字 --}}
+		  <meta name="description" content="{{ $web->w_description }}">
+	  	@endif
 
 	</head>
 
@@ -29,10 +35,11 @@
 				<ul class="message-l">
 					<div class="topMessage">
 						<div class="menu-hd">
-							{{-- {{ dump(session('home')) }} --}}
+						
 							@if(session('home'))
 								<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
-							@else
+								<a href="/home/login/logout">退出</a>
+								@else
 								<a href="/home/login" target="_top" class="h">亲，请登录</a>
 								<a href="/home/register" target="_top">免费注册</a>
 							@endif
@@ -41,27 +48,36 @@
 				</ul>
 				<ul class="message-r">
 					<div class="topMessage home">
-						<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+						<div class="menu-hd"><a href="/home/index" target="_top" class="h">商城首页</a></div>
 					</div>
-					<div class="topMessage my-shangcheng">
-						<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-					</div>
-					<div class="topMessage mini-cart">
-						<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-					</div>
-					<div class="topMessage favorite">
-						<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					@if(session('home'))
+						<div class="topMessage my-shangcheng">
+							<div class="menu-hd MyShangcheng"><a href="/home/userinfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+						</div>
+						<div class="topMessage mini-cart">
+							<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+						</div>
+						<div class="topMessage favorite">
+							<div class="menu-hd"><a href="/home/userinfo_collect" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+						</div>
+					@endif
 				</ul>
 				</div>
 
 				<!--悬浮搜索框-->
 
 				<div class="nav white">
-					<div class="logo"><img src="/home/images/logo.png" /></div>
-					<div class="logoBig">
-						<li><img src="/home/images/logobig.png" /></li>
-					</div>
-
+					@if($web !='')
+						<div class="logo"><img width='30px' src="/uploads/{{ $web->w_logo }}" /></div>
+						<div class="logoBig" style="width:10%;">
+							<li><img width='30px' src="/uploads/{{ $web->w_logo }}" /></li>
+						</div>
+					@else
+						<div class="logo"><img src="/home/images/logo.png" /></div>
+						<div class="logoBig">
+							<li><img src="/home/images/logobig.png" /></li>
+						</div>
+					@endif
 					<div class="search-bar pr">
 						<a name="index_none_header_sysc" href="#"></a>
 						<form action="/home/goods/goodSearch" method="get" >
@@ -91,10 +107,8 @@
 					   <div class="nav-cont">
 							<ul>
 								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
+                                <li class="qc"><a href="/home/blogs/blogAll">活动</a></li>
+                                
 							</ul>
 						    
 						</div>					
@@ -207,13 +221,13 @@
 									</a>
 									<em>
 										Hi,<span class="s-name">{{ session('home.name') }}</span>
-										<a href="#"><p>点击更多优惠活动</p></a>									
+										<a href="/home/blogs/blogAll"><p>点击更多优惠活动</p></a>									
 									</em>
 									<div class="member-login">
-										<a href="#"><strong>0</strong>待收货</a>
-										<a href="#"><strong>0</strong>待发货</a>
-										<a href="#"><strong>0</strong>待付款</a>
-										<a href="#"><strong>0</strong>待评价</a>
+										<a href="#"><strong>{{ $order[0] }}</strong>待收货</a>
+										<a href="#"><strong>{{ $order[1] }}</strong>待发货</a>
+										<a href="#"><strong>{{ $order[2] }}</strong>待付款</a>
+										<a href="#"><strong>{{ $order[3] }}</strong>待评价</a>
 									</div>
 								</div>
 								
@@ -228,7 +242,7 @@
 									</a>
 									<em>
 										Hi,<span class="s-name">小叮当</span>
-										<a href="#"><p>点击更多优惠活动</p></a>									
+										<a href="/home/blogs/blogAll"><p>点击更多优惠活动</p></a>									
 									</em>
 								</div>
 								<div class="member-logout">
@@ -240,10 +254,10 @@
 							</div>
 						@endif																	    
 							@foreach($blogs as $v)  
-								<li><a target="_blank" href="/home/blogs/bloglist/{{ $v->id }}"><span>[特惠]</span>{{ $v->b_title }}</a></li>
+								<li><a href="/home/blogs/bloglist/{{ $v->id }}"><span>[特惠]</span>{{ $v->b_title }}</a></li>
 							@endforeach
 							</ul>
-                        <div class="advTip"><img src="/home/images/advTip.jpg"/></div>
+                        <div class="advTip"><img src="/uploads/turn2.jpg" height="100px"/></div>
 						</div>
 					</div>
 					<div class="clear"></div>
@@ -281,7 +295,7 @@
 								<h3 style="overflow:hidden;width:80%;">{{ $v->g_name }}</h3>
 							</div>
 							<div class="recommendationMain one">
-								<a href="/home/goods/goodInfo/{{ $v->id }}"><img src="/uploads/goods/{{ $v->g_img }} "></a>
+								<a href="/home/goods/goodInfo/{{ $v->id }}"><img src="/uploads/goods/{{ $v->g_img }} " height="120px"></a>
 							</div>
 						</div>						
 						@endforeach
@@ -303,7 +317,7 @@
 								<div class="icon-sale"></div>	
 									<h4>特惠</h4>							
 								<div class="activityMain ">
-									<a href="/home/goods/bloglist/{{ $v->id }}"><img src="/uploads/blogs/{{ $v->b_img }}" width="100%" height="250px"></a>
+									<a href="/home/blogs/bloglist/{{ $v->id }}"><img src="/uploads/blogs/{{ $v->b_img }}" width="100%" height="250px"></a>
 								</div>
 								<div class="info ">
 									<h3>{{ $v->b_title }}</h3>
@@ -358,8 +372,10 @@
 									<div class="sub-title ">
 										¥{{ $good->g_nprice }}
 									</div>
-									<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
+									<i class="am-icon-shopping-basket am-icon-md  seprate" onclick="carts({{ $good->id }})"></i>
 								</div>
+								<a href="/home/goods/goodInfo/{{ $good->id }}"><img src="/uploads/goods/{{ $good->img }}" height="170px" /></a>
+								{{-- <a href="# "><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a> --}}
 								<a href="# "><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a>
 							</div>
 						@endforeach
@@ -367,14 +383,36 @@
 					</div>
 					@endforeach
 
+					<script>
+						function carts(id)
+						{
+							$.ajax({
+								type:'POST',
+								url:'/home/carts/cart',
+								data:{'color':'图片色','number':1,'id':id,'_token':'{{csrf_token()}}'},
+								success:function(data){
+									if(data == 'nologin'){
+										alert("还没有登录哦");
+									}
+									if(data == 'success'){
+										alert('加入成功');
+									}else{
+										alert("请稍后再试试吧~");
+									}
+								},
+								error:function(){
+									alert('请稍后再试试吧~');
+								}
+							})
+						}
+						
+					</script>
+
 
                  <div class="clear "></div>  
                  </div>
                  
 
-   
 @extends('home.layouts.footer')
-
 @section('content')
-
 @endsection

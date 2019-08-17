@@ -33,9 +33,9 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form method="get" class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="开始日"  name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
+        <form class="layui-form layui-col-md12 x-so">
+          {{-- <input class="layui-input" placeholder="开始日"  name="start" id="start">
+          <input class="layui-input" placeholder="截止日" name="end" id="end"> --}}
           {{-- <div class="layui-input-inline">
             <select name="contrller">
               <option>支付状态</option>
@@ -51,7 +51,7 @@
               <option>货到付款</option>
             </select>
           </div> --}}
-          <div class="layui-input-inline">
+          {{-- <div class="layui-input-inline">
             <select name="contrller">
               <option value="">订单状态</option>
               <option value="0">待确认</option>
@@ -61,7 +61,7 @@
               <option value="4">已完成</option>
               <option value="5">已作废</option>
             </select>
-          </div>
+          </div> --}}
           <input type="text" name="o_no"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>

@@ -53,7 +53,7 @@ class LoginController extends Controller
         //需对当前账户做登陆记录
         $recard = Recard::where('uid',$user->id)->first();
        
-        if(isset($recard[0])){
+        if(isset($recard)){
            
             $recard->ip = $_SERVER["REMOTE_ADDR"];
             $recard->r_num = $recard->r_num + 1;

@@ -7,14 +7,20 @@
 
 		<title>购物车页面</title>
 
-		<link href="AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
-		<link href="basic/css/demo.css" rel="stylesheet" type="text/css" />
-		<link href="css/cartstyle.css" rel="stylesheet" type="text/css" />
-		<link href="css/optstyle.css" rel="stylesheet" type="text/css" />
+		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+		<link href="/home/basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link  href="/home/css/cartstyle.css" rel="stylesheet" type="text/css" />
+		<link  href="/home/css/optstyle.css" rel="stylesheet" type="text/css" />
 
-		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="/home/js/jquery.js"></script>
 
-		{{-- <script type="text/javascript" src="js/jquery.js"></script> --}}
+		@if($web != '')
+			{{-- 网站的描述 --}}
+		<meta name="keywords" content="{{ $web->w_keyword }}">
+			{{-- 网站的关键字 --}}
+		<meta name="description" content="{{ $web->w_description }}">
+		
+		@endif
 
 	</head>
 
@@ -22,45 +28,60 @@
 
 		<!--顶部导航条 -->
 		<div class="am-container header">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
+				<ul class="message-l">
+					<div class="topMessage">
+						<div class="menu-hd">
+						
+							@if(session('home'))
+								<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
+								<a href="/home/login/logout">退出</a>
+								@else
+								<a href="/home/login" target="_top" class="h">亲，请登录</a>
+								<a href="/home/register" target="_top">免费注册</a>
+							@endif
+						</div>
 					</div>
-				</div>
-			</ul>
-			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-			</ul>
+				</ul>
+				<ul class="message-r">
+					<div class="topMessage home">
+						<div class="menu-hd"><a href="/home/index" target="_top" class="h">商城首页</a></div>
+					</div>
+					@if(session('home'))
+						<div class="topMessage my-shangcheng">
+							<div class="menu-hd MyShangcheng"><a href="/home/userinfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+						</div>
+						<div class="topMessage mini-cart">
+							<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+						</div>
+						<div class="topMessage favorite">
+							<div class="menu-hd"><a href="/home/userinfo_collect" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+						</div>
+					@endif
+				</ul>
 		</div>
 
-			<!--悬浮搜索框-->
+		<!--悬浮搜索框-->
 
-			<div class="nav white">
-				<div class="logo"><img src="images/logo.png" /></div>
-				<div class="logoBig">
-					<li><img src="images/logobig.png" /></li>
-				</div>
-
-				<div class="search-bar pr">
-					<a name="index_none_header_sysc" href="#"></a>
-					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-					</form>
-				</div>
+		<div class="nav white">
+			
+			<div class="logoBig" style="width:10%;">
+				<li>
+					@if($web !='')
+						<img src="/uploads/{{ $web->w_logo }}" />
+					@else
+						<img src="/home/images/logobig.png" />
+					@endif
+				</li>
 			</div>
+
+			<div class="search-bar pr">
+				<a name="index_none_header_sysc" href="#"></a>
+				<form action="/home/goods/goodSearch" method="get" >
+					<input id="searchInput" name="gname" type="text" placeholder="搜索" autocomplete="off">
+					<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
+				</form>
+			</div>
+		</div>
 
 			<div class="clear"></div>
 
@@ -194,6 +215,9 @@
 							@if($errors->has('repay'))
 								<strong class="price"><em>请选择 物流方式 支付方式后重新下单</em></strong>
 							@endif
+							@if($errors->has('nopaypwd'))
+								<strong class="price"><em>请输入密码后重新下单</em></strong>
+							@endif
 							
 							
 						</div>
@@ -208,24 +232,26 @@
 				</div>
 			</form>
 				<div class="footer">
-					<div class="footer-hd">
-						<p>
-							<a href="#">恒望科技</a>
-							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
-						</p>
-					</div>
+						<div class="footer-hd ">
+							<p>
+								@foreach($links as $v)
+								<b>|</b>
+								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+								@endforeach
+							</p>
+						</div>
 					<div class="footer-bd">
 						<p>
 							<a href="#">关于恒望</a>
 							<a href="#">合作伙伴</a>
 							<a href="#">联系我们</a>
 							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+
+							@if($web != '')
+								<em>© {{ $web->w_cright }} 版权所有</em></p>
+							@else
+								<em>© 未来家具 版权所有</em></p>
+							@endif
 						</p>
 					</div>
 				</div>

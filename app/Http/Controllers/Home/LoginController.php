@@ -10,12 +10,24 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Userdetail;
 use Illuminate\Support\Facades\DB;
 use App\Models\Visit;
+use App\Models\Web;
 
 class LoginController extends Controller
 {
     //
     public  function index(){
-        return view('home.login.index');
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+   
+        return view('home.login.index',['web'=>$web]);
     }
     
     // 执行登录
@@ -130,7 +142,7 @@ class LoginController extends Controller
             }
             
         }else{
-            // dump('格式不正确');
+          
             return back()->withErrors(['format'=>'格式不正确']);
         }
 
@@ -140,8 +152,8 @@ class LoginController extends Controller
     public function logout()
     {
         session()->forget('home');
-        dd(session('home'));
-        return redirect('/admin/index');
+     
+        return redirect('/home/login');
     }
 
 

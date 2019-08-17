@@ -48,591 +48,659 @@
 								<td class="td-inner">交易操作</td>
 							</div>
 						</div>
-						@foreach($orders as $order)
-							<div class="order-main">
-								<div class="order-list">
-									<!--交易成功-->
-									<div class="order-status5">
-										<div class="order-title">
-											<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
-											<span>成交时间：{{ $order->created_at }}</span>
-											<!--    <em>店铺：小桔灯</em>-->
-										</div>
-										<div class="order-content">
-											<div class="order-left">
-												<ul class="item-list">
-													<li class="td td-item">
-														<div class="item-pic">
-															<a href="#" class="J_MakePoint">
-																<img src="/uploads/goods/{{ $order->goods->g_img }}" class="itempic J_ItemImg">
-															</a>
-														</div>
-														<div class="item-info">
-															<div class="item-basic-info">
-																<a href="#">
-																	<p>{{ $order->goods->g_name }}</p>
-																	<p class="info-little">颜色：{{ $order->goods->g_color }}
-																		<br/>尺寸(长X宽X高):{{ $order->goods->g_size }}</p>
-																</a>
-															</div>
-														</div>
-													</li>
-													<li class="td td-price">
-														<div class="item-price">
-															{{ $order->goods->g_nprice }}
-														</div>
-													</li>
-													<li class="td td-number">
-														<div class="item-number">
-															<span>×</span>{{ $order->d_num }}
-														</div>
-													</li>
-
-
-													<li class="td td-operation">
-														<div class="item-operation">
-															
-														</div>
-													</li>
-												</ul>
-
+						
+							@foreach($Allorders as $order)
+								<div class="order-main">
+									<div class="order-list">
+										<!--交易成功-->
+										<div class="order-status5">
+											<div class="order-title">
+												<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
+												<span>成交时间：{{ $order->created_at }}</span>
 												
 											</div>
-											<div class="order-right">
-												<li class="td td-amount">
-													<div class="item-amount">
-														合计：{{ $order->o_amount }}
-													</div>
-												</li>
-												<div class="move-right">
-													@if($order->o_status ==1)
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">待付款</p>
-																
-															</div>
-														</li>
-													@endif
-													@if($order->o_status ==2)
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">待发货</p>
-																
-															</div>
-														</li>
-													@endif
-													@if($order->o_status ==3)
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">已发货</p>
-																
-															</div>
-														</li>
-													@endif
-													@if($order->o_status ==4)
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">已收到货--待评价</p>
-																{{-- <p class="order-info"><a href="orderinfo.html">订单详情</a></p> --}}
-																{{-- <p class="order-info"><a href="logistics.html">查看物流</a></p> --}}
-															</div>
-														</li>
-													@endif
-													@if($order->o_status ==5)
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">已评价</p>
-																{{-- <p class="order-info"><a href="orderinfo.html">订单详情</a></p> --}}
-																{{-- <p class="order-info"><a href="logistics.html">查看物流</a></p> --}}
-															</div>
-														</li>
-													@endif
-													@if($order->o_status ==5)
-														<li class="td td-change">
-															<div class="am-btn am-btn-danger anniu">
-																删除订单
-															</div>
-														</li>
-													@endif
-												</div>
-											</div>
-										</div>
-									</div>
-
-								
-
-								</div>
-
-							</div>
-						@endforeach
-					</div>
-					<div class="am-tab-panel am-fade" id="tab2">
-
-						<div class="order-top">
-							<div class="th th-item">
-								<td class="td-inner">商品</td>
-							</div>
-							<div class="th th-price">
-								<td class="td-inner">单价</td>
-							</div>
-							<div class="th th-number">
-								<td class="td-inner">数量</td>
-							</div>
-							<div class="th th-operation">
-								<td class="td-inner">商品操作</td>
-							</div>
-							<div class="th th-amount">
-								<td class="td-inner">合计</td>
-							</div>
-							<div class="th th-status">
-								<td class="td-inner">交易状态</td>
-							</div>
-							<div class="th th-change">
-								<td class="td-inner">交易操作</td>
-							</div>
-						</div>
-						@foreach($orders as $order)
-							@if($order->o_status ==1)
-							<div class="order-main">
-									<div class="order-list">
-										<!--交易成功-->
-										<div class="order-status5">
-											<div class="order-title">
-												<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
-												<span>成交时间：{{ $order->created_at }}</span>
-												<!--    <em>店铺：小桔灯</em>-->
-											</div>
 											<div class="order-content">
-												<div class="order-left">
-													<ul class="item-list">
-														<li class="td td-item">
-															<div class="item-pic">
-																<a href="#" class="J_MakePoint">
-																	<img src="/uploads/goods/{{ $order->goods->g_img }}" class="itempic J_ItemImg">
-																</a>
-															</div>
-															<div class="item-info">
-																<div class="item-basic-info">
-																	<a href="#">
-																		<p>{{ $order->goods->g_name }}</p>
-																		<p class="info-little">颜色：{{ $order->goods->g_color }}
-																			<br/>尺寸(长X宽X高):{{ $order->goods->g_size }}</p>
-																	</a>
-																</div>
-															</div>
-														</li>
-														<li class="td td-price">
-															<div class="item-price">
-																{{ $order->goods->g_nprice }}
-															</div>
-														</li>
-														<li class="td td-number">
-															<div class="item-number">
-																<span>×</span>{{ $order->d_num }}
-															</div>
-														</li>
-	
-	
-														<li class="td td-operation">
-															<div class="item-operation">
-																
-															</div>
-														</li>
-													</ul>
-	
+												@foreach($order->orderinfo as $k=>$v)
 													
-												</div>
-												<div class="order-right">
-													<li class="td td-amount">
-														<div class="item-amount">
-															合计：{{ $order->o_amount }}
+														<div class="order-left">
+															<ul class="item-list">
+																<li class="td td-item">
+																	<div class="item-pic">
+																		<a href="#" class="J_MakePoint">
+																			<img src="/uploads/goods/{{ $v->g_img }}" class="itempic J_ItemImg">
+																		</a>
+																	</div>
+																	<div class="item-info" style="padding-right: 0px;">
+																		<div class="item-basic-info">
+																			<a href="#">
+																				<p>{{ $v->g_name }}</p>
+																				<p class="info-little">颜色：{{ $v->d_color }}
+																					<br/>尺寸(长X宽X高):{{ $v->g_size }}</p>
+																			</a>
+																		</div>
+																	</div>
+																</li>
+																<li class="td td-price">
+																	<div class="item-price">
+																		{{ $v->g_oprice }}
+																	</div>
+																</li>
+																<li class="td td-number">
+																	<div class="item-number">
+																		<span>×</span>{{ $v->d_num }}
+																	</div>
+																</li>
+
+
+																<li class="td td-operation">
+																	<div class="item-operation">
+																		
+																	</div>
+																</li>
+															</ul>
+
 														</div>
-													</li>
-													<div class="move-right">
-														
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">待付款</p>
-																
-															</div>
-														</li>
-														{{-- 一键支付 --}}
-														<form action='/home/userinfo_fastpay' method='POST'>
-															{{ csrf_field() }}
-															{{-- 订单的id --}}
-															<input type="hidden" name='id' value='{{ $order->id }}'>
-															{{-- 订单的总价 --}}
-															<input type="hidden" name='zongji' value='{{ $order->o_amount }}'>
-															<li class="td td-change">
-																<button class="am-btn am-btn-danger anniu">
-																	一键支付
-																</button>
+														<div class="order-right">
+															<li class="td td-amount">
+																<div class="item-amount">
+																	合计：{{ $order->o_amount }}
+																</div>
 															</li>
-														</form>
-														
-														
-													</div>
-												</div>
-											</div>
+															<div class="move-right">
+																@if($order->o_status ==1)
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">待付款</p>
+																		</div>
+																	</li>
+																@endif
+																@if($order->o_status ==2)
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">待发货</p>
+																			
+																		</div>
+																	</li>
+																@endif
+																@if($order->o_status ==3)
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">已发货</p>
+																			
+																		</div>
+																	</li>
+																@endif
+																@if($order->o_status ==4)
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">已收到货--待评价</p>
+																		
+																		</div>
+																	</li>
+																@endif
+																@if($order->o_status ==5)
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">已评价</p>
+																			
+																		</div>
+																	</li>
+																@endif
+																@if($order->o_status ==5)
+																	<li class="td td-change">
+																		<div class="am-btn am-btn-danger anniu">
+																			删除订单
+																		</div>
+																	</li>
+																@endif
+															</div>
+														</div>
+													
+												@endforeach
+											</div>	
+											
 										</div>
-	
+										
 									
-	
-									</div>
-	
-								</div>
-							@endif
-						@endforeach
-						{{-- 支付密码错误的提示信息 --}}
-						@if($errors->has('paypwd'))
 
-							<p style="color:red;">支付密码错误</p>						
+									</div>
+
+								</div>
+							@endforeach
+							
+							{{-- 分页 --}}
+							{{ $Allorders->links() }}
+							<script>
+								var ul=$('.pagination');
+								
+								ul.attr('class','am-pagination am-pagination-right');
+								
+							</script>
 						
-						@endif
 					</div>
-					<div class="am-tab-panel am-fade" id="tab3">
-						<div class="order-top">
-							<div class="th th-item">
-								<td class="td-inner">商品</td>
+					<div class="am-tab-panel am-fade am-in am-active" id="tab2">
+							<div class="order-top">
+								<div class="th th-item">
+									<td class="td-inner">商品</td>
+								</div>
+								<div class="th th-price">
+									<td class="td-inner">单价</td>
+								</div>
+								<div class="th th-number">
+									<td class="td-inner">数量</td>
+								</div>
+								<div class="th th-operation">
+									<td class="td-inner">商品操作</td>
+								</div>
+								<div class="th th-amount">
+									<td class="td-inner">合计</td>
+								</div>
+								<div class="th th-status">
+									<td class="td-inner">交易状态</td>
+								</div>
+								<div class="th th-change">
+									<td class="td-inner">交易操作</td>
+								</div>
 							</div>
-							<div class="th th-price">
-								<td class="td-inner">单价</td>
-							</div>
-							<div class="th th-number">
-								<td class="td-inner">数量</td>
-							</div>
-							<div class="th th-operation">
-								<td class="td-inner">商品操作</td>
-							</div>
-							<div class="th th-amount">
-								<td class="td-inner">合计</td>
-							</div>
-							<div class="th th-status">
-								<td class="td-inner">交易状态</td>
-							</div>
-							<div class="th th-change">
-								<td class="td-inner">交易操作</td>
-							</div>
-						</div>
-
-						@foreach($orders as $order)
-							@if($order->o_status ==2)
-							<div class="order-main">
-									<div class="order-list">
-										<!--交易成功-->
-										<div class="order-status5">
-											<div class="order-title">
-												<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
-												<span>成交时间：{{ $order->created_at }}</span>
-												<!--    <em>店铺：小桔灯</em>-->
-											</div>
-											<div class="order-content">
-												<div class="order-left">
-													<ul class="item-list">
-														<li class="td td-item">
-															<div class="item-pic">
-																<a href="#" class="J_MakePoint">
-																	<img src="/uploads/goods/{{ $order->goods->g_img }}" class="itempic J_ItemImg">
-																</a>
-															</div>
-															<div class="item-info">
-																<div class="item-basic-info">
-																	<a href="#">
-																		<p>{{ $order->goods->g_name }}</p>
-																		<p class="info-little">颜色：{{ $order->goods->g_color }}
-																			<br/>尺寸(长X宽X高):{{ $order->goods->g_size }}</p>
-																	</a>
-																</div>
-															</div>
-														</li>
-														<li class="td td-price">
-															<div class="item-price">
-																{{ $order->goods->g_nprice }}
-															</div>
-														</li>
-														<li class="td td-number">
-															<div class="item-number">
-																<span>×</span>{{ $order->d_num }}
-															</div>
-														</li>
-	
-	
-														<li class="td td-operation">
-															<div class="item-operation">
-																
-															</div>
-														</li>
-													</ul>
-	
+						
+							@if($orders1 !== '')
+							
+								@foreach($orders1 as $order)
+									<div class="order-main">
+										<div class="order-list">
+										
+											<div class="order-status5">
+												<div class="order-title">
+													<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
+													<span>成交时间：{{ $order->created_at }}</span>
 													
 												</div>
-												<div class="order-right">
-													<li class="td td-amount">
-														<div class="item-amount">
-															合计：{{ $order->o_amount }}
-														</div>
-													</li>
-													<div class="move-right">
+												<div class="order-content">
+													@foreach($order->orderinfo as $k=>$v)
 														
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">待发货</p>
-																
+															<div class="order-left">
+																<ul class="item-list">
+																	<li class="td td-item">
+																		<div class="item-pic">
+																			<a href="#" class="J_MakePoint">
+																				<img src="/uploads/goods/{{ $v->g_img }}" class="itempic J_ItemImg">
+																			</a>
+																		</div>
+																		<div class="item-info" style="padding-right: 0px;">
+																			<div class="item-basic-info">
+																				<a href="#">
+																					<p>{{ $v->g_name }}</p>
+																					<p class="info-little">颜色：{{ $v->d_color }}
+																						<br/>尺寸(长X宽X高):{{ $v->g_size }}</p>
+																				</a>
+																			</div>
+																		</div>
+																	</li>
+																	<li class="td td-price">
+																		<div class="item-price">
+																			{{ $v->g_oprice }}
+																		</div>
+																	</li>
+																	<li class="td td-number">
+																		<div class="item-number">
+																			<span>×</span>{{ $v->d_num }}
+																		</div>
+																	</li>
+		
+		
+																	<li class="td td-operation">
+																		<div class="item-operation">
+																			
+																		</div>
+																	</li>
+																</ul>
+		
 															</div>
-														</li>
-														
-														<li class="td td-change">
-															<div  id='tixingfahuo' class="am-btn am-btn-danger anniu">
-																提醒发货
-															</div>
-														</li>
-														<script>
-															$('#tixingfahuo').click(function(){
-																alert('提醒成功');
-															});
-														</script>
-													</div>
-												</div>
-											</div>
-										</div>
-	
-									
-	
-									</div>
-	
-								</div>
-							@endif
-						@endforeach
-					</div>
-					<div class="am-tab-panel am-fade" id="tab4">
-						<div class="order-top">
-							<div class="th th-item">
-								<td class="td-inner">商品</td>
-							</div>
-							<div class="th th-price">
-								<td class="td-inner">单价</td>
-							</div>
-							<div class="th th-number">
-								<td class="td-inner">数量</td>
-							</div>
-							<div class="th th-operation">
-								<td class="td-inner">商品操作</td>
-							</div>
-							<div class="th th-amount">
-								<td class="td-inner">合计</td>
-							</div>
-							<div class="th th-status">
-								<td class="td-inner">交易状态</td>
-							</div>
-							<div class="th th-change">
-								<td class="td-inner">交易操作</td>
-							</div>
-						</div>
-
-						@foreach($orders as $order)
-							@if($order->o_status ==3)
-							<div class="order-main">
-									<div class="order-list">
-										<!--交易成功-->
-										<div class="order-status5">
-											<div class="order-title">
-												<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
-												<span>成交时间：{{ $order->created_at }}</span>
-												<!--    <em>店铺：小桔灯</em>-->
-											</div>
-											<div class="order-content">
-												<div class="order-left">
-													<ul class="item-list">
-														<li class="td td-item">
-															<div class="item-pic">
-																<a href="#" class="J_MakePoint">
-																	<img src="/uploads/goods/{{ $order->goods->g_img }}" class="itempic J_ItemImg">
-																</a>
-															</div>
-															<div class="item-info">
-																<div class="item-basic-info">
-																	<a href="#">
-																		<p>{{ $order->goods->g_name }}</p>
-																		<p class="info-little">颜色：{{ $order->goods->g_color }}
-																			<br/>尺寸(长X宽X高):{{ $order->goods->g_size }}</p>
-																	</a>
+															<div class="order-right">
+																<li class="td td-amount">
+																	<div class="item-amount">
+																		合计：{{ $order->o_amount }}
+																	</div>
+																</li>
+																<div class="move-right">
+																	
+																		<li class="td td-status">
+																			<div class="item-status">
+																				<p class="Mystatus">待付款</p>
+																				{{-- 取消订单 --}}
+																				<p><a href="/home/userinfo/delorder/{{ $order->id }}" class="Mystatus">取消订单</a></p>
+																				
+																				
+																			</div>
+																		</li>
+																	{{-- 一键支付 --}}
+																	<form action='/home/userinfo_fastpay' method='POST'>
+																		{{ csrf_field() }}
+																		{{-- 订单的id --}}
+																		<input type="hidden" name='id' value='{{ $order->id }}'>
+																		{{-- 订单的总价 --}}
+																		<input type="hidden" name='zongji' value='{{ $order->o_amount }}'>
+																		<li class="td td-change">
+																			<button class="am-btn am-btn-danger anniu">
+																				一键支付
+																			</button>
+																		</li>
+																	</form>
+																	
 																</div>
 															</div>
-														</li>
-														<li class="td td-price">
-															<div class="item-price">
-																{{ $order->goods->g_nprice }}
-															</div>
-														</li>
-														<li class="td td-number">
-															<div class="item-number">
-																<span>×</span>{{ $order->d_num }}
-															</div>
-														</li>
-	
-	
-														<li class="td td-operation">
-															<div class="item-operation">
-																
-															</div>
-														</li>
-													</ul>
-	
+														
+													@endforeach
+												</div>	
+											
+											</div>
+
+										</div>
+		
+									</div>
+								@endforeach
+								{{-- 支付密码错误的提示信息 --}}
+								@if($errors->has('paypwd'))
+
+									<p style="color:red;">支付密码错误</p>						
+								
+								@endif
+								{{-- 分页 --}}
+								{{ $orders1->links() }}
+								<script>
+									var ul=$('.pagination');
+									
+									ul.attr('class','am-pagination am-pagination-right');
+									
+								</script>
+							@endif
+					</div>
+					<div class="am-tab-panel am-fade am-in am-active" id="tab3">
+							<div class="order-top">
+								<div class="th th-item">
+									<td class="td-inner">商品</td>
+								</div>
+								<div class="th th-price">
+									<td class="td-inner">单价</td>
+								</div>
+								<div class="th th-number">
+									<td class="td-inner">数量</td>
+								</div>
+								<div class="th th-operation">
+									<td class="td-inner">商品操作</td>
+								</div>
+								<div class="th th-amount">
+									<td class="td-inner">合计</td>
+								</div>
+								<div class="th th-status">
+									<td class="td-inner">交易状态</td>
+								</div>
+								<div class="th th-change">
+									<td class="td-inner">交易操作</td>
+								</div>
+							</div>
+							
+							@if($orders2 !== '')
+								@foreach($orders2 as $order)
+									<div class="order-main">
+										<div class="order-list">
+										
+											<div class="order-status5">
+												<div class="order-title">
+													<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
+													<span>成交时间：{{ $order->created_at }}</span>
 													
 												</div>
-												<div class="order-right">
-													<li class="td td-amount">
-														<div class="item-amount">
-															合计：{{ $order->o_amount }}
-														</div>
-													</li>
-													<div class="move-right">
+												<div class="order-content">
+													@foreach($order->orderinfo as $k=>$v)
 														
-														<li class="td td-status">
-															<div class="item-status">
-																<p class="Mystatus">待收货</p>
-																
+															<div class="order-left">
+																<ul class="item-list">
+																	<li class="td td-item">
+																		<div class="item-pic">
+																			<a href="#" class="J_MakePoint">
+																				<img src="/uploads/goods/{{ $v->g_img }}" class="itempic J_ItemImg">
+																			</a>
+																		</div>
+																		<div class="item-info" style="padding-right: 0px;">
+																			<div class="item-basic-info">
+																				<a href="#">
+																					<p>{{ $v->g_name }}</p>
+																					<p class="info-little">颜色：{{ $v->d_color }}
+																						<br/>尺寸(长X宽X高):{{ $v->g_size }}</p>
+																				</a>
+																			</div>
+																		</div>
+																	</li>
+																	<li class="td td-price">
+																		<div class="item-price">
+																			{{ $v->g_oprice }}
+																		</div>
+																	</li>
+																	<li class="td td-number">
+																		<div class="item-number">
+																			<span>×</span>{{ $v->d_num }}
+																		</div>
+																	</li>
+		
+		
+																	<li class="td td-operation">
+																		<div class="item-operation">
+																			
+																		</div>
+																	</li>
+																</ul>
+		
 															</div>
-														</li>
-														
-														<li class="td td-change">
-															<a href='/home/userinfo/goods/confirm/{{$order->id}}' class="am-btn am-btn-danger anniu">
-																确认发货
-															</a>
-														</li>
-														
-													</div>
-												</div>
-											</div>
-										</div>
-	
-									
-	
-									</div>
-	
-								</div>
-							@endif
-						@endforeach
-					</div>
-
-					<div class="am-tab-panel am-fade" id="tab5">
-						<div class="order-top">
-							<div class="th th-item">
-								<td class="td-inner">商品</td>
-							</div>
-							<div class="th th-price">
-								<td class="td-inner">单价</td>
-							</div>
-							<div class="th th-number">
-								<td class="td-inner">数量</td>
-							</div>
-							<div class="th th-operation">
-								<td class="td-inner">商品操作</td>
-							</div>
-							<div class="th th-amount">
-								<td class="td-inner">合计</td>
-							</div>
-							<div class="th th-status">
-								<td class="td-inner">交易状态</td>
-							</div>
-							<div class="th th-change">
-								<td class="td-inner">交易操作</td>
-							</div>
-						</div>
-
-						@foreach($orders as $order)
-							@if($order->o_status ==4)
-							<div class="order-main">
-									<div class="order-list">
-										<!--交易成功-->
-										<div class="order-status5">
-											<div class="order-title">
-												<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
-												<span>成交时间：{{ $order->created_at }}</span>
-												<!--    <em>店铺：小桔灯</em>-->
-											</div>
-											<div class="order-content">
-												<div class="order-left">
-													<ul class="item-list">
-														<li class="td td-item">
-															<div class="item-pic">
-																<a href="#" class="J_MakePoint">
-																	<img src="/uploads/goods/{{ $order->goods->g_img }}" class="itempic J_ItemImg">
-																</a>
-															</div>
-															<div class="item-info">
-																<div class="item-basic-info">
-																	<a href="#">
-																		<p>{{ $order->goods->g_name }}</p>
-																		<p class="info-little">颜色：{{ $order->goods->g_color }}
-																			<br/>尺寸(长X宽X高):{{ $order->goods->g_size }}</p>
-																	</a>
+															<div class="order-right">
+																<li class="td td-amount">
+																	<div class="item-amount">
+																		合计：{{ $order->o_amount }}
+																	</div>
+																</li>
+																<div class="move-right">
+																	
+																	
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">待发货</p>
+																			{{-- 申请退款 --}}
+																			<a class="Mystatus">申请退款</a>
+																			
+																		</div>
+																	</li>
+																	<li class="td td-change">
+																		<div class="am-btn am-btn-danger anniu">
+																			<a class='tixingfahuo'>提醒发货</a>
+																		</div>
+																	</li>
+																	
+																	
+																	
 																</div>
 															</div>
-														</li>
-														<li class="td td-price">
-															<div class="item-price">
-																{{ $order->goods->g_nprice }}
-															</div>
-														</li>
-														<li class="td td-number">
-															<div class="item-number">
-																<span>×</span>{{ $order->d_num }}
-															</div>
-														</li>
-	
-	
-														<li class="td td-operation">
-															<div class="item-operation">
-																
-															</div>
-														</li>
-													</ul>
-	
+														
+													@endforeach
+												</div>	
+											
+											</div>
+
+										</div>
+		
+									</div>
+								@endforeach
+								<script>
+									// console.log($('#tixingfahuo'));
+									$('.tixingfahuo').click(function(){
+										alert('提醒成功');
+										// console.log('111');
+									});
+								</script>
+								{{-- 分页 --}}
+								{{ $orders2->links() }}
+								<script>
+									var ul=$('.pagination');
+									
+									ul.attr('class','am-pagination am-pagination-right');
+									
+								</script>
+							@endif
+					</div>
+					<div class="am-tab-panel am-fade am-in am-active" id="tab4">
+							<div class="order-top">
+								<div class="th th-item">
+									<td class="td-inner">商品</td>
+								</div>
+								<div class="th th-price">
+									<td class="td-inner">单价</td>
+								</div>
+								<div class="th th-number">
+									<td class="td-inner">数量</td>
+								</div>
+								<div class="th th-operation">
+									<td class="td-inner">商品操作</td>
+								</div>
+								<div class="th th-amount">
+									<td class="td-inner">合计</td>
+								</div>
+								<div class="th th-status">
+									<td class="td-inner">交易状态</td>
+								</div>
+								<div class="th th-change">
+									<td class="td-inner">交易操作</td>
+								</div>
+							</div>
+							
+							@if($orders3 !== '')
+								@foreach($orders3 as $order)
+									<div class="order-main">
+										<div class="order-list">
+										
+											<div class="order-status5">
+												<div class="order-title">
+													<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
+													<span>成交时间：{{ $order->created_at }}</span>
 													
 												</div>
-												<div class="order-right">
-													<li class="td td-amount">
-														<div class="item-amount">
-															合计：{{ $order->o_amount }}
-														</div>
-													</li>
-													<div class="move-right">
+												<div class="order-content">
+													@foreach($order->orderinfo as $k=>$v)
 														
-														<li class="td td-status">
-															<div class="item-status">
-																
-																	<p class="Mystatus">待评价</p>
-																
-																
+															<div class="order-left">
+																<ul class="item-list">
+																	<li class="td td-item">
+																		<div class="item-pic">
+																			<a href="#" class="J_MakePoint">
+																				<img src="/uploads/goods/{{ $v->g_img }}" class="itempic J_ItemImg">
+																			</a>
+																		</div>
+																		<div class="item-info" style="padding-right: 0px;">
+																			<div class="item-basic-info">
+																				<a href="#">
+																					<p>{{ $v->g_name }}</p>
+																					<p class="info-little">颜色：{{ $v->d_color }}
+																						<br/>尺寸(长X宽X高):{{ $v->g_size }}</p>
+																				</a>
+																			</div>
+																		</div>
+																	</li>
+																	<li class="td td-price">
+																		<div class="item-price">
+																			{{ $v->g_oprice }}
+																		</div>
+																	</li>
+																	<li class="td td-number">
+																		<div class="item-number">
+																			<span>×</span>{{ $v->d_num }}
+																		</div>
+																	</li>
+		
+		
+																	<li class="td td-operation">
+																		<div class="item-operation">
+																			
+																		</div>
+																	</li>
+																</ul>
+		
 															</div>
-														</li>
-														
-														<li class="td td-change">
-															<div class="am-btn am-btn-danger anniu">
-																	@if($order->commentCount>0)
-																		<a href="/home/userinfo/commentlist/{{$order->gid}}">写追评</a>
-																	@else
-																		<a href="/home/userinfo/commentlist/{{$order->gid}}">去评价</a>
-																	@endif
+															<div class="order-right">
+																<li class="td td-amount">
+																	<div class="item-amount">
+																		合计：{{ $order->o_amount }}
+																	</div>
+																</li>
+																<div class="move-right">
+																	
+																	<li class="td td-status">
+																		<div class="item-status">
+																			<p class="Mystatus">已发货</p>
+																			
+																		</div>
+																	</li>
+																	<li class="td td-change">
+																		<a href='/home/userinfo/goods/confirm/{{$order->id}}' class="am-btn am-btn-danger anniu">
+																			确认收货
+																		</a>
+																	</li>
+																	
+																</div>
 															</div>
-														</li>
 														
-													</div>
-												</div>
+													@endforeach
+												</div>	
+											
 											</div>
-										</div>
-	
-									
-	
-									</div>
-	
-								</div>
-							@endif
-						@endforeach
 
+										</div>
+		
+									</div>
+								@endforeach
+								{{-- 分页 --}}
+								{{ $orders3->links() }}
+								<script>
+									var ul=$('.pagination');
+									
+									ul.attr('class','am-pagination am-pagination-right');
+									
+								</script>
+							@endif
 					</div>
+					<div class="am-tab-panel am-fade am-in am-active" id="tab5">
+							<div class="order-top">
+								<div class="th th-item">
+									<td class="td-inner">商品</td>
+								</div>
+								<div class="th th-price">
+									<td class="td-inner">单价</td>
+								</div>
+								<div class="th th-number">
+									<td class="td-inner">数量</td>
+								</div>
+								<div class="th th-operation">
+									<td class="td-inner">商品操作</td>
+								</div>
+								<div class="th th-amount">
+									<td class="td-inner">合计</td>
+								</div>
+								<div class="th th-status">
+									<td class="td-inner">交易状态</td>
+								</div>
+								<div class="th th-change">
+									<td class="td-inner">交易操作</td>
+								</div>
+							</div>
+							
+							@if($orders4 !== '')
+								@foreach($orders4 as $order)
+									<div class="order-main">
+										<div class="order-list">
+										
+											<div class="order-status5">
+												<div class="order-title">
+													<div class="dd-num">订单编号：<a href="javascript:;">{{ $order->o_no }}</a></div>
+													<span>成交时间：{{ $order->created_at }}</span>
+													
+												</div>
+												<div class="order-content">
+													@foreach($order->orderinfo as $k=>$v)
+														
+															<div class="order-left">
+																<ul class="item-list">
+																	<li class="td td-item">
+																		<div class="item-pic">
+																			<a href="#" class="J_MakePoint">
+																				<img src="/uploads/goods/{{ $v->g_img }}" class="itempic J_ItemImg">
+																			</a>
+																		</div>
+																		<div class="item-info" style="padding-right: 0px;">
+																			<div class="item-basic-info">
+																				<a href="#">
+																					<p>{{ $v->g_name }}</p>
+																					<p class="info-little">颜色：{{ $v->d_color }}
+																						<br/>尺寸(长X宽X高):{{ $v->g_size }}</p>
+																				</a>
+																			</div>
+																		</div>
+																	</li>
+																	<li class="td td-price">
+																		<div class="item-price">
+																			{{ $v->g_oprice }}
+																		</div>
+																	</li>
+																	<li class="td td-number">
+																		<div class="item-number">
+																			<span>×</span>{{ $v->d_num }}
+																		</div>
+																	</li>
+		
+		
+																	<li class="td td-operation">
+																		<div class="item-operation">
+																			
+																		</div>
+																	</li>
+																</ul>
+		
+															</div>
+															<div class="order-right">
+																<li class="td td-amount">
+																	<div class="item-amount">
+																		合计：{{ $order->o_amount }}
+																	</div>
+																</li>
+																<div class="move-right">
+																	<li class="td td-status">
+																		<div class="item-status">
+																			
+																			<p class="Mystatus">待评价</p>
+																			
+																		</div>
+																	</li>
+																	
+																	<li class="td td-change">
+																		<div class="item-status">
+																			@if($v->commentCount>0)
+																				<div class="am-btn am-btn-danger anniu">
+																					
+																						<a href="/home/userinfo/commentlist/{{$v->gid}}">去评价</a>
+																				</div>
+																				
+																			@else
+																				
+																				<div class="am-btn am-btn-danger anniu">
+																					
+																						<a href="/home/userinfo/commentlist/{{$v->gid}}">写追评</a>
+																				</div>
+																				
+																			@endif
+																		</div>
+																	</li>
+																</div>
+															</div>
+														
+													@endforeach
+												</div>	
+											
+											</div>
+
+										</div>
+		
+									</div>
+								@endforeach
+								{{-- 分页 --}}
+								{{ $orders4->links() }}
+								<script>
+									var ul=$('.pagination');
+									
+									ul.attr('class','am-pagination am-pagination-right');
+									
+								</script>
+							@endif
+					</div>
+					
+					
 				</div>
+					
 
 			</div>
 		</div>

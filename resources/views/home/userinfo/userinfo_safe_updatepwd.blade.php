@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="main-wrap">
-
+        
         <div class="am-cf am-padding">
             <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">修改密码</strong> / <small>Password</small></div>
         </div>
         <hr>
-        <!--进度条-->
-        <div class="m-progress">
+       {{-- 进度条 --}}
+       <div class="m-progress">
             <div class="m-progress-list">
                 <span class="step-1 step">
                     <em class="u-progress-stage-bg"></em>

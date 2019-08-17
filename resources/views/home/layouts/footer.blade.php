@@ -7,21 +7,18 @@
 		<div class="footer ">
 						<div class="footer-hd ">
 							<p>
-								<a href="# ">恒望科技</a>
+								@foreach($links as $v)
 								<b>|</b>
-								<a href="# ">商城首页</a>
-								<b>|</b>
-								<a href="# ">支付宝</a>
-								<b>|</b>
-								<a href="# ">物流</a>
+								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+								@endforeach
 							</p>
 						</div>
 						<div class="footer-bd ">
 							<p>
-								<a href="# ">关于恒望</a>
+								<!-- <a href="# ">关于恒望</a>
 								<a href="# ">合作伙伴</a>
 								<a href="# ">联系我们</a>
-								<a href="# ">网站地图</a>
+								<a href="# ">网站地图</a> -->
 								<em>© 2015-2025 Hengwang.com 版权所有</em>
 							</p>
 						</div>
@@ -37,8 +34,8 @@
 			<li><a href="person/index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 
-
 		<!--菜单 -->
+		@if(session('home.id'))
 		<div class=tip>
 			<div id="sidebar">
 				<div id="wrap">
@@ -48,31 +45,30 @@
 						</a>
 						<div class="ibar_login_box status_login ">
 							<div class="avatar_box ">
-								<p class="avatar_imgbox "><img src="/home/images/no-img_mid_.jpg " /></p>
+								<p class="avatar_imgbox "><img src="/uploads/{{ session('home.pic') }}" /></p>
 								<ul class="user_info ">
-									<li>用户名sl1903</li>
-									<li>级&nbsp;别普通会员</li>
+									<li>用户名{{ session('home.name') }}</li>
+									<li>级&nbsp;别{{ session('home.power') == '1' ? '普通会员' : '管理员' }}</li>
 								</ul>
 							</div>
 							<div class="login_btnbox ">
-								<a href="# " class="login_order ">我的订单</a>
-								<a href="# " class="login_favorite ">我的收藏</a>
+								<a href="/home/userinfo_order" class="login_order ">我的订单</a>
+								<a href="/home/userinfo_collect" class="login_favorite ">我的收藏</a>
 							</div>
 							<i class="icon_arrow_white "></i>
 						</div>
 
 					</div>
 					<div id="shopCart " class="item ">
-						<a href="# ">
+						<a href="/home/carts">
 							<span class="message "></span>
 						</a>
 						<p>
 							购物车
 						</p>
-						<p class="cart_num ">0</p>
 					</div>
 					<div id="asset " class="item ">
-						<a href="# ">
+						<a href="/home/userinfo_coupon">
 							<span class="view "></span>
 						</a>
 						<div class="mp_tooltip ">
@@ -82,7 +78,7 @@
 					</div>
 
 					<div id="foot " class="item ">
-						<a href="# ">
+						<a href="/home/userinfo_foot">
 							<span class="zuji "></span>
 						</a>
 						<div class="mp_tooltip ">
@@ -92,7 +88,7 @@
 					</div>
 
 					<div id="brand " class="item ">
-						<a href="#">
+						<a href="/home/userinfo_collect">
 							<span class="wdsc "><img src="/home/images/wdsc.png " /></span>
 						</a>
 						<div class="mp_tooltip ">
@@ -102,7 +98,7 @@
 					</div>
 
 					<div id="broadcast " class="item ">
-						<a href="# ">
+						<a href="/home/userinfo_payments">
 							<span class="chongzhi "><img src="/home/images/chongzhi.png " /></span>
 						</a>
 						<div class="mp_tooltip ">
@@ -113,8 +109,8 @@
 
 					<div class="quick_toggle ">
 						<li class="qtitem ">
-							<a href="# "><span class="kfzx "></span></a>
-							<div class="mp_tooltip ">客服中心<i class="icon_arrow_right_black "></i></div>
+							<a onclick="qimoChatClick();"><span class="kfzx "></span></a>
+							<div class="mp_tooltip " >客服中心<i class="icon_arrow_right_black "></i></div>
 						</li>
 						<!--二维码 -->
 						<li class="qtitem ">
@@ -197,6 +193,7 @@
 				</div>
 			</div>
 		</div>
+		@endif
 		<script>
 			window.jQuery || document.write('<script src="/home/basic/js/jquery.min.js "><\/script>');
 		</script>

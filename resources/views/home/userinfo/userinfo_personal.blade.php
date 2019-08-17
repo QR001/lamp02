@@ -8,7 +8,6 @@
 				<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
 			</div>
 			<hr/>
-
 			
 			<div class="user-infoPic">
 				<!--头像 -->

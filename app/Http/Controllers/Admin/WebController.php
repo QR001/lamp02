@@ -35,13 +35,13 @@ class WebController extends Controller
             
              // 修改操作
              //  判断是否有文件上传
-            if ($request->hasFile('w_logo')) {
+             if ($request->hasFile('w_logo')) {
                 // 获取网站的logo
                 $ext=$request->file('w_logo')->extension();
                 // 文件名 
                 $filename=time().rand(0,100);
                 
-                $path = $request->file('w_logo')->storeAs('/logos',date('Ymd').'/'.$filename.$ext);
+                $path = $request->file('w_logo')->storeAs('/logos',date('Ymd').'/'.$filename.'.'.$ext);
                 // 删除原来的网站logo
                 Storage::delete([$data->w_logo]);
             }else{
@@ -58,8 +58,13 @@ class WebController extends Controller
             return back()->with('success','修改成功');
         }else{
             // 添加操作
-            //文件上传
-            $path = $request->file('w_logo')->store(date('Ymd').'logo');
+            // 获取网站的logo
+            $ext=$request->file('w_logo')->extension();
+            // 文件名 
+            $filename=time().rand(0,100);
+             
+            $path = $request->file('w_logo')->storeAs('/logos',date('Ymd').'/'.$filename.'.'.$ext);
+           
             // 去除token字段
             $data = $request->except('_token');
             $data['w_logo']=$path;

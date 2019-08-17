@@ -8,23 +8,25 @@ use App\Models\Good;
 use App\Models\Detail;
 use App\Models\Comment;
 use App\Models\sorts;
+use App\Models\Web;
 
 class GoodsController extends Controller
 {
-    //显示商品详情
-    public function goodInfo($id)
-    {
-        //确定该商品是否存在
-        $good = Good::findOrFail($id);
-        // return $good;
-
-
-        return view('home.goods.goodInfo');
-    }
 
     //全局搜索下的商品列表
     public function goodSearch($type = 'time')
     {
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+             if($web->w_isopen ==2){
+                 return view('errors.close');
+             }
+        }else{
+             $web='';
+        }
+
         //商品查询依据条件排序
         if($type == 'time'){
             $goods = Good::where('g_status','1')->where('g_name','like','%'.$_GET['gname'].'%')->orderBy('updated_at','desc')->paginate(1); 
@@ -41,7 +43,7 @@ class GoodsController extends Controller
             $v->img = $img[0];
         }
 
-        return view('home.goods.goodSearch',['type'=>$type,'goods' => $goods]);
+        return view('home.goods.goodSearch',['type'=>$type,'goods' => $goods,'web'=>$web]);
     }
 
     /**
@@ -51,6 +53,17 @@ class GoodsController extends Controller
      *  */
     public function goodlist($sid,$kv = 'none',$sortv = 'none',$type = 'time')
     {
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         //查询相关板块下的二级板块
         $sort2 = sorts::where('s_pid',$sid)->get();
         if(!$sort2){
@@ -64,7 +77,7 @@ class GoodsController extends Controller
             //@param 已经选择板块并且选择的板块事当前遍历的板块
             if($kv != 'none' && $sortv != 'none' && $kv == $k){
                 $goods[$kv] = $sortv;
-            }elseif($kv != 'none' && $sortv != 'none' && session()->get('goods')[$k] != $v->id){
+            }elseif($kv != 'none' && $sortv != 'none' && isset(session()->get('goods')[$k]) && session()->get('goods')[$k] != $v->id){
                 //该板块选择过
                 $goods[$k] = session()->get('goods')[$k];
             }else{
@@ -74,11 +87,9 @@ class GoodsController extends Controller
 
         }   
 
-        // dump($goods);
         //用于存放用户所选择板块的信息
         session()->put('goods', $goods);
 
-        // dump($goods);die;
         
         //获取相关三级板块的id
         $sidlist = [];
@@ -106,13 +117,12 @@ class GoodsController extends Controller
         }
 
 
-
         foreach($goodlist as $v){
             $img = explode(',',$v->g_img);
             $v->img = $img[0];
         }
 
 
-        return view('home.goods.goodlist',['sid' => $sid,'kv' => $kv,'sortv' => $sortv,'type' => $type,'sort2' => $sort2,'goods' => $goodlist]);
+        return view('home.goods.goodlist',['sid' => $sid,'kv' => $kv,'sortv' => $sortv,'type' => $type,'sort2' => $sort2,'goods' => $goodlist,'web'=>$web]);
     }
 }

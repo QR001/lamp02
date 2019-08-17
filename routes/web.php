@@ -30,13 +30,25 @@ Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
 Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
 
 
+
+//后台 订单管理的添加物流方式页面
+Route::get('/admin/Orders/order_cends','Admin\OrdersController@order_cends');
+Route::post('/admin/Orders/order_add','Admin\OrdersController@order_add');
+Route::get('/admin/Orders/order_update/{id}','Admin\OrdersController@order_update');
+Route::post('/admin/Orders/order_update_add','Admin\OrdersController@order_update_add');
+Route::get('/admin/Orders/update_delete/{id}','Admin\OrdersController@update_delete');
+//后台 订单管理的添加支付方式页面
+Route::get('/admin/Orders/order_pay','Admin\OrdersController@order_pay');
+Route::post('/admin/Orders/order_pay_add','Admin\OrdersController@order_pay_add');
+Route::get('/admin/Orders/order_pay_update/{id}','Admin\OrdersController@order_pay_update');
+Route::post('/admin/Orders/pay_update','Admin\OrdersController@pay_update');
+Route::get('/admin/Orders/pay_delete/{id}','Admin\OrdersController@pay_delete');
+//后他 订单管理的查看订单详情
+Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 //后台 订单模块
 Route::resource('/admin/Orders','Admin\OrdersController');
 
-//后台 订单管理的添加页面
-// Route::get('/admin/Orders/order_add','Admin\OrdersController@order_add');
-//后他 订单管理的产看订单详情
-Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
+
 
 // 后台 分类板块执行删除单个
 Route::get('/admin/Sorts/delete/{id}','Admin\SortsController@delete');
@@ -76,6 +88,7 @@ Route::post('/admin/systems/links_delAll','Admin\SystemsController@links_delAll'
 Route::get('/admin/systems/turns','Admin\SystemsController@turns');
 //修改轮播图
 Route::post('/admin/systems/turnsUpdate','Admin\SystemsController@turnsUpdate');
+
 
 //显示活动列表
 Route::get('/admin/blogs/list','Admin\BlogsController@list');
@@ -221,6 +234,8 @@ Route::get('/home/userinfo/defaultAddr/{id}','Home\UserController@userinfo_defau
 
 // 显示个人中心的--订单管理
 Route::get('/home/userinfo_order','Home\UserController@userinfo_order');
+// 个人中心的--取消订单
+Route::get('/home/userinfo/delorder/{id}','Home\UserController@delorder');
 // 个人中心的一键支付页面
 Route::POST('/home/userinfo_fastpay','Home\UserController@userinfo_fastpay');
 // 个人中心的--执行一键支付
@@ -245,6 +260,8 @@ Route::get('/home/userinfo_collect','Home\UserController@collect');
 Route::get('/home/userinfo/delcollect/{id}','Home\UserController@delcollect');
 // 显示个人中心--足迹
 Route::get('/home/userinfo_foot','Home\UserController@foot');
+//删除足迹中的商品
+Route::get('/home/userinfo/del/{id}','Home\UserController@del');
 // 显示个人中心--评价
 Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
 // 个人中心中--针对单个发表评论
@@ -255,22 +272,23 @@ Route::POST('/home/userinfo/excomment','Home\UserController@excomment');
 // 个人的发表全部评论--页面
 Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
 // 显示个人中心--消息
-Route::get('/home/userinfo_news','Home\UserController@news');
+// Route::get('/home/userinfo_news','Home\UserController@news');
 
 // 显示个人中心的充值页面
 Route::get('/home/userinfo_payments','Home\UserController@userinfo_payments');
 // 执行个人中心的充值
 Route::post('/home/userinfo_balance','Home\UserController@userinfo_balance');
 
-
 // 前台购物车
 Route::get('/home/carts','Home\CartController@index');
+//加入购物车
+Route::post('/home/carts/cart','Home\CartController@cart');
 
 // 前台购物车下单
 Route::post('/home/pay','Home\PayController@pay');
 
 // 前台下单
-Route::any('/home/comfirmpay','Home\PayController@index');
+Route::post('/home/comfirmpay','Home\PayController@index');
 // 执行下单
 Route::post('/home/comfirepay','Home\PayController@comfirepay');
 // 前台购物车--移入收藏夹
@@ -279,19 +297,10 @@ Route::get('/home/updatecollect/{id}','Home\CartController@updatecollect');
 // 前台购物车--删除购物车商品
 Route::get('/home/chardelete/{id}','Home\CartController@chardelete');
 
-
-// 前台客服
-// Route::get('/home/customer','Home\CustomerController@index');
-
-//前台 显示聊天室视图
-Route::get('/home/chat','Home\ChatsController@index');
-//前台 用于获取所有用户的消息
-Route::get('/home/chat/messages','Home\ChatsController@fetchChat');
-//前台 用于发送消息
-Route::post('/home/chat/messages','Home\ChatsController@sendChat');
-
 //商品信息
 Route::get('/home/goods/goodInfo/{id}','Home\DetailsController@index');
+// 前台加入收藏
+Route::get('/home/goods/joincollect/{id}','Home\DetailsController@joincollect');
 //领取优惠卷
 Route::get('/home/goods/coupons/{id}','Home\DetailsController@coupons');
 //结算页面 
@@ -299,21 +308,14 @@ Route::get('/home/pay','Home\PayController@index');
 Route::post('/home/shopping','Home\PayController@shopping');
 
 //全部活动
-Route::get('/home/blogs/blogAll',function(){
-    return view('home.blogs.blogAll');
-});
+Route::get('/home/blogs/blogAll','Home\BlogsController@blogAll');
 
 //活动详情
-Route::get('/home/blogs/bloglist/{id}',function($id){
-    return view('home.blogs.bloglist');
-});
+Route::get('/home/blogs/bloglist/{id}','Home\BlogsController@bloglist');
 
 //板块下的商品列表
 Route::get('/home/goods/goodlist/{sid}/{kv?}/{sortv?}/{type?}','Home\GoodsController@goodlist');
 
 //搜索下的商品列表
 Route::get('/home/goods/goodSearch/{type?}','Home\GoodsController@goodSearch');
-
-
-
 

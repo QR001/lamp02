@@ -78,8 +78,9 @@
 							<ul>
 								<div class="per-border"></div>
 								@foreach($locations as $location)
-								@if($location->l_status == '1')
-									<li class="user-addresslist defaultAddr" addrid='{{ $location->id }}'>
+								
+									<li class="user-addresslist" addrid='{{ $location->id }}'>
+									{{-- <li class="user-addresslist defaultAddr" addrid='{{ $location->id }}'> --}}
 
 										<div class="address-left">
 											<div class="user DefaultAddr">
@@ -110,40 +111,7 @@
 
 
 									</li>
-								@else
-									<li class="user-addresslist" addrid='{{ $location->id }}'>
-
-										<div class="address-left">
-											<div class="user DefaultAddr" >
-
-												<span class="buy-address-detail">   
-													<span class="buy-user">{{ $location->l_name }} </span>
-													<span class="buy-phone">{{ $location->l_phone }}</span>
-												</span>
-											</div>
-											
-											
-												<div class="default-address">
-													<span class="buy-line-title buy-line-title-type">收货地址：</span>
-													<span class="buy--address-detail">
-														{{ $location->l_address }}
-														
-													</span>
-
-													</span>
-												</div>
-											
-										</div>
-										<div class="address-right">
-											<a href="person/address.html">
-												<span class="am-icon-angle-right am-icon-lg"></span></a>
-										</div>
-										<div class="clear"></div>
-
-
-									</li>
-								@endif
-									<div class="per-border"></div>
+								
 								@endforeach
 
 							</ul>
@@ -393,63 +361,24 @@
 	<script>
 		
 		// 收货地址
-		$('.user-addresslist').click(function(){
-			
-			
-			if($(this).attr('class')=='user-addresslist defaultAddr'){
-				
-				$('#address').val($(this).attr('addrid'));
-			}
-			
+		$('.user-addresslist').click(function(){	
+			$('#address').val($(this).attr('addrid'));	
 		});
 
 		// 支付方式
 
 		$('.OP_LOG_BTN').click(function(){
-			if($(this).attr('class')=='OP_LOG_BTN selected'){
-				
-				$('#expressmethods').val($(this).attr('expressmethods'));
-			}
+			$('#expressmethods').val($(this).attr('expressmethods'));
 		});
 
 		// 物流方式方式
 
 		$('.pay').click(function(){
-			
-			if($(this).attr('class')=='pay selected'){
-				
-				$('#paymethods').val($(this).attr('paymethods'));
-			}
+			$('#paymethods').val($(this).attr('paymethods'));
 		});
 
 
-		//计算总价
-		// var total=0;
-		// $('.J_ItemSum').each(function(){
-			// console.log($('.J_ItemSum').text());
-			// var price=parseInt($('.J_ItemSum').text());
-			// console.log(typeof(price));
-			// console.log(typeof(total));
-			// total=total+price;
-
-			// console.log(total);
-
-		// })
-		// var price=parseInt($('.J_ItemSum').text());
-		// 	console.log(price);
-		// var length=$('.J_ItemSum').length;
-		// console.log(length);
-		// for(var i=0; i<=length; i++){
-		// 	var price=parseInt($('.J_ItemSum').text());
-		// 	total+=price;
-		// 	// console.log(price);
-		// 	// console.log(i);
-		// }
-		// console.log(total);
-		// console.log($('.coupons'));
-		// $('.usercoupon').click(function(){
-		// 	alert(11);
-		// })
+		
 	</script>
 </html>
 
