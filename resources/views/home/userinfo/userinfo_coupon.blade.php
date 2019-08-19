@@ -14,7 +14,7 @@
 
 			<ul class="am-avg-sm-2 am-tabs-nav am-nav am-nav-tabs">
 				<li class="am-active"><a href="#tab1">可用优惠券</a></li>
-				<li><a href="#tab2">已用/过期优惠券</a></li>
+				<li><a href="#tab2">已用优惠券</a></li>
 
 			</ul>
 
@@ -35,7 +35,6 @@
 										<div class="c-limit">
 											【全场通用】
 										</div>
-										<div class="c-time"><span>使用期限</span>{{ $coupon->c_time }}</div>
 										<div class="c-type-top"></div>
 
 										<div class="c-type-bottom"></div>
@@ -71,7 +70,6 @@
 										<div class="c-limit">
 											【全场通用】
 										</div>
-										<div class="c-time"><span>使用期限</span>{{ $coupon->c_time }}</div>
 										<div class="c-type-top"></div>
 
 										<div class="c-type-bottom"></div>

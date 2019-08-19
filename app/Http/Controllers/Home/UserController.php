@@ -301,7 +301,6 @@ class UserController extends Controller
         }
 
      
-
          //验证规则
          $validator = Validator::make($request->all(), [
             'code'=>'required | numeric',
@@ -409,14 +408,9 @@ class UserController extends Controller
 
     // 显示个人中心的--订单管理
     public function userinfo_order()
-    {  
-        // 所有订单
-        $order = orders::with(['orderdetails'])->where('uid',session('home.id'))->get();
-    //   dd($order);
-        foreach($order as $k=>$v){
-            // dd($v);
-            $gid = $v['orderdetails']['gid'];
-        }
+    {
+     
+        $order= orders::with('orderdetails')->first();
 
         $orders = orderdetails::with('good')->where('gid',$gid)->get();
 
@@ -522,7 +516,7 @@ class UserController extends Controller
     // 显示个人中心的--优惠券
     public function userinfo_coupon()
     {
-        $coupons=Coupon::where(['uid'=>session('home.id'),'c_type'=>1])->get();
+        $coupons=Coupon::where(['uid'=>session('home.id')])->get();
         
       
         return view('home.userinfo.userinfo_coupon',['coupons'=>$coupons]);

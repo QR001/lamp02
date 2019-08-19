@@ -32,7 +32,7 @@ class OrdersController extends Controller
         // $img = orders::with(['sends'])->get();
 
         $data =orderdetails::with(['refunds','good'])->where('oid','=',$id)->get();
-        dd($data);
+
         
      
        foreach($data as $k=>$v){

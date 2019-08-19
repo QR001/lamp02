@@ -194,6 +194,9 @@
 							@if($errors->has('repay'))
 								<strong class="price"><em>请选择 物流方式 支付方式后重新下单</em></strong>
 							@endif
+							@if($errors->has('nopaypwd'))
+								<strong class="price"><em>请输入密码后重新下单</em></strong>
+							@endif
 							
 							
 						</div>
@@ -209,15 +212,12 @@
 			</form>
 				<div class="footer">
 					<div class="footer-hd">
-						<p>
-							<a href="#">恒望科技</a>
-							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
-						</p>
+							<p>
+								@foreach($links as $v)
+								<b>|</b>
+								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+								@endforeach
+							</p>
 					</div>
 					<div class="footer-bd">
 						<p>
@@ -261,35 +261,36 @@
 				totalPrice();
 				
 			  });
-			// 当数量改变的时候价格改变
+				// 当数量改变的时候价格改变
 			
-			$('.text_box').change(function(){
+				$('.text_box').change(function(){
 				
-				$('.text_box').each(function(){
-				//   商品的数量
-				var cart_num=$(this).val();
-				// console.log(cart_num);
-				if(cart_num <=0){
+					$('.text_box').each(function(){
+					//   商品的数量
+					var cart_num=$(this).val();
+					// console.log(cart_num);
+					if(cart_num <=0){
+						
+					$(this).val(1);
+					cart_num=1;
+					}
+
+					console.log(cart_num);
+
+					//  每一个商品的价格
+					var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 					
-				   $(this).val(1);
-				   cart_num=1;
-				}
-
-				console.log(cart_num);
-
-				//  每一个商品的价格
-				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
-				
-				// 计算到小计
-				var sum=cart_num*price;
-				
-                $(this).parent().parent().parent().parent().next().children().children().text(sum);
-				
-			  });
-			  totalPrice();
+					// 计算到小计
+					var sum=cart_num*price;
+					
+					$(this).parent().parent().parent().parent().next().children().children().text(sum);
+					
+			  	});
+			  	totalPrice();
 			});
 
-
+		
+				
 			// 全选
 			$('#selectAll').click(function(){
 

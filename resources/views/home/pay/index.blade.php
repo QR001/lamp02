@@ -157,7 +157,7 @@
 							<h3>选择物流方式--双击对物流进行选择</h3>
 							<ul class="op_express_delivery_hot">
 								@foreach ($wulius as $wuliu)
-									<li data-value="shentong" class="OP_LOG_BTN" expressmethods='{{ $wuliu->id }}'><img src='/uploads/{{ $wuliu->s_img }}' style="width:100px">{{ $wuliu->s_express }}<span></span></li>
+									<li data-value="shentong" class="OP_LOG_BTN" expressmethods='{{ $wuliu->id }}'><img src='/uploads/{{ $wuliu->s_img }}' width="80%" height="100%">{{ $wuliu->s_express }}<span></span></li>
 								@endforeach
 								
 							</ul>
@@ -172,7 +172,7 @@
 							<h3>选择支付方式--双击对支付方式进行选择</h3>
 							<ul class="pay-list">
 								@foreach ($express as $res)
-									<li class="pay" paymethods="{{ $res->id }}" ><img src="/uploads/pay/{{ $res->p_img }}" />{{ $res->p_method }}<span></span></li>
+									<li class="pay" paymethods="{{ $res->id }}" ><img src="/uploads/{{ $res->p_img }}" width="80%" height="100%" />{{ $res->p_method }}<span></span></li>
 								@endforeach
 								
 							</ul>
@@ -364,15 +364,12 @@
 				</form>
 				<div class="footer">
 					<div class="footer-hd">
-						<p>
-							<a href="#">恒望科技</a>
-							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
-						</p>
+							<p>
+								@foreach($links as $v)
+								<b>|</b>
+								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+								@endforeach
+							</p>
 					</div>
 					<div class="footer-bd">
 						<p>
