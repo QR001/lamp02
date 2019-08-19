@@ -265,76 +265,6 @@ class UserController extends Controller
         return view('home.userinfo.userinfo_safe_updatepaypwd',['userinfo'=>$userinfo,'web'=>$web]);
     }
 
-    
-
-    // 发送手机号验证码
-    public function sendPhone($phone)
-    {
-        
-  
-        // 接收手机号
-      
-        $code=rand(1234,4321);
-
-        // 如果存到redis中 注意建名覆盖
-        $k=$phone.'_code';
-        session([$k=>$code]);
-        
-        $url = "http://v.juhe.cn/sms/send";
-        $params = array(
-            'key'   => 'ec23ab5562872ad112176e409b99bf26', //您申请的APPKEY
-            'mobile'    => $phone, //接受短信的用户手机号码
-            'tpl_id'    => '176433', //您申请的短信模板ID，根据实际情况修改
-            'tpl_value' =>'#code#='.$code, //您设置的模板变量，根据实际情况修改
-            'dtype'    =>'json'
-        );
-
-        $paramstring = http_build_query($params);
-        $content = self::juheCurl($url, $paramstring);
-        echo $content;
-
-    }
-
-
-    /**
-     * 请求接口返回内容
-     * @param  string $url [请求的URL地址]
-     * @param  string $params [请求的参数]
-     * @param  int $ipost [是否采用POST形式]
-     * @return  string
-     */
-    public static function juheCurl($url, $params = false, $ispost = 0)
-    {
-        $httpInfo = array();
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'JuheData');
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        if ($ispost) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_URL, $url);
-        } else {
-            if ($params) {
-                curl_setopt($ch, CURLOPT_URL, $url.'?'.$params);
-            } else {
-                curl_setopt($ch, CURLOPT_URL, $url);
-            }
-        }
-        $response = curl_exec($ch);
-        if ($response === FALSE) {
-           
-            return false;
-        }
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $httpInfo = array_merge($httpInfo, curl_getinfo($ch));
-        curl_close($ch);
-        return $response;
-    }
 
     // 执行支付密码的修改
     public function userinfo_safe_exupdatepaypwd(Request $request){
@@ -347,14 +277,11 @@ class UserController extends Controller
       
         //验证用户填写的验证码和手机发送的验证码是否是一样的
        
-        // 用户填写的手机号
-        $code_user=$request->code;
-        // 手机上的验证码
-        $code_phone=session("$request->phone".'_code');
+        
       
          //验证规则
          $validator = Validator::make($request->all(), [
-            'code'=>'required | numeric',
+           
             'paypwd'=>'required| numeric |regex:/^[0-9]{6}$/',
             'repaypwd'=>'required| numeric |same:paypwd',
         ]);

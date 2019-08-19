@@ -48,29 +48,7 @@
         @endif
         <form class="am-form am-form-horizontal" method="post" action='/home/userinfo/safe/updatepaypwd'>
             {{ csrf_field() }}
-            <div class="am-form-group bind">
-                <label for="user-phone" class="am-form-label">验证手机</label>
-                <div class="am-form-content">
-                    <span id="phone">{{ $userinfo->phone }}</span>
-                </div>
-            </div>
-            <div class="am-form-group code">
-                <label for="user-code" class="am-form-label">验证码</label>
-                <div class="am-form-content">
-                    <input type="hidden" name='phone' id='userphone' value='{{$userinfo->phone}}'>
-                    <input type="tel" id="user-code" name='code'  placeholder="短信验证码四位数字">
-                </div>
-                <a class="btn" href="javascript:void(0);" onclick="sendMobileCode(this);" id="sendMobileCode">
-                    <div class="am-btn am-btn-danger">验证码</div>
-                </a>
-            </div>
-            @if($errors->has('nocode'))
-                <div class="am-form-group">
-                    <div class="am-form-content">
-                        <input type="tel" style='color:red;' disabled value='请正确填写验证码四位数字'>
-                    </div>
-                </div>
-            @endif
+           
             <div class="am-form-group">
                 <label for="user-password" class="am-form-label">支付密码</label>
                 <div class="am-form-content">
