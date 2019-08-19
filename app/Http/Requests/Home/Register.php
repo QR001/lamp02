@@ -28,8 +28,7 @@ class Register extends FormRequest
             'name' => 'required|regex:/^[a-zA-Z]{1}[\w]{5,15}$/|unique:users',
             'pwd' => 'required|regex:/^[\w]{6,18}$/',
             'repwd' => 'required|same:pwd',
-            // 'email' => 'required|email',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
         ];
     }
      // 自定义错误删输出

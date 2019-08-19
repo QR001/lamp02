@@ -11,11 +11,13 @@ use App\Models\Sorts;
 use App\Models\orders;
 use App\Models\Link;
 use App\Models\Web;
+use App\Models\Userdetail;
 
 class IndexController extends Controller
 {
     //商城首页面
     public  function index(){
+        
         //网站配置
         $web=Web::find(1); 
   
@@ -43,10 +45,16 @@ class IndexController extends Controller
         if(session('home.id')){
             //获取当前登录用户的订单信息
             $order = $this->order();
-            return view('home.index.index',['links' => $links,'turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'order' => $order,'web'=>$web]);
+            // 用户的头像
+            $userinfo=Userdetail::where(['uid'=>session('home.id')])->first();
+           
+            $userPhoto=$userinfo->pic;
+            return view('home.index.index',['links' => $links,'turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'order' => $order,'web'=>$web,'userPhoto'=>$userPhoto]);
 
         }else{
-            return view('home.index.index',['links' => $links,'turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'web'=>$web]);
+            // 用户的头像
+            $userPhoto='photo.jpg';
+            return view('home.index.index',['links' => $links,'turns' => $turns,'blogs' => $blogs,'sale' => $sale,'sort' => $sort,'web'=>$web,'userPhoto'=>$userPhoto]);
         }
 
     }
@@ -137,9 +145,4 @@ class IndexController extends Controller
 
     
 
-    //商品主题
-    public function goodmotif()
-    {
-        
-    }
 }

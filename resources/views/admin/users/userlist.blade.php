@@ -31,7 +31,7 @@
           <div class="layui-row">
             <form class="layui-form layui-col-md12 x-so" action='/admin/user/userlist'>
               
-              <input type="text" name="name" value="{{ $_GET['name'] ?? '' }}" autocomplete="off" class="layui-input">
+              <input type="text" name="name" value="{{ $_GET['name'] ?? '' }}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
               <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i></button>
             </form>
           </div>

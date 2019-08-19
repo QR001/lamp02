@@ -112,7 +112,7 @@
 									<div class="m-baseinfo">
 										<a href="information.html">
 											
-											<img src="/uploads/{{ session('home.pic') }}">
+											<img src="/uploads/{{ $userphoto }}">
 										</a>
 										<em class="s-name">({{ session('home.name') }})<span class="vip1"></em>
 										<div class="s-prestige am-btn am-round">
@@ -310,7 +310,7 @@
 							<li> <a href="/home/userinfo_collect">收藏</a></li>
 							<li> <a href="/home/userinfo_foot">足迹</a></li>
 							<li> <a href="/home/userinfo_evaluate">评价</a></li>
-							<li> <a href="/home/userinfo_news">消息</a></li>
+						
 						</ul>
 					</li>
 	

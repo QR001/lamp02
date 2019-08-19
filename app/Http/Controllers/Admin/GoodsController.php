@@ -69,7 +69,6 @@ class GoodsController extends Controller
         $imgs =  explode(',',$good->g_img);
         array_pop($imgs);
         $good->g_img = $imgs;
-        // return $good;
         return view('admin.goods.goods_img',['good' => $good]);
     }
 

@@ -32,51 +32,11 @@
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
     </div>
     <div class="x-body">
-      {{-- <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option>支付状态</option>
-              <option>已支付</option>
-              <option>未支付</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option>支付方式</option>
-              <option>支付宝</option>
-              <option>微信</option>
-              <option>货到付款</option>
-            </select>
-          </div>
-          <div class="layui-input-inline">
-            <select name="contrller">
-              <option value="">订单状态</option>
-              <option value="0">待确认</option>
-              <option value="1">已确认</option>
-              <option value="2">已收货</option>
-              <option value="3">已取消</option>
-              <option value="4">已完成</option>
-              <option value="5">已作废</option>
-            </select>
-          </div>
-          <input type="text" name="username"  placeholder="请输入订单号" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-        </form>
-      </div> --}}
-      {{-- <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
-      </xblock> --}}
+      
       <table class="layui-table">
         <thead>
           <tr>
-            {{-- <th>
-              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-            </th> --}}
+          
             <th>商品名称</th>
             <th>商品图片</th>
             <th>商品颜色</th>
@@ -87,14 +47,10 @@
             </tr>
         </thead>
         <tbody>
-          @foreach ($data as $v)
-              
-         
+          @foreach ($data as $k=>$v)
+{{-- {{dd($v)}} --}}
           <tr>
-            {{-- <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td> --}}
-
+          
             <td>{{ $v['good']['g_name']}}</td>
             <td><img src="/uploads/goods/{{ $img[0] }}" alt="图片读取中...."></td>
             <td>{{ $v['good']['g_color'] }}</td>
@@ -108,32 +64,29 @@
             @elseif($v->d_status == 3)
               已退款
             @endif
+        
             </td>
             <td class="td-manage">
-            @if($v->d_status == 1)
-            <a onclick="member_stop(this,'{{ $v->id }}')" href="javascript:;"  title="正常">
-              <i class="layui-icon layui-icon-face-smile">&#xe6af;</i>
-            </a>
-            @elseif($v->d_status == 2)
-            <a onclick="member_stop(this,'{{ $v->id }}')" href="javascript:;"  title="退款中">
-              <i class="layui-icon layui-icon-face-cry">&#xe69c;</i>
-            </a>
-            @endif
+    
+              @if($v->d_status == 1)
+                <a href="javascript:;"  title="正常">
+                  <i class="layui-icon layui-icon-face-smile">&#xe6af;</i>
+                </a>
+              @elseif($v->d_status == 2)
+              <a onclick="member_stop(this,'{{ $v->oid }}','{{ $uid }}')" href="javascript:;"  title="用户申请退款">
+                <i class="layui-icon layui-icon-face-cry">&#xe69c;</i>
+              </a>
+              @elseif($v->d_status == 3)
+              <a  href="javascript:;"  title="退款成功">
+                <i class="layui-icon layui-icon-face-cry">&#xe69c;</i>
+              </a>
+              @endif
             </td>
           </tr>
           @endforeach
         </tbody>
       </table>
-      {{-- <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
-      </div> --}}
+    
 
     </div>
     <script>
@@ -152,44 +105,25 @@
       });
 
        /*用户-退款*/
-      function member_stop(obj,id){
+      function member_stop(obj,id,uid){
           layer.confirm('确认此次操作吗？',function(index){
 
-              if($(obj).attr('title')=='正常'){
+            if($(obj).attr('title')=='用户申请退款'){
                   $.ajax({
                     url:'/admin/Orders/status',
-                    data:{'id':id,'status':'2'},
+                    data:{'id':id,'status':'3','uid':uid},
                     type:'GET',
                     success:function(data){
                       // console.log(data);
                       if(data == 'success'){
-                        $(obj).attr('title','退款中')
+                        $(obj).attr('title','退款成功')
                         $(obj).find('i').html('&#xe69c;');
-                        layer.msg('退款中',{icon: 5,time:1000});
+                        layer.msg('退款成功',{icon: 5,time:1000});
+                        // $(obj).parents("tr").find(".td-status").find('span').remove();
                       }
                     },
                     error:function(data){
-                      console.log(data);
-                    }
-
-                  })
-              }
-
-              if($(obj).attr('title')=='退款中'){
-                $.ajax({
-                    url:'/admin/Orders/status',
-                    data:{'id':id,'status':'1'},
-                    type:'GET',
-                    success:function(data){
-                      // console.log(data);
-                      if(data == 'success'){
-                        $(obj).attr('title','取消退款')
-                        $(obj).find('i').html('&#xe6af;');
-                        layer.msg('取消退款',{icon: 5,time:1000});
-                      }
-                    },
-                    error:function(data){
-                      layer.msg('操作失败',{icon: 6,time:1000});
+                      layer.msg('退款失败',{icon: 6,time:1000});
                     }
 
                   })
@@ -206,8 +140,6 @@
               layer.msg('已删除!',{icon:1,time:1000});
           });
       }
-
-
 
       function delAll (argument) {
 

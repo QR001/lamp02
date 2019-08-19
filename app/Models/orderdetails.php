@@ -17,4 +17,7 @@ class orderdetails extends Model
     public function refunds(){
         return $this->hasOne('App\Models\refunds','did');
     }
+    public function order(){
+        return $this->belongsTo('App\Models\orders','oid');
+    }
 }

@@ -68,7 +68,7 @@
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        {{-- <button class="layui-btn" onclick="x_admin_show('添加快递方式','/admin/Orders/order_add')"><i class="layui-icon"></i>添加</button> --}}
+
         <span class="x-right" style="line-height:40px">共有数据：{{ $count }} 条</span>
       </xblock>
       <table class="layui-table">
@@ -82,8 +82,6 @@
             <th>总金额</th>
             <th>应付金额</th>
             <th>订单状态</th>
-            {{-- <th>支付状态</th> --}}
-            {{-- <th>发货状态</th> --}}
             <th>收货地址</th>
             <th>配送方式</th>
             <th>下单时间</th>
@@ -92,6 +90,7 @@
         </thead>
         <tbody>
           @foreach ($list as $k=>$v )
+          {{-- {{dd($v)}} --}}
           <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{ $v->id }}'><i class="layui-icon">&#xe605;</i></div>
@@ -100,9 +99,19 @@
             <td>{{$v->o_consignee }}:{{ $v->o_contact }}</td>
             <td>{{ $v->o_amount }}</td>
             <td>{{ $v->o_amount }}</td>
-            <td>{{ $v->o_status }}</td>
-            {{-- <td>未支付</td> --}}
-            {{-- <td>未发货</td> --}}
+            <td>
+            @if($v->o_status == 1)
+                  未付款
+            @elseif($v->o_status == 2)
+                  未发货
+            @elseif($v->o_status == 3)
+                  已发货
+            @elseif($v->o_status == 4)
+                已收货-待评价
+            @elseif($v->o_status == 5)
+                已评价
+            @endif
+            </td>
             <td>{{ $v->o_address }}</td>
             <td>{{ $v['sends']['s_express'] }}</td>
             <td>{{ $v->created_at }}</td>
@@ -112,6 +121,9 @@
               </a>
               <a title="删除" onclick="member_del(this,'{{ $v->id }}')" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
+              </a>
+              <a title="发货" onclick="member_fahuo(this,'{{ $v->id }}')" href="javascript:;">
+                  <i class="layui-icon">&#xe642;</i>
               </a>
             </td>
           </tr>
@@ -139,6 +151,27 @@
           elem: '#end' //指定元素
         });
       });
+
+
+      function member_fahuo(obj,id){
+        layer.confirm('确认要发货吗？',function(index){
+              //发异步删除数据
+
+              $.ajax({
+                  type:'GET',
+                  url:'/admin/Orders/order_fahuo/'+id,
+                  success: function (data) {
+                   
+                      layer.msg('修改成功!', { icon: 1, time: 1000 });
+
+                  },
+                  error: function(data){
+                  
+                    layer.msg('修改失败', {icon: 2});
+                  }
+                })
+          });
+      }
 
        /*用户-停用*/
       function member_stop(obj,id){

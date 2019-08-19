@@ -21,14 +21,19 @@ Route::get('/admin/login/logout','Admin\LoginController@logout');
 
 //后台  订单模块的 订单详情的退款
 Route::get('/admin/Orders/status','Admin\OrdersController@status');
-//后台  订单模块的单个删除
+
 //执行后台登录操作
 Route::post('/admin/login/dologin','Admin\LoginController@dologin');
 
+//后台  订单模块的单个删除
 Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
 //后台  订单模块的批量删除
 Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
 
+//后台发货
+Route::get('/admin/Orders/order_fahuo/{id}','Admin\OrdersController@order_fahuo');
+//后台 订单管理的查看订单详情
+Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 
 
 //后台 订单管理的添加物流方式页面
@@ -43,8 +48,7 @@ Route::post('/admin/Orders/order_pay_add','Admin\OrdersController@order_pay_add'
 Route::get('/admin/Orders/order_pay_update/{id}','Admin\OrdersController@order_pay_update');
 Route::post('/admin/Orders/pay_update','Admin\OrdersController@pay_update');
 Route::get('/admin/Orders/pay_delete/{id}','Admin\OrdersController@pay_delete');
-//后他 订单管理的查看订单详情
-Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
+
 //后台 订单模块
 Route::resource('/admin/Orders','Admin\OrdersController');
 
@@ -243,8 +247,17 @@ Route::POST('/home/userinfo_exfastpay','Home\UserController@userinfo_exfastpay')
 // 个人中心--确认收货
 Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
 
+//显示个人中心的 -- 退款
+Route::get('/home/refund/{did}/{gid}/{num}','Home\UserController@refund');
+//提交申请
+Route::post('/home/refundstore','Home\UserController@refundstore');
+//显示个人中心的--申请退款成功
+Route::get('/home/refund_store','Home\UserController@refund_store');
+
 // 显示个人中心的--退款售后
-Route::get('/home/userinfo_refund','Home\UserController@userinfo_refund');
+Route::get('/home/userinfo_refund/{did}/{gid}','Home\UserController@userinfo_refund');
+
+
 // 显示个人中心--优惠券
 Route::get('/home/userinfo_coupon','Home\UserController@userinfo_coupon');
 // 个人中心--立即使用优惠券
@@ -271,8 +284,7 @@ Route::POST('/home/userinfo/excomment','Home\UserController@excomment');
 
 // 个人的发表全部评论--页面
 Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
-// 显示个人中心--消息
-// Route::get('/home/userinfo_news','Home\UserController@news');
+
 
 // 显示个人中心的充值页面
 Route::get('/home/userinfo_payments','Home\UserController@userinfo_payments');

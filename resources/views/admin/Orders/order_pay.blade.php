@@ -95,7 +95,7 @@
                 <td>
                   <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="1"><i class="layui-icon"></i></div>
                 </td>
-                <td></td>
+                <td>{{ $id++ }}</td>
                 <td><img src="/uploads/{{ $v->p_img }}" alt="图片读取中...."></td>
                 <td>{{ $v->p_method }}</td>
                 <td>{{ $v->created_at }}</td>

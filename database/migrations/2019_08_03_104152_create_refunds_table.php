@@ -20,6 +20,7 @@ class CreateRefundsTable extends Migration
             $table->string('r_num',50);
             $table->string('r_cause',100);
             $table->string('r_explain',100);
+            $table->string('r_payments');
             $table->timestamps();
         });
     }

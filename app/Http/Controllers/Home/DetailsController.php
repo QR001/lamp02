@@ -33,9 +33,9 @@ class DetailsController extends Controller
         $data =Good::join('details','details.gid','goods.id')->where('goods.id',$id)->first();
        
         // 商品的评论
-        $data2=Comment::where('gid',$id)->paginate(2);
+        $data2 = Comment::where('gid',$id)->paginate(2);
         //全部评论数量
-        $qcount=Comment::where('gid',$id)->count();
+        $qcount = Comment::where('gid',$id)->count();
         //好评度
         $gcount = Comment::where(['gid' => $id,'c_score' => 3])->count();
 
@@ -53,7 +53,6 @@ class DetailsController extends Controller
         $lcount = Comment::where(['gid' => $id,'c_score' => 1])->count();
         
         $count = ['qcount' => $qcount,'gcount' => $gcount,'mcount' => $mcount,'lcount' => $lcount,'num' => $num];
-        // dd($count);
         
         //商品详情图
         $image = explode(',',$data->g_img);
@@ -62,8 +61,7 @@ class DetailsController extends Controller
       
         //查找优惠卷
         $coupons = coupon::where(['uid'=>0,'c_status'=>1])->get();
-        // dump($coupons);
-
+     
         //推荐最新相似商品
         $goods = Good::where(['sid' => $data->sid,'g_status' => 1])->orderBy('updated_at','desc')->limit(3)->get();
         foreach($goods as $k=>$v){
@@ -84,9 +82,9 @@ class DetailsController extends Controller
         //评论数据处理
         foreach($data2 as $k=>$v){
             // 该条评论的头像
-            $v['userinfo']=DB::table('users')->join('userdetails','users.id','=','userdetails.uid')->where('users.id',$v->uid)->first();
+            $v['userinfo'] = DB::table('users')->join('userdetails','users.id','=','userdetails.uid')->where('users.id',$v->uid)->first();
             // 评论的图片
-            $a= explode(',', $v->c_img);       
+            $a = explode(',', $v->c_img);       
             
             array_pop($a);
             $v['comment_imgs'] = $a;
@@ -138,7 +136,7 @@ class DetailsController extends Controller
         $uid = session('home.id');
         //存入收藏夹 
         // 查看商品是否在收藏夹里
-        $res=collects::where(['gid'=>$id,'uid'=>$uid])->first();
+        $res = collects::where(['gid'=>$id,'uid'=>$uid])->first();
        
         if($res){
        

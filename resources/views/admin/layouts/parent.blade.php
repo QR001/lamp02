@@ -99,18 +99,7 @@
                             <cite>订单列表</cite>
                         </a>
                     </li >
-                    <li>
-                        <a _href="/admin/Orders/order_cends ">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>物流方式</cite>
-                        </a>
-                        </li >
-                        <li>
-                            <a _href="/admin/Orders/order_pay">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>支付方式</cite>
-                            </a>
-                        </li >
+                    
                 </ul>
             </li>
 
@@ -169,17 +158,17 @@
                         </a>
                     </li >
                     <li>
-                        <a _href="/admin/coupons/couponslist">
+                        <a _href="/admin/Orders/order_cends ">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>物流方式</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
-                        <a _href="/admin/coupons/couponslist">
+                        <a _href="/admin/Orders/order_pay">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>支付方式</cite>
                         </a>
-                    </li>
+                    </li >
  
                 </ul>
             </li>

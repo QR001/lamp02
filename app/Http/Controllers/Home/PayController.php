@@ -14,6 +14,7 @@ use App\Models\orderdetails;
 use App\Models\orders;
 use App\Models\Payment;
 use App\Models\Userdetail;
+use App\Models\Web;
 use DB;
 
 class PayController extends Controller
@@ -21,10 +22,24 @@ class PayController extends Controller
     //
     public function index(Request $request)
     {
+     
+    
         // 判断用户是否选择商品
-        if(!$request->items){
-            return back()->withErrors(['no'=>'至少选择一个商品']);
+        if(!$request->goods){
+            return back()->withErrors(['nogoods'=>'至少选择一个商品']);
         }
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
+        
         
         if(!session('home.id')){
            
@@ -43,17 +58,24 @@ class PayController extends Controller
         // 显示用户要下单的商品
        
         $goods=[];
-        foreach($request->items as $k=>$item){
+        foreach($request->goods as $k=>$item){
             $arr=[];
             $arr=explode('-',$item);
-
+            
             $goods[$k]=Good::join('carts','carts.gid','goods.id')->where(['carts.uid'=>session('home.id'),'goods.id'=>$arr[0]])->first();
             
             $goods[$k]['g_img']=explode(',',$goods[$k]->g_img)[0];
+
             // 购买的商品的数量
-            $goods[$k]['buynum']=$arr[1];
+            $buyNum=explode(',',$arr[1]);
+            array_pop($buyNum);
+           
+            $goods[$k]['buynum']=array_pop($buyNum);
+          
         }
-   
+      
+        
+      
         
         // 优惠券
         $coupon=Coupon::where(['uid'=>session('home.id'),'c_status'=>1])->get();
@@ -61,7 +83,7 @@ class PayController extends Controller
         // 选中的商品的总价
         $total=$request->total;  
         
-        return view('home.pay.index',['locations'=>$location,'wulius'=>$wuliu,'express'=>$express,'goods'=>$goods,'coupon'=>$coupon,'total'=>$total]);
+        return view('home.pay.index',['locations'=>$location,'wulius'=>$wuliu,'express'=>$express,'goods'=>$goods,'coupon'=>$coupon,'total'=>$total,'web'=>$web]);
 
     }
 
@@ -73,15 +95,13 @@ class PayController extends Controller
         if(empty($request->paypwd)){
             return redirect('/home/carts')->withErrors(['nopaypwd'=>'请输入支付密码']);
         }
-
+      
         // 判断用户是否选择物流方式 快递方式
-        foreach($request->all() as $k=>$v){
-
-            if(empty($v)){
-                return redirect('/home/carts')->withErrors(['repay'=>'请选择 收货地址 物流方式 支付方式后重新下单']);
-            }
-
+        if($request->address==null || $request->expressmethods==null || $request->paymethods==null){
+            return redirect('/home/carts')->withErrors(['repay'=>'请选择 收货地址 物流方式 支付方式后重新下单']);
         }
+
+          
 
         // 写入订单
         // 查询用户 输入的收货地址 
@@ -93,8 +113,8 @@ class PayController extends Controller
         }
         // 判断用户是否使用优惠券
         if($request->coupon!='请选择'){
-            $res=Coupon::find($request->coupon);
-            $coupon=$res->id;
+            $res = Coupon::find($request->coupon);
+            $coupon = $res->id;
             $couponmoney=$res->c_money;
             // 修改用户选择的优惠券状态
             Coupon::where('id',$coupon)->update(['c_status'=>2]);
@@ -114,14 +134,17 @@ class PayController extends Controller
          
          if($userpaypwd==$ypwd->paypwd){
       
-            // 从用户的余额中扣除
+            // 查看用户余额是否足够
             $yue=Payment::where('uid',session('home.id'))->first();
-         
-            if($yue->balance < $total){
            
+            if($yue->balance < $total){
+                
                 $orderStatus=1;
                 return redirect('/home/userinfo_payments')->withErrors(['noyue'=>'请尽快充值']);
             }else{
+                $money=$yue->balance - $total;
+                $res=Payment::where('uid',session('home.id'))->update(['balance'=>$money]);
+                
                 $orderStatus=2;
             }
 
@@ -168,18 +191,28 @@ class PayController extends Controller
             Cart::where('gid',$goodid)->delete();
             
             // 商品的销量+ 库存-
-            $good=Good::find($goodid);
-            $stocknum=$good->g_stock - $goodnum;
-            $salesnum=$good->g_sales + $goodnum;
+            $good = Good::find($goodid);
+            $stocknum = $good->g_stock - $goodnum;
+            $salesnum = $good->g_sales + $goodnum;
             
             // 执行修改
-            $gss=Good::where('id',$goodid)->update(['g_stock'=>$stocknum,'g_sales'=>$salesnum]);
+            $gss = Good::where('id',$goodid)->update(['g_stock'=>$stocknum,'g_sales'=>$salesnum]);
   
         }
        
    
-        // return view('home.pay.success',['order'=>$res]);
-        return view('home.pay.success',['order'=>$res]);
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
+        return view('home.pay.success',['order'=>$res,'web'=>$web]);
     
     }
 

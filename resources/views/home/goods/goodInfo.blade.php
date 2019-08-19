@@ -108,10 +108,7 @@
                                 <li class="qc"><a href="/home/blogs/blogAll">活动</a></li>
                                 
 							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
+						   
 						</div>
 			</div>
 				<ol class="am-breadcrumb am-breadcrumb-slash">

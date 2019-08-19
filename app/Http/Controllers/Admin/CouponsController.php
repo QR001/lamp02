@@ -13,25 +13,25 @@ class CouponsController extends Controller
     {
        
         // 优惠券的金额
-        $money=$_GET['c_money'] ?? '';
+        $money = $_GET['c_money'] ?? '';
         // 开始的时间
-        $start=$_GET['start'] ?? '';
-        $end=$_GET['end'] ?? '';
+        $start = $_GET['start'] ?? '';
+        $end = $_GET['end'] ?? '';
         
         // 优惠券的创建时间是你输入的
 
         // 每页显示的条数
         $page=2;
         // 当前的页数
-        $currentPage=$_GET['page'] ?? 1;
-        $id=($currentPage-1)*$page+1;
+        $currentPage = $_GET['page'] ?? 1;
+        $id = ($currentPage-1)*$page+1;
 
         if($start && $end && $end > $start){
             $coupon = Coupon::where('c_money','like',"%".$money."%")->whereBetween('created_at',[$start,$end])->paginate($page);
             $count = Coupon::where('c_money','like',"%".$money."%")->whereBetween('created_at',[$start,$end])->count();
         }else{
-            $coupon=Coupon::where('c_money','like','%'.$money.'%')->paginate($page);
-            $count=Coupon::where('c_money','like','%'.$money.'%')->count();
+            $coupon = Coupon::where('c_money','like','%'.$money.'%')->paginate($page);
+            $count = Coupon::where('c_money','like','%'.$money.'%')->count();
         }
          
 
@@ -48,9 +48,9 @@ class CouponsController extends Controller
     {
 
         // 最大优惠金额
-        $maxmoney=$reuqest->data['c_money'];
+        $maxmoney = $reuqest->data['c_money'];
         
-        $res=Coupon::create([
+        $res = Coupon::create([
             'uid'=>0,
             'c_money'=>$maxmoney,
             
@@ -86,13 +86,13 @@ class CouponsController extends Controller
        
         $data=Coupon::findOrFail($id);
        
-        // dump($data);
+    
         return view('admin.coupons.update',['data'=>$data,'id'=>$id]);
     }
 
     // 执行优惠券--修改
     public function exupdate(Request $request){
-        // return $request->all();
+     
         $res=Coupon::where('id',$request->data['id'])->update([
             'c_money'=>$request->data['c_money'],
         ]);

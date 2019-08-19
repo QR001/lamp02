@@ -14,7 +14,7 @@ class SortsController extends Controller
     public static function getCreate($type,$username='')
     {
         
-        // $create = Sorts::select(" *,concat(s_path,',',id) as paths from sorts order by paths asc")->orderBy('paths','asc')->paginate(3);;
+       
         if($type == 'index'){
             $create = Sorts::select('id','s_name','s_pid','s_path','created_at',DB::raw("concat(s_path,',',id) as paths"))
             ->orderBy('paths','asc')->where('s_name','like','%'.$username.'%')->paginate(3);
@@ -23,8 +23,7 @@ class SortsController extends Controller
             $create = Sorts::select('id','s_name','s_pid','s_path','created_at',DB::raw("concat(s_path,',',id) as paths"))
             ->orderBy('paths','asc')->where('s_name','like','%'.$username.'%')->get();
         }
-        // dd($create);
-        // return $create;
+        
         foreach ($create as $key => $value){
             $n = substr_count($value->s_path,',')-1;
 
@@ -34,29 +33,21 @@ class SortsController extends Controller
         return $create;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index(Request $request)
     {
         
         $username = $request->input('username');
 
-        // dd($username);
+  
         if($username==null){
             $username = '';
         }
 
         if (empty($username)) {
-            // return view('admin.Sorts.index');
             $username = '';
         }
-        // $serch = DB::table('sorts')->where('s_name','like','%'.$username.'%')->get();
-        // dump($serch);
-        // dump($username);
-   
+     
         return view('admin.Sorts.index',['username'=>$username,'create'=>self::getcreate('index',$username) ]);
     }
 
@@ -68,7 +59,7 @@ class SortsController extends Controller
     public function create()
     {
         $create = self::getcreate('create');
-        // return $create;
+
         return view('admin.Sorts.sorts',['create'=>$create]);
     }
 
@@ -86,9 +77,7 @@ class SortsController extends Controller
        
         //获取父级id
         $parent_data = Sorts::find($s_pid);
-        // dd($parent_data);
-        // $s_path= $parent_data->s_path.','.$parent_data->id;
-        
+     
         if(substr_count($parent_data->s_path,',')>2){
             $s_path=$parent_data->s_path.','.$path_data->id;
         }else{
@@ -111,8 +100,7 @@ class SortsController extends Controller
     //添加分类
     public function store(Request $request)
     {   
-        // return $request->all();
-
+      
         $validatedData = $request->validate([
             's_name' => 'regex:/^[\一-\龥]{0,}$/',
         ]);
@@ -130,8 +118,6 @@ class SortsController extends Controller
             }else{
                 $s_path= $parent_data->s_path.$parent_data->id.',';
             }
-
-            // $s_path=$parent_data->s_path.','.$path_data->id;
           
         }
 
@@ -143,34 +129,14 @@ class SortsController extends Controller
         $cate->s_path = $s_path;
 
         if ($cate->save()) {
-            // return redirect('admin\Sorts')->with('success','添加成功');
+          
             return back()->with('success','添加成功');
            
         }else{
             return back()->with('error','添加失败');
            
         }
-
-
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     //编辑页面
     public function edit($id)
@@ -180,9 +146,7 @@ class SortsController extends Controller
     //编辑 执行更改
     public function edit_update(Request $request)
     {
-        // dd($request->all());
-
-
+       
         $s_name =  $request->input("s_name");
         $id = $request->input('id');
 
@@ -218,7 +182,7 @@ class SortsController extends Controller
     //批量删除
     public function pdelete($data){
         
-        $id= explode(',',$data);
+        $id = explode(',',$data);
         foreach($id as $v){
             DB::table('sorts')->where('id','=',$v)->delete();
         }

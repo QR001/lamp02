@@ -4,78 +4,108 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Models\user;
+use App\Models\user;
 use App\Models\pay;
 use App\Models\orders;
 use App\Models\orderdetails;
 use App\Models\sends;
-
 use App\Models\refunds;
+use App\Models\Good;
+use App\Models\payment;
+use DB;
 
 class OrdersController extends Controller
 {
-    //
-
+    
     public function index(Request $request)
     {
-
         $o_no  = $request->input('o_no') ?? '';
-        $list= orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->orderBy('created_at','desc')->paginate(3);
-        // dd($list);
-        $count= orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->count();
+        $list = orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->orderBy('created_at','desc')->paginate(3);
+        $count = orders::with(['user','sends','orderdetails'])->where('o_no','like','%'.$o_no.'%')->count();
         return view('admin.Orders.orders',['list'=>$list,'count'=>$count]);
     }
 
+    // 订单详情
     public function order_view($id){
 
-        // $img = orders::with(['sends'])->get();
-
-        $data =orderdetails::with(['refunds','good'])->where('id','=',$id)->get();
      
+        $data = orderdetails::join('refunds','refunds.did','orderdetails.oid')->join('goods','goods.id','orderdetails.gid')->where(['orderdetails.oid'=>$id])->get();
+      
        foreach($data as $k=>$v){
-            $img = explode(',',$v['good']['g_img']);
+            $uid = $v->uid;
+
+            $img = explode(',',$v->g_img);
             array_pop($img);
        }
-        return view('admin.Orders.order_view',['data'=>$data,'img'=>$img]);
+        return view('admin.Orders.order_view',['data'=>$data,'img'=>$img,'uid'=>$uid]);
     }
 
-    //删除单个
-    public function delete($id)
+    //发货
+    public function order_fahuo($id)
     {
-        $data= orders::find($id);
-        $data->orderdetails()->delete();
-        $data->delete();
-        
-        // $data = orders::destroy($id);
-
-       if($data){
-           return 'success';
-       }else{
-           return 'error';
-       }
        
-    //    return $data ? 'success' : 'error';
-    }
-
-    //修改状态
-    public function status()
-    {
-        // return $_GET;
-        $id = $_GET['id'];
-        $status = $_GET['status'];
-        $res=orderdetails::where('id',$id)->update(['d_status'=>$status]);
-        if($res){
+        $order =  orders::where('id',$id)->update(['o_status'=>3]);
+        
+        if($order){
             return 'success';
         }else{
             return 'error';
         }
     }
 
+    //删除单个
+    public function delete($id)
+    {
+        $data = orders::find($id);
+        $data->orderdetails()->delete();
+        $data->delete();
+    
+       if($data){
+           return 'success';
+       }else{
+           return 'error';
+       }
+       
+    }
+
+    //修改状态
+    public function status()
+    {
+    // return $_GET;
+        $uid = $_GET['uid'];
+        $id = $_GET['id'];
+        $status = $_GET['status'];
+        $res = refunds::where(['did'=>$id,'uid'=>$uid])->first();
+    // return $res;
+        $payments = $res->r_payments;
+       
+      
+        $user = payment::where('uid','=',$uid)->first();
+       
+        $balance = $user->balance;
+      
+        $number = $payments + $balance; 
+        // return $number;
+       
+        $res = payment::where('uid',$uid)->update(['balance'=>$number]);
+        
+        
+        if($res){
+            $add = orderdetails::where('id',$id)->update(['d_status'=>$status]);
+            if($add){
+                return 'success';
+            }else{
+                return 'error';
+            }
+        };
+       
+    }
+
     //批量删除
     public function pdelete(Request $request){
-        // return $request;
-        $data= explode(',',$request->data);
-        // return $data;
+       
+        $data = explode(',',$request->data);
+       
         foreach($data as $v){
             $data = orders::find($v);
             $data->orderdetails()->delete();
@@ -88,11 +118,11 @@ class OrdersController extends Controller
     public function order_cends(Request $request){
        
         $s_express  = $request->input('s_express') ?? '';
-        $page=3;
+        $page = 3;
         $data = sends::where('s_express','like','%'.$s_express.'%')->paginate($page);
          // 当前的页数
-        $currentPage=$_GET['page'] ?? 1;
-        $id=($currentPage-1)*$page+1;
+        $currentPage = $_GET['page'] ?? 1;
+        $id = ($currentPage-1)*$page+1;
 
         $count = sends::count();
 
@@ -112,9 +142,9 @@ class OrdersController extends Controller
        
         if ($request->hasFile('s_img')) {
             // 获取文件后缀
-            $ext=$request->file('s_img')->extension();
+            $ext = $request->file('s_img')->extension();
             // 文件名 
-            $filename=time().rand(0,100);
+            $filename = time().rand(0,100);
             
             $path = $request->file('s_img')->storeAs('/express',date('Ymd').'/'.$filename.','.$ext);
             // dd($path);
@@ -144,11 +174,11 @@ class OrdersController extends Controller
     public function order_update_add(Request $request)
     {
         $validatedData = $request->validate([
-            's_express' => 'min:2|max:50|unique:sends'
+            's_express' => 'min:2|max:50'
         ],[
             's_express.min'=>'物流名称不得低于2个字符',
             's_express.max'=>'物流名称不得高于50个字符',
-            's_express.unique'=>'物流名称已存在'
+            // 's_express.unique'=>'物流名称已存在'
         ]);
         $data = sends::find($request->id);
         // dd($data->s_img);
@@ -187,43 +217,31 @@ class OrdersController extends Controller
     //添加支付方式
     public function order_pay(Request $request){
        
-        // $pay = pay::all();
         $p_method  = $request->input('p_method') ?? '';
-        $page=3;
+        $page = 3;
         $pay = pay::where('p_method','like','%'.$p_method.'%')->paginate($page);
          // 当前的页数
-        $currentPage=$_GET['page'] ?? 1;
-        $id=($currentPage-1)*$page+1;
+        $currentPage = $_GET['page'] ?? 1;
+        $id = ($currentPage-1)*$page+1;
 
         $count = pay::count();
-// dd($count);
         return view('admin.Orders.order_pay',['pay'=>$pay,'id'=>$id,'count'=>$count]);
     }
 
     //执行添加支付方式
     public function order_pay_add(Request $request)
     {
-        $validatedData = $request->validate([
-            'p_method' => 'min:2|max:50|unique:pays'
-        ],[
-            'p_method.min'=>'物流名称不得低于2个字符',
-            'p_method.max'=>'物流名称不得高于50个字符',
-            'p_method.unique'=>'物流名称已存在'
-        ]);
-        // dd($request->all());
+      
         if ($request->hasFile('p_img')) {
             // 获取文件后缀
-            $ext=$request->file('p_img')->extension();
+            $ext = $request->file('p_img')->extension();
             // 文件名 
-            $filename=time().rand(0,100);
+            $filename = time().rand(0,100);
             
-            $path = $request->file('p_img')->storeAs('/method',date('Ymd').'/'.$filename.','.$ext);
-            // dd($path);
-            //写入数据库
-            pay::create([
-                'p_method'=>$request->p_method,
-                'p_img'=>$path,
-            ]);
+            $path = $request->file('p_img')->storeAs('/pay',date('Ymd').'/'.$filename.','.$ext);
+           
+            $time = date('Y-m-d H:i:s');
+            DB::insert('insert into pays (p_method, p_img,created_at,updated_at) values (?,?,?,?)', [$request->p_method, $path,$time,$time]);
             return back();
                      
         }else{
@@ -252,15 +270,15 @@ class OrdersController extends Controller
             'p_method.unique'=>'物流名称已存在'
         ]);
         $data = pay::find($request->id);
-        // dd($data->s_img);
+      
         if ($request->hasFile('p_img')) {
             // 获取文件后缀
-            $ext=$request->file('p_img')->extension();
+            $ext = $request->file('p_img')->extension();
             // 文件名 
-            $filename=time().rand(0,100);
+            $filename = time().rand(0,100);
             
             $path = $request->file('p_img')->storeAs('/method',date('Ymd').'/'.$filename.','.$ext);
-            // dd($path);
+          
             //写入数据库
             pay::where('id',$request->id)->update([
                 'p_method'=>$request->p_method,

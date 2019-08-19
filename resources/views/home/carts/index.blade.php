@@ -126,8 +126,8 @@
 								 <ul class="item-content clearfix">
 								  <li class="td td-chk">
 									<div class="cart-checkbox ">
-										{{-- 传输了 商品id和商品的数量 --}}
-									  <input class="check" id="J_CheckBox_170037950254"  name="items[]"  value="{{ $cart->id }}-{{ $cart->c_num }}" type="checkbox">
+									  {{-- 传输了 商品id和商品的数量 --}}
+									  <input class="check" id="J_CheckBox_170037950254"  name='goods[]' value='{{ $cart->id }}-{{ $cart->num }}' type="checkbox">
 									  <label for="J_CheckBox_170037950254"></label>
 									</div>
 								
@@ -168,9 +168,8 @@
 									<div class="amount-wrapper ">
 									  <div class="item-amount ">
 										<div class="sl">
-										 
-										  <input class='text_box' name="" min='1' max='100' type="number" value="{{ $cart->c_num }}" style="width:50px;" />
-									  </div>
+											<input class='text_box' name="nums[]" min='1' max='100' type="number" value="{{ $cart->c_num }}" style="width:50px;" />
+										</div>
 									</div>
 								  </li>
 								  <li class="td td-sum">
@@ -209,11 +208,11 @@
 						<div class="price-sum">
 							<span class="txt">合计:</span>
 							<strong class="price">¥<em id="J_Total">0.00</em></strong>
-							@if($errors->has('no'))
+							@if($errors->has('nogoods'))
 								<strong class="price"><em>至少选择一个商品</em></strong>
 							@endif
 							@if($errors->has('repay'))
-								<strong class="price"><em>请选择 物流方式 支付方式后重新下单</em></strong>
+								<strong class="price"><em>请选择 收货地址 物流方式 支付方式后重新下单</em></strong>
 							@endif
 							@if($errors->has('nopaypwd'))
 								<strong class="price"><em>请输入密码后重新下单</em></strong>
@@ -276,7 +275,12 @@
 			  $('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-			
+
+				// 商品的数量
+				var checkvalue=$(this).parents('ul').children('li').children().children(0).val();
+				
+				$(this).parents('ul').children('li').children().children(0).val( checkvalue + cart_num + ',');
+				
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -294,13 +298,17 @@
 				$('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-
+				
+				// console.log(cart_num);
 				if(cart_num <=0){
 					
 				   $(this).val(1);
 				   cart_num=1;
 				}
-
+				// console.log(cart_num);
+				var checkvalue=$(this).parents('ul').children('li').children().children(0).val();
+				
+				$(this).parents('ul').children('li').children().children(0).val( checkvalue + cart_num + ',');
 
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
@@ -320,6 +328,7 @@
 				if($(this).attr('checked')){
 	
 					$('.check').attr('checked','checked');
+					
 				}else{
 					$('.check').removeAttr('checked');
 				}

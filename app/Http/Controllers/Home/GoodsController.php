@@ -54,7 +54,7 @@ class GoodsController extends Controller
     public function goodlist($sid,$kv = 'none',$sortv = 'none',$type = 'time')
     {
         //网站配置
-        $web=Web::find(1); 
+        $web = Web::find(1); 
   
         if($web){
             if($web->w_isopen ==2){
