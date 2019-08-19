@@ -410,7 +410,7 @@ class UserController extends Controller
     // 显示个人中心的--订单管理
     public function userinfo_order()
     {
-        dd(session('home.id'));
+        // dd(session('home.id'));
         $order= orders::with('orderdetails')->first();
 
         // // 所有订单
@@ -463,7 +463,7 @@ class UserController extends Controller
     // 显示个人中心的--优惠券
     public function userinfo_coupon()
     {
-        $coupons=Coupon::where(['uid'=>session('home.id'),'c_type'=>1])->get();
+        $coupons=Coupon::where(['uid'=>session('home.id')])->get();
         
       
         return view('home.userinfo.userinfo_coupon',['coupons'=>$coupons]);

@@ -9,6 +9,7 @@ use App\Models\pay;
 use App\Models\orders;
 use App\Models\orderdetails;
 use App\Models\sends;
+use DB;
 
 use App\Models\refunds;
 
@@ -196,7 +197,6 @@ class OrdersController extends Controller
         $id=($currentPage-1)*$page+1;
 
         $count = pay::count();
-// dd($count);
         return view('admin.Orders.order_pay',['pay'=>$pay,'id'=>$id,'count'=>$count]);
     }
 
@@ -220,10 +220,8 @@ class OrdersController extends Controller
             $path = $request->file('p_img')->storeAs('/method',date('Ymd').'/'.$filename.','.$ext);
             // dd($path);
             //写入数据库
-            pay::create([
-                'p_method'=>$request->p_method,
-                'p_img'=>$path,
-            ]);
+            $time=date('Y-m-d H:i:s');
+            DB::insert('insert into pays (p_method, p_img,created_at,updated_at) values (?,?,?,?)', [$request->p_method, $path,$time,$time]);
             return back();
                      
         }else{

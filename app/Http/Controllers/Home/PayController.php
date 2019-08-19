@@ -68,6 +68,9 @@ class PayController extends Controller
    
     //执行支付
     public function comfirepay(Request $request){
+        if(empty($request->paypwd)){
+            return redirect('/home/carts')->withErrors(['nopaypwd'=>'请输入支付密码']); die;
+        }
 
         // 判断用户是否选择物流方式 快递方式
         foreach($request->all() as $k=>$v){

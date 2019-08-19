@@ -396,7 +396,8 @@
 										}
 										if(data == 'success'){
 											alert('加入成功');
-										}else{
+										}
+										if(data == 'error'){
 											alert("请稍后再试试吧~");
 										}
 									},
