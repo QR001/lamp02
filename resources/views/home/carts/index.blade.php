@@ -200,7 +200,7 @@
 						{{-- 隐藏域传输总价 --}}
 						<input type="hidden" name='total' id='total' value=''>
 						<button class="btn-area">
-							<a href="pay.html" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+							<a href="/home/pay" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 								<span>结&nbsp;算</span></a>
 						</button>
 					</div>

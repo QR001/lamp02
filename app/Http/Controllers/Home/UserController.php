@@ -485,6 +485,9 @@ class UserController extends Controller
 
         if($data){
             // return redirect('/home/refund_store/'.$did);
+
+            $res = orderdetails::where('oid',$did)->update(['d_status'=>2]);
+
             return redirect()->action('Home\UserController@refund_store',['did'=>$did,'gid'=>$gid]);
         }else{
             return back()->with('error','申请失败');
@@ -515,11 +518,6 @@ class UserController extends Controller
         return  view('home.userinfo.userinfo_refund',['datas'=>$order,'imgs'=>$imgs]);
     }
 
-    //显示退款去向页面
-    public function userinfo_record()
-    {
-        return  1111;
-    }
 
     // 显示个人中心的--优惠券
     public function userinfo_coupon()

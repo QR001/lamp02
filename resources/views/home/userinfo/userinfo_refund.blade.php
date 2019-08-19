@@ -36,11 +36,12 @@
 								<td class="td-inner">交易状态</td>
 							</div>
 							<div class="th th-change th-changebuttom">
-								<td class="td-inner">交易操作</td>
+								<td class="td-inner">退款编号</td>
 							</div>
 						</div>
 						
 						@foreach($datas as $k=>$v)
+						{{-- {{ dd($v) }} --}}
 							<div class="order-main">
 								<div class="order-list">
 									<div class="order-title">
@@ -86,16 +87,17 @@
 											<div class="change move-right">
 												<li class="td td-moneystatus td-status">
 													<div class="item-status">
+														@if($v->d_status == 3)
 														<p class="Mystatus">退款成功</p>
-
+														@elseif($v->d_status == 2)
+														<p class="Mystatus">退款中</p>
+														@endif
 													</div>
 												</li>
 											</div>
 											<li class="td td-change td-changebutton">
-												<a href="/home/userinfo_record">
-												<div class="am-btn am-btn-danger anniu">
-													钱款去向</div>
-												</a>
+												<a>{{ $v['refunds']['r_num'] }}</a>
+												
 											</li>
 
 										</div>

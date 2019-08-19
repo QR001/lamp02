@@ -111,7 +111,7 @@
             @endif
             </td>
             <td class="td-manage">
-            @if($v['refunds'] == null)
+            @if($v->d_status == 1)
               <a href="javascript:;"  title="正常">
                 <i class="layui-icon layui-icon-face-smile">&#xe6af;</i>
               </a>
@@ -170,7 +170,7 @@
                       }
                     },
                     error:function(data){
-                      console.log(data);
+                      layer.msg('退款失败',{icon: 6,time:1000});
                     }
 
                   })

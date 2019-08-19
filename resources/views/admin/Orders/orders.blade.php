@@ -92,6 +92,7 @@
         </thead>
         <tbody>
           @foreach ($list as $k=>$v )
+
           <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{ $v->id }}'><i class="layui-icon">&#xe605;</i></div>

@@ -19,16 +19,22 @@ Route::get('/admin/index/index2','Admin\LoginController@indexShow');
 //退出
 Route::get('/admin/login/logout','Admin\LoginController@logout');
 
+//后他 订单管理的查看订单详情
+Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 //后台  订单模块的 订单详情的退款
 Route::get('/admin/Orders/status','Admin\OrdersController@status');
-//后台  订单模块的单个删除
+
+
 //执行后台登录操作
 Route::post('/admin/login/dologin','Admin\LoginController@dologin');
 
+//后台  订单模块的单个删除
 Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
 //后台  订单模块的批量删除
 Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
 
+//后台 订单模块
+Route::resource('/admin/Orders','Admin\OrdersController');
 
 
 //后台 订单管理的添加物流方式页面
@@ -43,10 +49,8 @@ Route::post('/admin/Orders/order_pay_add','Admin\OrdersController@order_pay_add'
 Route::get('/admin/Orders/order_pay_update/{id}','Admin\OrdersController@order_pay_update');
 Route::post('/admin/Orders/pay_update','Admin\OrdersController@pay_update');
 Route::get('/admin/Orders/pay_delete/{id}','Admin\OrdersController@pay_delete');
-//后他 订单管理的查看订单详情
-Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
-//后台 订单模块
-Route::resource('/admin/Orders','Admin\OrdersController');
+
+
 
 
 
@@ -245,8 +249,6 @@ Route::get('/home/refund_store','Home\UserController@refund_store');
 // 显示个人中心的--退款售后
 Route::get('/home/userinfo_refund/{did}/{gid}','Home\UserController@userinfo_refund');
 
-//显示钱款去向的页面
-Route::get('/home/l/{did}/{gid}','Home\UserController@userinfo_record');
 
 // 个人中心的一键支付页面
 Route::POST('/home/userinfo_fastpay','Home\UserController@userinfo_fastpay');

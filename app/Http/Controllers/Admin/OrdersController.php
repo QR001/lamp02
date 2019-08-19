@@ -31,38 +31,17 @@ class OrdersController extends Controller
 
         // $img = orders::with(['sends'])->get();
 
-        $data =orderdetails::with(['refunds','good'])->where('id','=',$id)->get();
+        $data =orderdetails::with(['refunds','good'])->where('oid','=',$id)->get();
+        dd($data);
         
-      
-        foreach($data as $k=>$v){
-            $uid = $v['refunds']['uid'];
-        }
      
        foreach($data as $k=>$v){
+            $uid = $v['refunds']['uid'];
             $img = explode(',',$v['good']['g_img']);
             array_pop($img);
        }
         return view('admin.Orders.order_view',['data'=>$data,'img'=>$img,'uid'=>$uid]);
     }
-
-    //删除单个
-    public function delete($id)
-    {
-        $data= orders::find($id);
-        $data->orderdetails()->delete();
-        $data->delete();
-        
-        // $data = orders::destroy($id);
-
-       if($data){
-           return 'success';
-       }else{
-           return 'error';
-       }
-       
-    //    return $data ? 'success' : 'error';
-    }
-
     //修改状态
     public function status()
     {
@@ -105,6 +84,25 @@ class OrdersController extends Controller
         //     return 'error';
         // }
     }
+
+    //删除单个
+    public function delete($id)
+    {
+        $data= orders::find($id);
+        $data->orderdetails()->delete();
+        $data->delete();
+        
+        // $data = orders::destroy($id);
+
+       if($data){
+           return 'success';
+       }else{
+           return 'error';
+       }
+       
+    //    return $data ? 'success' : 'error';
+    }
+
 
     //批量删除
     public function pdelete(Request $request){
