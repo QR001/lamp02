@@ -151,7 +151,7 @@ class SystemsController extends Controller
     public function turns()
     {
         $turns = Turn::find(1);
-        // return $turns;
+    
         if($turns){
 
             $imgs = explode(',',$turns->t_img);
@@ -199,7 +199,7 @@ class SystemsController extends Controller
             }
         }
 
-        // dump($imgs);
+  
         return back();
 
     }
@@ -220,14 +220,12 @@ class SystemsController extends Controller
                 $npath =  date('Ymd').'/'.time().rand(0,99999999);
                 $ext = $value->extension();
                 $path = $npath.'.'.$ext;
-                // return $path;
-                
+             
                 if($value->storeAs($fpath,$path)){
                     $filePath[] = $path;
                 }
             }
         }
-        // return $filePath;
         $t_img = implode(',',$filePath) . ',';
 
         return $t_img;

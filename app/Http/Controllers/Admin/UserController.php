@@ -24,17 +24,17 @@ class UserController extends Controller
     public function user(){
 
         //搜索
-        $name=$_GET['name'] ??  '';
+        $name = $_GET['name'] ??  '';
         // 每页显示的条数
-        $page=3;
+        $page = 3;
         
-        $users=Userdetail::join('users','users.id','=','userdetails.uid')->where('name','like' ,'%'.$name.'%')->paginate($page);
+        $users = Userdetail::join('users','users.id','=','userdetails.uid')->where('name','like' ,'%'.$name.'%')->paginate($page);
         
         // 当前的页数
-        $currentPage=$_GET['page'] ?? 1;
-        $id=($currentPage-1)*$page+1;
+        $currentPage = $_GET['page'] ?? 1;
+        $id = ($currentPage-1)*$page+1;
         // 总条数
-        $count=Userdetail::join('users','users.id','=','userdetails.uid')->count();
+        $count = Userdetail::join('users','users.id','=','userdetails.uid')->count();
        
         return view('admin.users.userlist',['users'=>$users,'count'=>$count,'id'=>$id]);
     }
@@ -70,6 +70,7 @@ class UserController extends Controller
             $userinfo -> realname = '';
             $userinfo -> integral = 0;
             $userinfo ->description = '' ;
+            $userinfo ->paypwd = md5('000000') ;
 
             if($userinfo->save()){
                 // 事务提交
@@ -94,8 +95,8 @@ class UserController extends Controller
 
     // 修改用户的状态
     public function  user_status(Request $request){
-        // return $request->all();
-       $res=User::where('id',$request->id)->update(['status'=>$request->status]);
+       
+       $res = User::where('id',$request->id)->update(['status'=>$request->status]);
        if($res){
             return 'success';
        }else{
@@ -105,15 +106,14 @@ class UserController extends Controller
 
     // 修改用户的权限页面
     public  function user_exit($id){
-        // return $id;
-        $user=User::find($id);
+        $user = User::find($id);
         return  view('admin.users.userupdate',['user'=>$user]);
     }
 
     // 执行用户修改操作
     public  function  user_update(Request $request){
    
-        $res=User::where('id',$request->id)->update(['power'=>$request->power,'status'=>$request->status]);
+        $res = User::where('id',$request->id)->update(['power'=>$request->power,'status'=>$request->status]);
       
         if($res){
             return 'success';
@@ -127,20 +127,20 @@ class UserController extends Controller
 
        
         // 删除商品评论表
-        $data1=Comment::where('uid',$id)->get();
+        $data1 = Comment::where('uid',$id)->get();
 
-        $res=Comment::where('uid',$id)->delete();
+        $res = Comment::where('uid',$id)->delete();
 
    
         // 删除 优惠券表
-        $data2=Coupon::where('uid',$id)->get();
+        $data2 = Coupon::where('uid',$id)->get();
         
   
-        $res2=Coupon::where('uid',$id)->delete();
+        $res2 = Coupon::where('uid',$id)->delete();
 
    
         // 删除 订单详情
-        $res4=orders::where('uid',$id)->get();
+        $res4 = orders::where('uid',$id)->get();
       
         if(!empty($res4)){
        

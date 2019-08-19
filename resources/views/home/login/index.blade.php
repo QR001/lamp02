@@ -9,13 +9,31 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="stylesheet" href="AmazeUI-2.4.2/assets/css/amazeui.css" />
-    <link href="css/dlstyle.css" rel="stylesheet" type="text/css"></head>
-  
+
+    
+    @if($web != '')
+      {{-- 网站的描述 --}}
+        <meta name="keywords" content="{{ $web->w_keyword }}">
+      {{-- 网站的关键字 --}}
+        <meta name="description" content="{{ $web->w_description }}">
+    @endif
+    
+    <link rel="stylesheet" href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" />
+    <link href="/home/css/dlstyle.css" rel="stylesheet" type="text/css"></head>
+    
   <body>
     <div class="login-boxtitle">
-      <a href="home.html">
-        <img alt="logo" src="images/logobig.png" /></a>
+      <a href="#">
+          {{-- 网站的logo --}}
+          @if($web == '')
+            <img alt="logo" src="images/logobig.png" />
+          @else
+            <img src="/uploads/{{ $web->w_logo }}" alt="">
+          @endif
+
+      </a>
+
+        
     </div>
     <div class="login-banner">
       <div class="login-main">
@@ -112,24 +130,28 @@
         </div>
       </div>
     </div>
-    <div class="footer ">
-      <div class="footer-hd ">
+    <div class="footer">
+        <div class="footer-hd ">
+          <p>
+            @foreach($links as $v)
+            <b>|</b>
+            <a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+            @endforeach
+          </p>
+        </div>
+      <div class="footer-bd">
         <p>
-          <a href="# ">恒望科技</a>
-          <b>|</b>
-          <a href="# ">商城首页</a>
-          <b>|</b>
-          <a href="# ">支付宝</a>
-          <b>|</b>
-          <a href="# ">物流</a></p>
-      </div>
-      <div class="footer-bd ">
-        <p>
-          <a href="# ">关于恒望</a>
-          <a href="# ">合作伙伴</a>
-          <a href="# ">联系我们</a>
-          <a href="# ">网站地图</a>
-          <em>© 2015-2025 Hengwang.com 版权所有</em></p>
+          <a href="#">关于恒望</a>
+          <a href="#">合作伙伴</a>
+          <a href="#">联系我们</a>
+          <a href="#">网站地图</a>
+
+          @if($web != '')
+            <em>© {{ $web->w_cright }} 版权所有</em></p>
+          @else
+            <em>© 未来家具 版权所有</em></p>
+          @endif
+        </p>
       </div>
     </div>
   </body>

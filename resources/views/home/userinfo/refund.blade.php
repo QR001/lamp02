@@ -119,14 +119,9 @@
 							<div class="u-progress-bar-inner"></div>
 						</div>
 					</div>
-                    {{-- @if (session('success'))
-                        <span>申请成功</span>
-                    @elseif(session('error'))
-                        <p>申请失败</p>
-                    @endif --}}
+                 
                    
                     @foreach ($order as $k=>$v)
- {{-- {{ dd($v) }} --}}
                     <div class="refund-aside">
 							<div class="item-pic">
 								<a href="#" class="J_MakePoint">
@@ -143,7 +138,7 @@
 								</div>
 								<div class="info-little">
 									<span>颜色：{{  $v['good']['g_color'] }}</span>
-									{{-- <span>包装：裸装</span> --}}
+								
 								</div>
 							</div>
 							<div class="item-info">
@@ -157,9 +152,7 @@
 								<div class="item-amount">
 									<span class="info-title">小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计：</span><span class="amount">{{  $v['good']['g_nprice'] * $num }}元</span>
 								</div>
-								{{-- <div class="item-pay-logis">
-									<span class="info-title">运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</span><span class="price">10.00元</span>
-								</div> --}}
+								
 								<div class="item-amountall">
 									<span class="info-title">总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计：</span><span class="amountall">{{ $v['good']['g_nprice'] * $num }}元</span>
 								</div>
@@ -176,16 +169,7 @@
                         {{csrf_field()}}
 						<div class="refund-main">
 							<div class="item-comment">
-								{{-- <div class="am-form-group">
-									<label for="refund-type" class="am-form-label">退款类型</label>
-									<div  class="am-form-content">
-										<select name="type" data-am-selected=""display='nonde'>
-											<option value="a" selected>仅退款</option>
-											<option value="b">退款/退货</option>
-										</select>
-									</div>
-								</div> --}}
-								
+							
 								<div class="am-form-group">
 									<label for="refund-reason" class="am-form-label">退款原因</label>
 									<div class="am-form-content">
@@ -215,16 +199,6 @@
                                 <input type="hidden" name="did" value={{$v->oid}}>
                                  <input type="hidden" name="gid" value={{$v->gid}}>
 							</div>
-							{{-- <div class="refund-tip">
-								<div class="filePic">
-									<input type="file" class="inputPic"  name="pic[]" value="选择凭证图片" name="file" max="5" maxsize="5120" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
-									<img src="/home/images/image.jpg" alt="">
-                                </div>
-
-                                {{-- <input type="hidden" name="gid" value={{$order->id}}> --}}
-							    {{-- <input type="hidden" name="oid" value={{$order->oid}}> --}}
-								{{-- <span class="desc">上传凭证&nbsp;最多三张</span>
-							</div> --}} 
 							<div class="info-btn">
 								<button class="am-btn am-btn-danger">提交申请</button>
 							</div>

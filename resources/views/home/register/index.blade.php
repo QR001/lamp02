@@ -13,13 +13,25 @@
 		<link href="/home/css/dlstyle.css" rel="stylesheet" type="text/css">
 		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
-
+		@if($web != '')
+		{{-- 网站的描述 --}}
+			<meta name="keywords" content="{{ $web->w_keyword }}">
+		{{-- 网站的关键字 --}}
+			<meta name="description" content="{{ $web->w_description }}">
+		@endif
 	</head>
 
 	<body>
 
 		<div class="login-boxtitle">
-			<a href="home/demo.html"><img alt="" src="images/logobig.png" /></a>
+			<a href="#">
+				 {{-- 网站的logo --}}
+				 @if($web == '')
+				 <img alt="logo" src="images/logobig.png" />
+			   	@else
+				 <img src="/uploads/{{ $web->w_logo }}" alt="">
+			    @endif
+			</a>
 		</div>
 
 		<div class="res-banner">
@@ -54,12 +66,12 @@
 											</div>
 										@endif
 
-
+											
 										<div class="user-email">
 												<label for="email"><i class="am-icon-code-fork"></i></label>
 												
 												@if($errors->has('name'))
-													<input type="text" name="name" id="name" style='background-color:#E81010;' placeholder="请正确输入">
+													<input type="text" name="name" id="name" style='background-color:#E81010;' placeholder="请输入 5-18位/用户名已经存在">
 												@else
 													<input type="text" name="name" id="name" placeholder="请输入用户名">
 												@endif
@@ -69,7 +81,7 @@
                                             <label for="email"><i class="am-icon-envelope-o"></i></label>
 											
 											@if($errors->has('email'))
-												<input type="email" name="email" id="email" style='background-color:#E81010;' placeholder="请正确输入">
+												<input type="email" name="email" id="email" style='background-color:#E81010;' placeholder="邮箱已被注册">
 											@else
 												<input type="email" name="email" id="email" placeholder="请输入邮箱账号">
 											@endif
@@ -98,7 +110,6 @@
 										
                                     </form>
             
-									
 								</div>
 
 								<div class="am-tab-panel">
@@ -136,7 +147,7 @@
 										@if($errors->has('kong'))
 										
 											<div class="user-phone">
-												{{-- <label for="name"><i class="am-icon-code-fork am-icon-sm"></i></label> --}}
+											
 												<input type="tel" name="name" id="phone" value='内容不能为空' disabled style="color:red;">
 											</div>
 										@endif
@@ -195,27 +206,29 @@
 				</div>
 			</div>
 			
-			<div class="footer ">
-				<div class="footer-hd ">
+			<div class="footer">
+					<div class="footer-hd ">
+					  <p>
+						@foreach($links as $v)
+						<b>|</b>
+						<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+						@endforeach
+					  </p>
+					</div>
+				  <div class="footer-bd">
 					<p>
-						<a href="# ">恒望科技</a>
-						<b>|</b>
-						<a href="# ">商城首页</a>
-						<b>|</b>
-						<a href="# ">支付宝</a>
-						<b>|</b>
-						<a href="# ">物流</a>
+					  <a href="#">关于恒望</a>
+					  <a href="#">合作伙伴</a>
+					  <a href="#">联系我们</a>
+					  <a href="#">网站地图</a>
+			
+					  @if($web != '')
+						<em>© {{ $web->w_cright }} 版权所有</em></p>
+					  @else
+						<em>© 未来家具 版权所有</em></p>
+					  @endif
 					</p>
-				</div>
-				<div class="footer-bd ">
-					<p>
-						<a href="# ">关于恒望</a>
-						<a href="# ">合作伙伴</a>
-						<a href="# ">联系我们</a>
-						<a href="# ">网站地图</a>
-						<em>© 2015-2025 Hengwang.com 版权所有</em>
-					</p>
-				</div>
+				  </div>
 			</div>
 	</body>
 

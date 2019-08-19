@@ -6,27 +6,46 @@
         <div class="am-cf am-padding">
             <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">余额充值</strong> / <small>Password</small></div>
         </div>
-        <hr>
-        <!--进度条-->
-        <div class="m-progress">
-            <div class="m-progress-list">
-                <span class="step-1 step">
-                    <em class="u-progress-stage-bg"></em>
-                    <i class="u-stage-icon-inner">1<em class="bg"></em></i>
-                    <p class="stage-name">余额充值</p>
-                </span>
-                <span class="step-2 step">
-                    <em class="u-progress-stage-bg"></em>
-                    <i class="u-stage-icon-inner">2<em class="bg"></em></i>
-                    <p class="stage-name">完成</p>
-                </span>
-                <span class="u-progress-placeholder"></span>
+        {{-- 进度条 --}}
+        @if($errors->has('success'))
+            <div class="m-progress">
+                    <div class="m-progress-list">
+                        <span class="step-2 step">
+                            <em class="u-progress-stage-bg"></em>
+                            <i class="u-stage-icon-inner">1<em class="bg"></em></i>
+                            <p class="stage-name">设置充值的金额</p>
+                        </span>
+                        <span class="step-1 step">
+                            <em class="u-progress-stage-bg"></em>
+                            <i class="u-stage-icon-inner">2<em class="bg"></em></i>
+                            <p class="stage-name">完成</p>
+                        </span>
+                        <span class="u-progress-placeholder"></span>
+                    </div>
+                    <div class="u-progress-bar total-steps-2">
+                        <div class="u-progress-bar-inner"></div>
+                    </div>
             </div>
-            <div class="u-progress-bar total-steps-2">
-                <div class="u-progress-bar-inner"></div>
+        @else
+            <div class="m-progress">
+                    <div class="m-progress-list">
+                        <span class="step-1 step">
+                            <em class="u-progress-stage-bg"></em>
+                            <i class="u-stage-icon-inner">1<em class="bg"></em></i>
+                            <p class="stage-name">设置充值的金额</p>
+                        </span>
+                        <span class="step-2 step">
+                            <em class="u-progress-stage-bg"></em>
+                            <i class="u-stage-icon-inner">2<em class="bg"></em></i>
+                            <p class="stage-name">完成</p>
+                        </span>
+                        <span class="u-progress-placeholder"></span>
+                    </div>
+                    <div class="u-progress-bar total-steps-2">
+                        <div class="u-progress-bar-inner"></div>
+                    </div>
             </div>
-        </div>
-        
+        @endif
           
             <div class="am-form-group">
                 <label for="user-old-password" class="am-form-label">剩余金额</label>

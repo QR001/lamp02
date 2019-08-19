@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>首页</title>
+	
 
 		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
 		<link href="/home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
@@ -19,6 +19,14 @@
 
 		<script type='text/javascript' src='https://webchat.7moor.com/javascripts/7moorInit.js?accessId=231515b0-b999-11e9-ba32-bfd32cf2bdfe&autoShow=false&language=ZHCN' async='async'>
 		</script>
+		@if($web != '')
+		<title>{{ $web->w_title }}</title>
+		{{-- 网站的描述 --}}
+		  <meta name="keywords" content="{{ $web->w_keyword }}">
+		{{-- 网站的关键字 --}}
+		  <meta name="description" content="{{ $web->w_description }}">
+		  @endif
+		  
 
 	</head>
 
@@ -29,10 +37,11 @@
 				<ul class="message-l">
 					<div class="topMessage">
 						<div class="menu-hd">
-							{{-- {{ dump(session('home')) }} --}}
+						
 							@if(session('home'))
 								<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
-							@else
+								<a href="/home/login/logout">退出</a>
+								@else
 								<a href="/home/login" target="_top" class="h">亲，请登录</a>
 								<a href="/home/register" target="_top">免费注册</a>
 							@endif
@@ -41,35 +50,44 @@
 				</ul>
 				<ul class="message-r">
 					<div class="topMessage home">
-						<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+						<div class="menu-hd"><a href="/home/index" target="_top" class="h">商城首页</a></div>
 					</div>
-					<div class="topMessage my-shangcheng">
-						<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-					</div>
-					<div class="topMessage mini-cart">
-						<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-					</div>
-					<div class="topMessage favorite">
-						<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					@if(session('home'))
+						<div class="topMessage my-shangcheng">
+							<div class="menu-hd MyShangcheng"><a href="/home/userinfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+						</div>
+						<div class="topMessage mini-cart">
+							<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+						</div>
+						<div class="topMessage favorite">
+							<div class="menu-hd"><a href="/home/userinfo_collect" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+						</div>
+					@endif
 				</ul>
-				</div>
+			</div>
 
-				<!--悬浮搜索框-->
+			<!--悬浮搜索框-->
 
-				<div class="nav white">
+			<div class="nav white">
+				@if($web !='')
+					<div class="logo"><img width='30px' src="/uploads/{{ $web->w_logo }}" /></div>
+					<div class="logoBig" style="width:10%;">
+						<li><img width='30px' src="/uploads/{{ $web->w_logo }}" /></li>
+					</div>
+				@else
 					<div class="logo"><img src="/home/images/logo.png" /></div>
 					<div class="logoBig">
 						<li><img src="/home/images/logobig.png" /></li>
 					</div>
-
-					<div class="search-bar pr">
-						<a name="index_none_header_sysc" href="#"></a>
-						<form action="/home/goods/goodSearch" method="get" >
-							<input id="searchInput" name="gname" type="text" placeholder="搜索" autocomplete="off">
-							<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
-						</form>
-					</div>
+				@endif
+				<div class="search-bar pr">
+					<a name="index_none_header_sysc" href="#"></a>
+					<form action="/home/goods/goodSearch" method="get" >
+						<input id="searchInput" name="gname" type="text" placeholder="搜索" autocomplete="off">
+						<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
+					</form>
 				</div>
+			</div>
 
 				<div class="clear"></div>
 			</div>
@@ -90,11 +108,9 @@
 					   <div class="long-title"><span class="all-goods">全部分类</span></div>
 					   <div class="nav-cont">
 							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
+								<li class="index"><a href="/home/index">首页</a></li>
+                                <li class="qc"><a href="/home/blogs/blogAll">活动</a></li>
+                                
 							</ul>
 						    
 						</div>					
@@ -203,7 +219,7 @@
 							<div class="mod-vip">
 								<div class="m-baseinfo">
 									<a href="/home/userinfo">
-										<img src="/uploads/{{ session('home.pic') }}">
+										<img src="/uploads/{{ $userPhoto }}">
 									</a>
 									<em>
 										Hi,<span class="s-name">{{ session('home.name') }}</span>
@@ -223,7 +239,7 @@
 						@else	    
 							<div class="mod-vip">
 								<div class="m-baseinfo">
-									<a href="person/index.html">
+									<a href="#">
 										<img src="/home/images/getAvatar.do.jpg">
 									</a>
 									<em>
@@ -324,7 +340,7 @@
 							<h4>{{ $v->s_name }}</h4>
 							
 							<span class="more ">
-                    			<a href="/home/goods/goodlist/{{ $v->id }}">更多美味<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
+                    			<a href="/home/goods/goodlist/{{ $v->id }}">更多商品<i class="am-icon-angle-right" style="padding-left:10px ;" ></i></a>
                         	</span>
 						</div>
 					</div>
@@ -353,7 +369,7 @@
 							<div class="am-u-sm-7 am-u-md-4 text-two">
 								<div class="outer-con ">
 									<div class="title ">
-										{{ $good->g_name }}
+										{{ $good->g_name }} 
 									</div>									
 									<div class="sub-title ">
 										¥{{ $good->g_nprice }}
@@ -362,6 +378,10 @@
 								</div>
 								<a href="/home/goods/goodInfo/{{ $good->id }}"><img src="/uploads/goods/{{ $good->img }}" height="170px" /></a>
 								
+<<<<<<< HEAD
+=======
+								<a href="/home/goods/goodInfo/{{ $good->id }}"><img src="/uploads/goods/{{ $v->goods[0]->img }}" /></a>
+>>>>>>> origin/zhangyahan
 							</div>
 						@endforeach
 
@@ -381,8 +401,12 @@
 									}
 									if(data == 'success'){
 										alert('加入成功');
+<<<<<<< HEAD
 									}
 									if(data == 'error'){
+=======
+									}else{
+>>>>>>> origin/zhangyahan
 										alert("请稍后再试试吧~");
 									}
 								},
@@ -399,8 +423,14 @@
                  </div>
                  
 
+<<<<<<< HEAD
 				 @extends('home.layouts.footer')
 
 @section('content')
 
 @endsection				
+=======
+@extends('home.layouts.footer')
+@section('content')
+@endsection
+>>>>>>> origin/zhangyahan

@@ -29,7 +29,7 @@ class BlogsController extends Controller
     //执行活动添加操作
     public function blogs_store(Request $request)
     {
-        // return $request->all();
+      
         $blog = [];
         $blog['b_title'] = $request->b_title;
         $blog['b_content'] = $request->b_content;
@@ -71,13 +71,13 @@ class BlogsController extends Controller
     //执行活动修改操作
     public function blogs_update(Request $request)
     {
-        // return $request->all();
+      
         $blog = [];
         $blog['b_title'] = $request->b_title;
         $blog['b_time'] = $request->start . ' 至 ' .$request->end;
         $blog['b_content'] = $request->b_content;
 
-        // return $blog;
+     
         $res = Blog::where('id',$request->id)->update($blog);
         return $res ? 'success' : 'error' ;
     }
@@ -140,8 +140,7 @@ class BlogsController extends Controller
         $npath =  date('Ymd').'/'.time().rand(0,99999999);
         $ext = $file->extension();
         $path = $npath.'.'.$ext;
-        // return $path;
-                
+       
         if(!$file->storeAs($fpath,$path)){
               $path = ''; 
         }

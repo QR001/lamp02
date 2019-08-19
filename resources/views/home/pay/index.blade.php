@@ -15,49 +15,69 @@
 		<link href="css/jsstyle.css" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="js/address.js"></script>
-
+		@if($web != '')
+		{{-- 网站的描述 --}}
+		  <meta name="keywords" content="{{ $web->w_keyword }}">
+		{{-- 网站的关键字 --}}
+		  <meta name="description" content="{{ $web->w_description }}">
+	  	@endif
 	</head>
 
 	<body>
 
-		<!--顶部导航条 -->
-		<div class="am-container header">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
-					</div>
-				</div>
-			</ul>
-			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-			</ul>
+			<!--顶部导航条 -->
+			<div class="am-container header">
+					<ul class="message-l">
+						<div class="topMessage">
+							<div class="menu-hd">
+							
+								@if(session('home'))
+									<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
+									<a href="/home/login/logout">退出</a>
+									@else
+									<a href="/home/login" target="_top" class="h">亲，请登录</a>
+									<a href="/home/register" target="_top">免费注册</a>
+								@endif
+							</div>
+						</div>
+					</ul>
+					<ul class="message-r">
+						<div class="topMessage home">
+							<div class="menu-hd"><a href="/home/index" target="_top" class="h">商城首页</a></div>
+						</div>
+						@if(session('home'))
+							<div class="topMessage my-shangcheng">
+								<div class="menu-hd MyShangcheng"><a href="/home/userinfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+							</div>
+							<div class="topMessage mini-cart">
+								<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+							</div>
+							<div class="topMessage favorite">
+								<div class="menu-hd"><a href="/home/userinfo_collect" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+							</div>
+						@endif
+					</ul>
 			</div>
 
 			<!--悬浮搜索框-->
 
 			<div class="nav white">
-				<div class="logo"><img src="images/logo.png" /></div>
-				<div class="logoBig">
-					<li><img src="images/logobig.png" /></li>
-				</div>
-
+				@if($web !='')
+					<div class="logo"><img width='30px' src="/uploads/{{ $web->w_logo }}" /></div>
+					<div class="logoBig" style="width:10%;">
+						<li><img width='30px' src="/uploads/{{ $web->w_logo }}" /></li>
+					</div>
+				@else
+					<div class="logo"><img src="/home/images/logo.png" /></div>
+					<div class="logoBig">
+						<li><img src="/home/images/logobig.png" /></li>
+					</div>
+				@endif
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
-					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+					<form action="/home/goods/goodSearch" method="get" >
+						<input id="searchInput" name="gname" type="text" placeholder="搜索" autocomplete="off">
+						<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
 					</form>
 				</div>
 			</div>
@@ -78,8 +98,8 @@
 							<ul>
 								<div class="per-border"></div>
 								@foreach($locations as $location)
-								@if($location->l_status == '1')
-									<li class="user-addresslist defaultAddr" addrid='{{ $location->id }}'>
+								
+									<li class="user-addresslist" addrid='{{ $location->id }}'>
 
 										<div class="address-left">
 											<div class="user DefaultAddr">
@@ -110,40 +130,7 @@
 
 
 									</li>
-								@else
-									<li class="user-addresslist" addrid='{{ $location->id }}'>
-
-										<div class="address-left">
-											<div class="user DefaultAddr" >
-
-												<span class="buy-address-detail">   
-													<span class="buy-user">{{ $location->l_name }} </span>
-													<span class="buy-phone">{{ $location->l_phone }}</span>
-												</span>
-											</div>
-											
-											
-												<div class="default-address">
-													<span class="buy-line-title buy-line-title-type">收货地址：</span>
-													<span class="buy--address-detail">
-														{{ $location->l_address }}
-														
-													</span>
-
-													</span>
-												</div>
-											
-										</div>
-										<div class="address-right">
-											<a href="person/address.html">
-												<span class="am-icon-angle-right am-icon-lg"></span></a>
-										</div>
-										<div class="clear"></div>
-
-
-									</li>
-								@endif
-									<div class="per-border"></div>
+								
 								@endforeach
 
 							</ul>
@@ -157,7 +144,11 @@
 							<h3>选择物流方式--双击对物流进行选择</h3>
 							<ul class="op_express_delivery_hot">
 								@foreach ($wulius as $wuliu)
+<<<<<<< HEAD
 									<li data-value="shentong" class="OP_LOG_BTN" expressmethods='{{ $wuliu->id }}'><img src='/uploads/{{ $wuliu->s_img }}' width="80%" height="100%">{{ $wuliu->s_express }}<span></span></li>
+=======
+									<li data-value="shentong" class="OP_LOG_BTN" expressmethods='{{ $wuliu->id }}'><img src='/uploads/{{ $wuliu->s_img }}'>{{ $wuliu->s_express }}<span></span></li>
+>>>>>>> origin/zhangyahan
 								@endforeach
 								
 							</ul>
@@ -172,7 +163,11 @@
 							<h3>选择支付方式--双击对支付方式进行选择</h3>
 							<ul class="pay-list">
 								@foreach ($express as $res)
+<<<<<<< HEAD
 									<li class="pay" paymethods="{{ $res->id }}" ><img src="/uploads/{{ $res->p_img }}" width="80%" height="100%" />{{ $res->p_method }}<span></span></li>
+=======
+									<li class="pay" paymethods="{{ $res->id }}" ><img src="/uploads/{{ $res->p_img }}" />{{ $res->p_method }}<span></span></li>
+>>>>>>> origin/zhangyahan
 								@endforeach
 								
 							</ul>
@@ -200,7 +195,6 @@
 										<div class="th th-sum">
 											<div class="td-inner">金额</div>
 										</div>
-										
 									</div>
 								</div>
 								<div class="clear"></div>
@@ -257,8 +251,6 @@
 															<em tabindex="0" class="J_ItemSum">{{ $good->g_nprice * $good->buynum }}</em>
 														</div>
 													</li>
-												
-		
 												</ul>
 												<div class="clear"></div>
 		
@@ -363,23 +355,28 @@
 					
 				</form>
 				<div class="footer">
-					<div class="footer-hd">
-							<p>
-								@foreach($links as $v)
-								<b>|</b>
-								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
-								@endforeach
-							</p>
-					</div>
-					<div class="footer-bd">
+						<div class="footer-hd ">
+						  <p>
+							@foreach($links as $v)
+							<b>|</b>
+							<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
+							@endforeach
+						  </p>
+						</div>
+					  <div class="footer-bd">
 						<p>
-							<a href="#">关于恒望</a>
-							<a href="#">合作伙伴</a>
-							<a href="#">联系我们</a>
-							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+						  <a href="#">关于恒望</a>
+						  <a href="#">合作伙伴</a>
+						  <a href="#">联系我们</a>
+						  <a href="#">网站地图</a>
+				
+						  @if($web != '')
+							<em>© {{ $web->w_cright }} 版权所有</em></p>
+						  @else
+							<em>© 未来家具 版权所有</em></p>
+						  @endif
 						</p>
-					</div>
+					  </div>
 				</div>
 			</div>
 			
@@ -390,63 +387,24 @@
 	<script>
 		
 		// 收货地址
-		$('.user-addresslist').click(function(){
-			
-			
-			if($(this).attr('class')=='user-addresslist defaultAddr'){
-				
-				$('#address').val($(this).attr('addrid'));
-			}
-			
+		$('.user-addresslist').click(function(){	
+			$('#address').val($(this).attr('addrid'));	
 		});
 
 		// 支付方式
 
 		$('.OP_LOG_BTN').click(function(){
-			if($(this).attr('class')=='OP_LOG_BTN selected'){
-				
-				$('#expressmethods').val($(this).attr('expressmethods'));
-			}
+			$('#expressmethods').val($(this).attr('expressmethods'));
 		});
 
 		// 物流方式方式
 
 		$('.pay').click(function(){
-			
-			if($(this).attr('class')=='pay selected'){
-				
-				$('#paymethods').val($(this).attr('paymethods'));
-			}
+			$('#paymethods').val($(this).attr('paymethods'));
 		});
 
 
-		//计算总价
-		// var total=0;
-		// $('.J_ItemSum').each(function(){
-			// console.log($('.J_ItemSum').text());
-			// var price=parseInt($('.J_ItemSum').text());
-			// console.log(typeof(price));
-			// console.log(typeof(total));
-			// total=total+price;
-
-			// console.log(total);
-
-		// })
-		// var price=parseInt($('.J_ItemSum').text());
-		// 	console.log(price);
-		// var length=$('.J_ItemSum').length;
-		// console.log(length);
-		// for(var i=0; i<=length; i++){
-		// 	var price=parseInt($('.J_ItemSum').text());
-		// 	total+=price;
-		// 	// console.log(price);
-		// 	// console.log(i);
-		// }
-		// console.log(total);
-		// console.log($('.coupons'));
-		// $('.usercoupon').click(function(){
-		// 	alert(11);
-		// })
+		
 	</script>
 </html>
 

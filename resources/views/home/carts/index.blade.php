@@ -7,14 +7,20 @@
 
 		<title>购物车页面</title>
 
-		<link href="AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
-		<link href="basic/css/demo.css" rel="stylesheet" type="text/css" />
-		<link href="css/cartstyle.css" rel="stylesheet" type="text/css" />
-		<link href="css/optstyle.css" rel="stylesheet" type="text/css" />
+		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+		<link href="/home/basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link  href="/home/css/cartstyle.css" rel="stylesheet" type="text/css" />
+		<link  href="/home/css/optstyle.css" rel="stylesheet" type="text/css" />
 
-		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="/home/js/jquery.js"></script>
 
-		{{-- <script type="text/javascript" src="js/jquery.js"></script> --}}
+		@if($web != '')
+			{{-- 网站的描述 --}}
+		<meta name="keywords" content="{{ $web->w_keyword }}">
+			{{-- 网站的关键字 --}}
+		<meta name="description" content="{{ $web->w_description }}">
+		
+		@endif
 
 	</head>
 
@@ -22,45 +28,60 @@
 
 		<!--顶部导航条 -->
 		<div class="am-container header">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
+				<ul class="message-l">
+					<div class="topMessage">
+						<div class="menu-hd">
+						
+							@if(session('home'))
+								<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
+								<a href="/home/login/logout">退出</a>
+								@else
+								<a href="/home/login" target="_top" class="h">亲，请登录</a>
+								<a href="/home/register" target="_top">免费注册</a>
+							@endif
+						</div>
 					</div>
-				</div>
-			</ul>
-			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-			</ul>
+				</ul>
+				<ul class="message-r">
+					<div class="topMessage home">
+						<div class="menu-hd"><a href="/home/index" target="_top" class="h">商城首页</a></div>
+					</div>
+					@if(session('home'))
+						<div class="topMessage my-shangcheng">
+							<div class="menu-hd MyShangcheng"><a href="/home/userinfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+						</div>
+						<div class="topMessage mini-cart">
+							<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+						</div>
+						<div class="topMessage favorite">
+							<div class="menu-hd"><a href="/home/userinfo_collect" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+						</div>
+					@endif
+				</ul>
 		</div>
 
-			<!--悬浮搜索框-->
+		<!--悬浮搜索框-->
 
-			<div class="nav white">
-				<div class="logo"><img src="images/logo.png" /></div>
-				<div class="logoBig">
-					<li><img src="images/logobig.png" /></li>
-				</div>
-
-				<div class="search-bar pr">
-					<a name="index_none_header_sysc" href="#"></a>
-					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-					</form>
-				</div>
+		<div class="nav white">
+			
+			<div class="logoBig" style="width:10%;">
+				<li>
+					@if($web !='')
+						<img src="/uploads/{{ $web->w_logo }}" />
+					@else
+						<img src="/home/images/logobig.png" />
+					@endif
+				</li>
 			</div>
+
+			<div class="search-bar pr">
+				<a name="index_none_header_sysc" href="#"></a>
+				<form action="/home/goods/goodSearch" method="get" >
+					<input id="searchInput" name="gname" type="text" placeholder="搜索" autocomplete="off">
+					<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
+				</form>
+			</div>
+		</div>
 
 			<div class="clear"></div>
 
@@ -105,8 +126,8 @@
 								 <ul class="item-content clearfix">
 								  <li class="td td-chk">
 									<div class="cart-checkbox ">
-										{{-- 传输了 商品id和商品的数量 --}}
-									  <input class="check" id="J_CheckBox_170037950254"  name="items[]"  value="{{ $cart->id }}-{{ $cart->c_num }}" type="checkbox">
+									  {{-- 传输了 商品id和商品的数量 --}}
+									  <input class="check" id="J_CheckBox_170037950254"  name='goods[]' value='{{ $cart->id }}-{{ $cart->num }}' type="checkbox">
 									  <label for="J_CheckBox_170037950254"></label>
 									</div>
 								
@@ -147,9 +168,8 @@
 									<div class="amount-wrapper ">
 									  <div class="item-amount ">
 										<div class="sl">
-										 
-										  <input class='text_box' name="" min='1' max='100' type="number" value="{{ $cart->c_num }}" style="width:50px;" />
-									  </div>
+											<input class='text_box' name="nums[]" min='1' max='100' type="number" value="{{ $cart->c_num }}" style="width:50px;" />
+										</div>
 									</div>
 								  </li>
 								  <li class="td td-sum">
@@ -188,11 +208,14 @@
 						<div class="price-sum">
 							<span class="txt">合计:</span>
 							<strong class="price">¥<em id="J_Total">0.00</em></strong>
-							@if($errors->has('no'))
+							@if($errors->has('nogoods'))
 								<strong class="price"><em>至少选择一个商品</em></strong>
 							@endif
 							@if($errors->has('repay'))
-								<strong class="price"><em>请选择 物流方式 支付方式后重新下单</em></strong>
+								<strong class="price"><em>请选择 收货地址 物流方式 支付方式后重新下单</em></strong>
+							@endif
+							@if($errors->has('nopaypwd'))
+								<strong class="price"><em>请输入密码后重新下单</em></strong>
 							@endif
 							@if($errors->has('nopaypwd'))
 								<strong class="price"><em>请输入密码后重新下单</em></strong>
@@ -211,21 +234,34 @@
 				</div>
 			</form>
 				<div class="footer">
+<<<<<<< HEAD
 					<div class="footer-hd">
+=======
+						<div class="footer-hd ">
+>>>>>>> origin/zhangyahan
 							<p>
 								@foreach($links as $v)
 								<b>|</b>
 								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
 								@endforeach
 							</p>
+<<<<<<< HEAD
 					</div>
+=======
+						</div>
+>>>>>>> origin/zhangyahan
 					<div class="footer-bd">
 						<p>
 							<a href="#">关于恒望</a>
 							<a href="#">合作伙伴</a>
 							<a href="#">联系我们</a>
 							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
+
+							@if($web != '')
+								<em>© {{ $web->w_cright }} 版权所有</em></p>
+							@else
+								<em>© 未来家具 版权所有</em></p>
+							@endif
 						</p>
 					</div>
 				</div>
@@ -250,7 +286,12 @@
 			  $('.text_box').each(function(){
 				//   商品的数量
 				var cart_num=$(this).val();
-			
+
+				// 商品的数量
+				var checkvalue=$(this).parents('ul').children('li').children().children(0).val();
+				
+				$(this).parents('ul').children('li').children().children(0).val( checkvalue + cart_num + ',');
+				
 				//  每一个商品的价格
 				var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
 				
@@ -265,6 +306,7 @@
 			
 				$('.text_box').change(function(){
 				
+<<<<<<< HEAD
 					$('.text_box').each(function(){
 					//   商品的数量
 					var cart_num=$(this).val();
@@ -276,6 +318,22 @@
 					}
 
 					console.log(cart_num);
+=======
+				$('.text_box').each(function(){
+				//   商品的数量
+				var cart_num=$(this).val();
+				
+				// console.log(cart_num);
+				if(cart_num <=0){
+					
+				   $(this).val(1);
+				   cart_num=1;
+				}
+				// console.log(cart_num);
+				var checkvalue=$(this).parents('ul').children('li').children().children(0).val();
+				
+				$(this).parents('ul').children('li').children().children(0).val( checkvalue + cart_num + ',');
+>>>>>>> origin/zhangyahan
 
 					//  每一个商品的价格
 					var price=$(this).parent().parent().parent().parent().prev().children().children().children(1).children()[1].innerText;
@@ -297,6 +355,7 @@
 				if($(this).attr('checked')){
 	
 					$('.check').attr('checked','checked');
+					
 				}else{
 					$('.check').removeAttr('checked');
 				}

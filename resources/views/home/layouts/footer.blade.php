@@ -34,7 +34,6 @@
 			<li><a href="person/index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 
-
 		<!--菜单 -->
 		@if(session('home.id'))
 		<div class=tip>

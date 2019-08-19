@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\collects;
+use App\Models\Web;
 use DB;
 
 class CartController extends Controller
@@ -13,6 +14,17 @@ class CartController extends Controller
     // 显示购物车
     public function index (){
         
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+
         // 判断用户是否登录
         if(!session('home.id')){
           return view('home.login.index');
@@ -25,30 +37,54 @@ class CartController extends Controller
             // 商品的图片
             $res[$k]['g_img']=$gimg[0];
         }
-        // dd($res);
-        return view('home.carts.index',['carts'=>$res]);
+    
+        return view('home.carts.index',['carts'=>$res,'web'=>$web]);
     }
 
     // 移入收藏夹
     public function updatecollect($id){
         $uid = session('home.id');
 
-        DB::beginTransaction();
-        // 从购物车表里删除改商品
-
         //存入收藏夹 
+<<<<<<< HEAD
         $collect= collects::create(['uid'=>$uid,'gid'=>$id]);
         // $res2=Cart::destroy($id);
         $res2=Cart::where('gid',$id)->delete();
         if($collect && $res2){
             DB::commit();
             return view('home.userinfo.userinfo_collect');
+=======
+        // 查看商品是否在收藏夹里
+        $res=collects::where(['gid'=>$id,'uid'=>$uid])->first();
+        if($res){
+            // 从购物车表里删除改商品
+            $res2=Cart::where('gid',$id)->delete();
+            if($res2){
+                DB::commit();
+                return redirect('/home/userinfo_collect');
+            }else{
+                DB::rollback();
+            }
+            return redirect('/home/userinfo_collect');
+>>>>>>> origin/zhangyahan
         }else{
-            DB::rollback();
-            return back();
+            $collect= collects::create(['uid'=>$uid,'gid'=>$id]);
+
+            $res2=Cart::where('gid',$id)->delete();
+            if($collect && $res2){
+                DB::commit();
+                return redirect('/home/userinfo_collect');
+            }else{
+                DB::rollback();
+                return back();
+            }
         }
+       
+        
+        
     }
 
+    // 加入购物车
     public function cart(Request $request)
     {
         $uid = session('home.id');
@@ -69,6 +105,10 @@ class CartController extends Controller
             return 'error';
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/zhangyahan
     }
     // 移出收藏夹
     public function chardelete($id)

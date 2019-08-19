@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Userdetail;
+use App\Models\Web;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Home\Register;
 use App\Http\Requests\Home\RegisterPhone;
@@ -19,7 +20,18 @@ class RegisterController extends Controller
     // 显示模板
     public function index ()
     {
-        return View('home.register.index');
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+        
+        return View('home.register.index',['web'=>$web]);
     }
 
     // 邮箱注册
@@ -229,6 +241,7 @@ class RegisterController extends Controller
         ]);
        
         // 写入用户详情表 
+       
         $res=Userdetail::create([
             'uid'=>$user->id,
             'pic'=>'photo.jpg',
@@ -237,7 +250,9 @@ class RegisterController extends Controller
             'sex'=>'',
             'description'=>'',
             'integral'=>0,
+            'paypwd'=>md5('000000'),
         ]);
+     
         if($user && $res){
             // 事务提交
             DB::commit();

@@ -1,249 +1,96 @@
+@extends('home.layouts.userinfo')
 
-<!DOCTYPE html>
-<html>
+<link href="/home/css/footstyle.css" rel="stylesheet" type="text/css">
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+@section('content')
 
-		<title>我的足迹</title>
-
-		<link href="AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
-		<link href="AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
-
-		<link href="css/personal.css" rel="stylesheet" type="text/css">
-		<link href="css/footstyle.css" rel="stylesheet" type="text/css">
-		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
-
-	</head>
-	@if(!isset($track[0]))
+@if(!isset($track[0]))
 		<script>
 			alert("还没有足迹哦，快去看看想要的商品吧！！！");
 			window.history.back();
 		</script>
-	@endif
-	<body>
-		<!--头 -->
-		<!--头 -->
-		<header>
-			<article>
-				<div class="mt-logo">
-					<!--顶部导航条 -->
-					<div class="am-container header">
-						<ul class="message-l">
-							<div class="topMessage">
-								<div class="menu-hd">
-									<a href="#" target="_top" class="h">亲，请登录</a>
-									<a href="#" target="_top">免费注册</a>
-								</div>
-							</div>
-						</ul>
-						<ul class="message-r">
-							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-							</div>
-							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-							</div>
-							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-							</div>
-							<div class="topMessage favorite">
-								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-						</ul>
-						</div>
+@endif
 
-						<!--悬浮搜索框-->
+<div class="main-wrap">
 
-						<div class="nav white">
-							<div class="logoBig">
-								<li><img src="images/logobig.png" /></li>
-							</div>
-
-							<div class="search-bar pr">
-								<a name="index_none_header_sysc" href="#"></a>
-								<form>
-									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-								</form>
-							</div>
-						</div>
-
-						<div class="clear"></div>
-					</div>
-				</div>
-			</article>
-		</header>
-            <div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
-						</div>
+		<div class="user-foot">
+			<!--标题 -->
+			<div class="am-cf am-padding">
+				<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的足迹</strong> / <small>Browser&nbsp;History</small></div>
 			</div>
-			<b class="line"></b>
-		<div class="center">
-			<div class="col-main">
-				<div class="main-wrap">
+			<hr/>
 
-					<div class="user-foot">
-						<!--标题 -->
-						<div class="am-cf am-padding">
-							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的足迹</strong> / <small>Browser&nbsp;History</small></div>
+			
+
+			<!--足迹列表 -->
+			@foreach($track as $v)
+			<div class="goods">
+				<div class="goods-date" data-date="2015-12-21">
+					<s class="line"></s>
+				</div>
+
+				<div class="goods-box">
+					<div class="goods-pic">
+						<div class="goods-pic-box">
+							<a class="goods-pic-link" target="_blank" href="#" title="{{ $v->good->g_name }}">
+								<img src="/uploads/goods/{{ $v->good->img }}" height="180px" class="goods-img"></a>
 						</div>
-						<hr/>
+						<a class="goods-delete"  href="javascript:void(0);" ><i onclick="del({{ $v->good->id }})" class="am-icon-trash"></i></a>
+						@if($v->good->g_status == 2)
+						<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
+						@endif
+					</div>
 
-						
-
-						<!--足迹列表 -->
-						@foreach($track as $v)
-						<div class="goods">
-							<div class="goods-date" data-date="2015-12-21">
-								<s class="line"></s>
-							</div>
-
-							<div class="goods-box">
-								<div class="goods-pic">
-									<div class="goods-pic-box">
-										<a class="goods-pic-link" target="_blank" href="#" title="{{ $v->good->g_name }}">
-											<img src="/uploads/goods/{{ $v->good->img }}" height="180px" class="goods-img"></a>
-									</div>
-									<a class="goods-delete"  href="javascript:void(0);" ><i onclick="del({{ $v->good->id }})" class="am-icon-trash"></i></a>
-									@if($v->good->g_status == 2)
-									<div class="goods-status goods-status-show"><span class="desc">宝贝已下架</span></div>
-									@endif
-								</div>
-
-								<script>
-									function del(id)
-									{
-										$.ajax({
-											url:'/home/userinfo/del/'+id,
-											type:'GET',
-											success:function(data){
-												if(data == 'success'){
-													alert('删除成功');
-													window.location.reload();
-												}else{
-													alert("系统繁忙，请稍后再试吧");
-												}
-												
-											},
-											error:function(){
-												alert("系统繁忙，请稍后再试吧");
-											}
-										});
+					<script>
+						function del(id)
+						{
+							$.ajax({
+								url:'/home/userinfo/del/'+id,
+								type:'GET',
+								success:function(data){
+									if(data == 'success'){
+										alert('删除成功');
+										window.location.reload();
+									}else{
+										alert("系统繁忙，请稍后再试吧");
 									}
-								</script>
+									
+								},
+								error:function(){
+									alert("系统繁忙，请稍后再试吧");
+								}
+							});
+						}
+					</script>
 
-								<div class="goods-attr">
-									<div class="good-title">
-										<a class="title" href="#" target="_blank">{{ $v->good->g_name }}</a>
-									</div>
-									<div class="goods-price">
-										<span class="g_price">                                    
-                                        <span>¥</span><strong>{{ $v->good->g_nprice }}</strong>
-										</span>
-										<span class="g_price g_price-original">                                    
-                                        <span>¥</span><strong>{{ $v->good->g_nprice }}</strong>
-										</span>
-									</div>
-									<div class="clear"></div>
-									<div class="goods-num">
-										<div class="match-recom">
-											<!-- <a href="#" class="match-recom-item">找相似</a> -->
-											<i><em></em><span></span></i>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>		
-						@endforeach				
+					<div class="goods-attr">
+						<div class="good-title">
+							<a class="title" href="#" target="_blank">{{ $v->good->g_name }}</a>
+						</div>
+						<div class="goods-price">
+							<span class="g_price">                                    
+							<span>¥</span><strong>{{ $v->good->g_nprice }}</strong>
+							</span>
+							<span class="g_price g_price-original">                                    
+							<span>¥</span><strong>{{ $v->good->g_nprice }}</strong>
+							</span>
+						</div>
 						<div class="clear"></div>
-						
-						
-						
+						<div class="goods-num">
+							<div class="match-recom">
+								<!-- <a href="#" class="match-recom-item">找相似</a> -->
+								<i><em></em><span></span></i>
+							</div>
+						</div>
 					</div>
 				</div>
-
-				<!--底部-->
-				<div class="footer">
-					<div class="footer-hd">
-						<p>
-							<a href="#">恒望科技</a>
-							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
-						</p>
-					</div>
-					<div class="footer-bd">
-						<p>
-							<a href="#">关于恒望</a>
-							<a href="#">合作伙伴</a>
-							<a href="#">联系我们</a>
-							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
-						</p>
-					</div>
-				</div>
-			</div>
-
-			<aside class="menu">
-				<ul>
-					<li class="person">
-						<a href="index.html">个人中心</a>
-					</li>
-					<li class="person">
-						<a href="#">个人资料</a>
-						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="safety.html">安全设置</a></li>
-							<li> <a href="address.html">收货地址</a></li>
-						</ul>
-					</li>
-					<li class="person">
-						<a href="#">我的交易</a>
-						<ul>
-							<li><a href="order.html">订单管理</a></li>
-							<li> <a href="change.html">退款售后</a></li>
-						</ul>
-					</li>
-					<li class="person">
-						<a href="#">我的资产</a>
-						<ul>
-							<li> <a href="coupon.html">优惠券 </a></li>
-							<li> <a href="bonus.html">红包</a></li>
-							<li> <a href="bill.html">账单明细</a></li>
-						</ul>
-					</li>
-
-					<li class="person">
-						<a href="#">我的小窝</a>
-						<ul>
-							<li> <a href="collection.html">收藏</a></li>
-							<li class="active"> <a href="foot.html">足迹</a></li>
-							<li> <a href="comment.html">评价</a></li>
-							<li> <a href="news.html">消息</a></li>
-						</ul>
-					</li>
-
-				</ul>
-
-			</aside>
+			</div>		
+			@endforeach				
+			<div class="clear"></div>
+			
+			
+			
 		</div>
-
-	</body>
-
-</html>
+	</div>
+    
+@endsection

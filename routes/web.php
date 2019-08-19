@@ -24,7 +24,6 @@ Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 //后台  订单模块的 订单详情的退款
 Route::get('/admin/Orders/status','Admin\OrdersController@status');
 
-
 //执行后台登录操作
 Route::post('/admin/login/dologin','Admin\LoginController@dologin');
 
@@ -33,8 +32,10 @@ Route::get('/admin/Orders/delete/{id}','Admin\OrdersController@delete');
 //后台  订单模块的批量删除
 Route::post('/admin/Orders/pdelete','Admin\OrdersController@pdelete');
 
-//后台 订单模块
-Route::resource('/admin/Orders','Admin\OrdersController');
+//后台发货
+Route::get('/admin/Orders/order_fahuo/{id}','Admin\OrdersController@order_fahuo');
+//后台 订单管理的查看订单详情
+Route::get('/admin/Orders/order_view/{id}','Admin\OrdersController@order_view');
 
 
 //后台 订单管理的添加物流方式页面
@@ -50,7 +51,8 @@ Route::get('/admin/Orders/order_pay_update/{id}','Admin\OrdersController@order_p
 Route::post('/admin/Orders/pay_update','Admin\OrdersController@pay_update');
 Route::get('/admin/Orders/pay_delete/{id}','Admin\OrdersController@pay_delete');
 
-
+//后台 订单模块
+Route::resource('/admin/Orders','Admin\OrdersController');
 
 
 
@@ -238,6 +240,14 @@ Route::get('/home/userinfo/defaultAddr/{id}','Home\UserController@userinfo_defau
 
 // 显示个人中心的--订单管理
 Route::get('/home/userinfo_order','Home\UserController@userinfo_order');
+// 个人中心的--取消订单
+Route::get('/home/userinfo/delorder/{id}','Home\UserController@delorder');
+// 个人中心的一键支付页面
+Route::POST('/home/userinfo_fastpay','Home\UserController@userinfo_fastpay');
+// 个人中心的--执行一键支付
+Route::POST('/home/userinfo_exfastpay','Home\UserController@userinfo_exfastpay');
+// 个人中心--确认收货
+Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
 
 //显示个人中心的 -- 退款
 Route::get('/home/refund/{did}/{gid}/{num}','Home\UserController@refund');
@@ -249,13 +259,6 @@ Route::get('/home/refund_store','Home\UserController@refund_store');
 // 显示个人中心的--退款售后
 Route::get('/home/userinfo_refund/{did}/{gid}','Home\UserController@userinfo_refund');
 
-
-// 个人中心的一键支付页面
-Route::POST('/home/userinfo_fastpay','Home\UserController@userinfo_fastpay');
-// 个人中心的--执行一键支付
-Route::POST('/home/userinfo_exfastpay','Home\UserController@userinfo_exfastpay');
-// 个人中心--确认收货
-Route::get('/home/userinfo/goods/confirm/{id}','Home\UserController@confirm');
 
 // 显示个人中心--优惠券
 Route::get('/home/userinfo_coupon','Home\UserController@userinfo_coupon');
@@ -283,14 +286,12 @@ Route::POST('/home/userinfo/excomment','Home\UserController@excomment');
 
 // 个人的发表全部评论--页面
 Route::get('/home/userinfo_evaluate','Home\UserController@evaluate');
-// 显示个人中心--消息
-Route::get('/home/userinfo_news','Home\UserController@news');
+
 
 // 显示个人中心的充值页面
 Route::get('/home/userinfo_payments','Home\UserController@userinfo_payments');
 // 执行个人中心的充值
 Route::post('/home/userinfo_balance','Home\UserController@userinfo_balance');
-
 
 // 前台购物车
 Route::get('/home/carts','Home\CartController@index');
@@ -310,10 +311,10 @@ Route::get('/home/updatecollect/{id}','Home\CartController@updatecollect');
 // 前台购物车--删除购物车商品
 Route::get('/home/chardelete/{id}','Home\CartController@chardelete');
 
-
-
 //商品信息
 Route::get('/home/goods/goodInfo/{id}','Home\DetailsController@index');
+// 前台加入收藏
+Route::get('/home/goods/joincollect/{id}','Home\DetailsController@joincollect');
 //领取优惠卷
 Route::get('/home/goods/coupons/{id}','Home\DetailsController@coupons');
 //结算页面 

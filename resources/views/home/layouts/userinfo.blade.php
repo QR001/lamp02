@@ -32,7 +32,13 @@
 		<link href="/home/css/addstyle.css" rel="stylesheet" type="text/css">
 		<script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
 		<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
-
+		@if($web != '')
+			{{-- 网站的描述 --}}
+		<meta name="keywords" content="{{ $web->w_keyword }}">
+			{{-- 网站的关键字 --}}
+		<meta name="description" content="{{ $web->w_description }}">
+		
+		@endif
 	</head>
 
 	<body>
@@ -41,49 +47,63 @@
 			<article>
 				<div class="mt-logo">
 					<!--顶部导航条 -->
+					
 					<div class="am-container header">
 						<ul class="message-l">
 							<div class="topMessage">
 								<div class="menu-hd">
-									@if(session('home.id'))
+								
+									@if(session('home'))
 										<a href="#" target="_top" class="h">欢迎 {{ session('home.name') }} 光临</a>
+										<a href="/home/login/logout">退出</a>
+										@else
+										<a href="/home/login" target="_top" class="h">亲，请登录</a>
+										<a href="/home/register" target="_top">免费注册</a>
 									@endif
-									<a href="#" target="_top" class="h">亲，请登录</a>
-									<a href="#" target="_top">免费注册</a>
 								</div>
 							</div>
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/home/index" target="_top" class="h">商城首页</a></div>
 							</div>
-							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-							</div>
-							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="/home/cart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-							</div>
-							<div class="topMessage favorite">
-								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+							@if(session('home'))
+								<div class="topMessage my-shangcheng">
+									<div class="menu-hd MyShangcheng"><a href="/home/userinfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								</div>
+								<div class="topMessage mini-cart">
+									<div class="menu-hd"><a id="mc-menu-hd" href="/home/carts" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+								</div>
+								<div class="topMessage favorite">
+									<div class="menu-hd"><a href="/home/userinfo_collect" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+								</div>
+							@endif
 						</ul>
 						</div>
-
+		
 						<!--悬浮搜索框-->
-
+		
 						<div class="nav white">
-							<div class="logoBig">
-								<li><img src="/home/images/logobig.png" /></li>
+							
+							<div class="logoBig" style='width:10%;'>
+								<li>
+									@if($web !='')
+										<img src="/uploads/{{ $web->w_logo }}" />
+									@else
+										<img src="/home/images/logobig.png" />
+									@endif
+								</li>
 							</div>
-
+		
 							<div class="search-bar pr">
 								<a name="index_none_header_sysc" href="#"></a>
-								<form>
-									<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+								<form action="/home/goods/goodSearch" method="get" >
+									<input id="searchInput" name="gname" type="text" placeholder="搜索" autocomplete="off">
+									<input id="ai-topsearch" class="submit am-btn" value="搜索"  type="submit">
 								</form>
 							</div>
 						</div>
-
+		
 						<div class="clear"></div>
 					</div>
 				</div>
@@ -93,16 +113,11 @@
 					   <div class="long-title"><span class="all-goods">全部分类</span></div>
 					   <div class="nav-cont">
 							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
+								<li class="index"><a href="/home/index">首页</a></li>
+                                <li class="qc"><a href="/home/blogs/blogAll">活动</a></li>
+                               
 							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
+						    
 						</div>
 			</div>
 			<b class="line"></b>
@@ -113,21 +128,39 @@
                 @show
 				<!--底部-->
 				<div class="footer">
+<<<<<<< HEAD
 					<div class="footer-hd">
+=======
+						<div class="footer-hd ">
+>>>>>>> origin/zhangyahan
 							<p>
 								@foreach($links as $v)
 								<b>|</b>
 								<a href="{{ $v->l_url }}">{{ $v->l_name }}</a>
 								@endforeach
 							</p>
+<<<<<<< HEAD
 					</div>
+=======
+						</div>
+>>>>>>> origin/zhangyahan
 					<div class="footer-bd">
 						<p>
 							<!-- <a href="#">关于恒望</a>
 							<a href="#">合作伙伴</a>
 							<a href="#">联系我们</a>
+<<<<<<< HEAD
 							<a href="#">网站地图</a> -->
 							<em>© 2015-2025 Hengwang.com 版权所有</em>
+=======
+							<a href="#">网站地图</a>
+
+							@if($web != '')
+								<em>© {{ $web->w_cright }} 版权所有</em></p>
+							@else
+								<em>© 未来家具 版权所有</em></p>
+							@endif
+>>>>>>> origin/zhangyahan
 						</p>
 					</div>
 				</div>
@@ -151,14 +184,14 @@
 							<a href="#">我的交易</a>
 							<ul>
 								<li><a href="/home/userinfo_order">订单管理</a></li>
-								<li> <a href="/home/userinfo_refund">退款售后</a></li>
+								
 							</ul>
 						</li>
 						<li class="person">
 							<a href="#">我的资产</a>
 							<ul>
 								<li> <a href="/home/userinfo_coupon">优惠券 </a></li>
-								{{-- <li> <a href="/home/userinfo_redenvelopes">红包</a></li> --}}
+								
 							</ul>
 						</li>
 		
@@ -168,7 +201,7 @@
 								<li> <a href="/home/userinfo_collect">收藏</a></li>
 								<li> <a href="/home/userinfo_foot">足迹</a></li>
 								<li> <a href="/home/userinfo_evaluate">评价</a></li>
-								<li> <a href="/home/userinfo_news">消息</a></li>
+								
 							</ul>
 						</li>
 		

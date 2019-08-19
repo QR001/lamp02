@@ -10,12 +10,24 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Userdetail;
 use Illuminate\Support\Facades\DB;
 use App\Models\Visit;
+use App\Models\Web;
 
 class LoginController extends Controller
 {
     //
     public  function index(){
-        return view('home.login.index');
+        //网站配置
+        $web=Web::find(1); 
+  
+        if($web){
+            if($web->w_isopen ==2){
+                return view('errors.close');
+            }
+        }else{
+            $web='';
+        }
+   
+        return view('home.login.index',['web'=>$web]);
     }
     
     // 执行登录
@@ -46,7 +58,6 @@ class LoginController extends Controller
                     if($user->status==2){
                         return back()->withErrors(['frozen'=>'你的账号已被冻结']);
                     }
-                    
                     // 查询用户详情表 并且存入session
                   
                     $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>$user->id])->get();
@@ -75,6 +86,7 @@ class LoginController extends Controller
             if($user){
                 // 验证密码是否正确
                 if (Hash::check($request->pwd, $user->password)) {
+                  
                     // 密码匹配
                     if($user->status==2){
                         return back()->withErrors(['frozen'=>'你的账号已被冻结']);
@@ -84,9 +96,11 @@ class LoginController extends Controller
                         return back()->withErrors(['activate'=>'邮箱未激活']);
                     }
                     // 查询用户详情表 并且存入session
-                     $userinfo=User::join('userdetails','userdetails.uid','=','users.id')->where(['users.id'=>$user->id])->get();
+                  
+                     $userinfo=Userdetail::join('users','users.id','=','userdetails.uid')->where(['users.id'=>$user->id])->get();
                     
                      session(['home'=>[
+                         'id'=>$userinfo[0]->id,
                          'name'=>$userinfo[0]->name,
                          'email'=>$userinfo[0]->email,
                          'phone'=>$userinfo[0]->phone,
@@ -104,20 +118,22 @@ class LoginController extends Controller
 
         }else if($match3){
             //使用手机号验证
-            $res=Userdetail::join('users','users.id','=','userdetails.uid')->where(['phone'=>$request->name])->get();
-            // dd($res);
+            $res=Userdetail::join('users','users.id','=','userdetails.uid')->where(['phone'=>$request->name])->first();
+           
             if($res){
                 // 验证密码是否正确
-                if (Hash::check($request->pwd, $res[0]->password)) {
+                if (Hash::check($request->pwd, $res->password)) {
+                   
                     // 密码匹配
-                    if($res[0]->status==2){
+                    if($res->status==2){
                         return back()->withErrors(['frozen'=>'你的账号已被冻结']);
                     }
                     session(['home'=>[
-                        'name'=>$res[0]->name,
-                        'email'=>$res[0]->email,
-                        'phone'=>$res[0]->phone,
-                        'pic'=>$res[0]->pic,
+                        'id'=>$res->uid,
+                        'name'=>$res->name,
+                        'email'=>$res->email,
+                        'phone'=>$res->phone,
+                        'pic'=>$res->pic,
                     ]]);
 
                     return redirect('home/index');
@@ -130,7 +146,7 @@ class LoginController extends Controller
             }
             
         }else{
-            // dump('格式不正确');
+          
             return back()->withErrors(['format'=>'格式不正确']);
         }
 
@@ -140,8 +156,7 @@ class LoginController extends Controller
     public function logout()
     {
         session()->forget('home');
-        dd(session('home'));
-        return redirect('/admin/index');
+        return redirect('/home/login');
     }
 
 

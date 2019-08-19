@@ -6,55 +6,63 @@
             <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">支付密码</strong> / <small>Set&nbsp;Pay&nbsp;Password</small></div>
         </div>
         <hr>
-        <!--进度条-->
+        @if($errors->has('success'))
+        {{-- 进度条 --}}
         <div class="m-progress">
-            <div class="m-progress-list">
-                <span class="step-1 step">
-                    <em class="u-progress-stage-bg"></em>
-                    <i class="u-stage-icon-inner">1<em class="bg"></em></i>
-                    <p class="stage-name">设置支付密码</p>
-                </span>
-                <span class="step-2 step">
-                    <em class="u-progress-stage-bg"></em>
-                    <i class="u-stage-icon-inner">2<em class="bg"></em></i>
-                    <p class="stage-name">完成</p>
-                </span>
-                <span class="u-progress-placeholder"></span>
-            </div>
-            <div class="u-progress-bar total-steps-2">
-                <div class="u-progress-bar-inner"></div>
-            </div>
+                <div class="m-progress-list">
+                    <span class="step-2 step">
+                        <em class="u-progress-stage-bg"></em>
+                        <i class="u-stage-icon-inner">1<em class="bg"></em></i>
+                        <p class="stage-name">设置支付密码</p>
+                    </span>
+                    <span class="step-1 step">
+                        <em class="u-progress-stage-bg"></em>
+                        <i class="u-stage-icon-inner">2<em class="bg"></em></i>
+                        <p class="stage-name">完成</p>
+                    </span>
+                    <span class="u-progress-placeholder"></span>
+                </div>
+                <div class="u-progress-bar total-steps-2">
+                    <div class="u-progress-bar-inner"></div>
+                </div>
         </div>
+        @else
+            <div class="m-progress">
+                    <div class="m-progress-list">
+                        <span class="step-1 step">
+                            <em class="u-progress-stage-bg"></em>
+                            <i class="u-stage-icon-inner">1<em class="bg"></em></i>
+                            <p class="stage-name">设置支付密码</p>
+                        </span>
+                        <span class="step-2 step">
+                            <em class="u-progress-stage-bg"></em>
+                            <i class="u-stage-icon-inner">2<em class="bg"></em></i>
+                            <p class="stage-name">完成</p>
+                        </span>
+                        <span class="u-progress-placeholder"></span>
+                    </div>
+                    <div class="u-progress-bar total-steps-2">
+                        <div class="u-progress-bar-inner"></div>
+                    </div>
+            </div>
+        @endif
         <form class="am-form am-form-horizontal" method="post" action='/home/userinfo/safe/updatepaypwd'>
             {{ csrf_field() }}
-            <div class="am-form-group bind">
-                <label for="user-phone" class="am-form-label">验证手机</label>
-                <div class="am-form-content">
-                    <span id="phone">{{ $userinfo->phone }}</span>
-                </div>
-            </div>
-            <div class="am-form-group code">
-                <label for="user-code" class="am-form-label">验证码</label>
-                <div class="am-form-content">
-                    <input type="hidden" name='phone' id='userphone' value='{{$userinfo->phone}}'>
-                    <input type="tel" id="user-code" name='code'  placeholder="短信验证码四位数字">
-                </div>
-                <a class="btn" href="javascript:void(0);" onclick="sendMobileCode(this);" id="sendMobileCode">
-                    <div class="am-btn am-btn-danger">验证码</div>
-                </a>
-            </div>
-            @if($errors->has('nocode'))
-                <div class="am-form-group">
-                    <div class="am-form-content">
-                        <input type="tel" style='color:red;' disabled value='请正确填写验证码四位数字'>
-                    </div>
-                </div>
-            @endif
+           
             <div class="am-form-group">
                 <label for="user-password" class="am-form-label">支付密码</label>
                 <div class="am-form-content">
-                    <input type="password" id="user-password" name='paypwd' placeholder="6位数字--注意:请记住你的支付密码">
+                    
+                    <input type="text" id="user-password" disabled value="默认的支付密码时六个零">
                 </div>
+            </div>
+
+            <div class="am-form-group">
+                    <label for="user-password" class="am-form-label">支付密码</label>
+                    <div class="am-form-content">
+                     
+                        <input type="password" id="user-password" name='paypwd' placeholder="6位数字--注意:请记住你的支付密码">
+                    </div>
             </div>
             <div class="am-form-group">
                 <label for="user-confirm-password" class="am-form-label">确认密码</label>

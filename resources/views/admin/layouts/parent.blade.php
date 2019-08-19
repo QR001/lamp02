@@ -99,6 +99,7 @@
                             <cite>订单列表</cite>
                         </a>
                     </li >
+<<<<<<< HEAD
                     <li>
                         <a _href="/admin/Orders/order_cends ">
                                 <i class="iconfont">&#xe6a7;</i>
@@ -111,6 +112,9 @@
                                 <cite>支付方式</cite>
                             </a>
                         </li >
+=======
+                    
+>>>>>>> origin/zhangyahan
                 </ul>
             </li>
 
@@ -169,17 +173,25 @@
                         </a>
                     </li >
                     <li>
+<<<<<<< HEAD
                         <a _href="/admin/Orders/order_cends">
+=======
+                        <a _href="/admin/Orders/order_cends ">
+>>>>>>> origin/zhangyahan
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>物流方式</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="/admin/Orders/order_pay">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>支付方式</cite>
                         </a>
+<<<<<<< HEAD
                     </li>
+=======
+                    </li >
+>>>>>>> origin/zhangyahan
  
                 </ul>
             </li>

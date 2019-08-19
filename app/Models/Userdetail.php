@@ -14,7 +14,8 @@ class Userdetail extends Model
         'description',
         'integral',
         'phone',
-        'pic'
+        'pic',
+        'paypwd'
     ];
 
     public function user()
